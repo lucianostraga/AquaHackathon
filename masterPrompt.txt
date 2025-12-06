@@ -34,3 +34,4 @@ There are some specific requirements that you need to follow:
 -The progress done needs to be documented in the project-documentation directory.
 
 Ask me the questions you feel necessary after the analysis before starting the project.
+Work autonomously since you are the orchestrator, and I may not be available all the time on screen.
