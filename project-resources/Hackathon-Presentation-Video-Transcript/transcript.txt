@@ -1,0 +1,60 @@
+All right, innovators, [music] welcome.
+Let's talk about your next big
+challenge, the Aqua Hackathon. So,
+here's what we're going to cover.
+[music] The problem, our solution, Aqua,
+and of course, your mission. Think about
+call centers. Quality is [music]
+everything, right? But checking in is
+super slow and manual. Right now,
+[music] people listen to a tiny fraction
+of calls. It's basically guesswork
+hoping to find something. And that's
+where [music] Aqua comes in. It's all
+about quality, speed, and automation for
+everything. Aqua checks every single
+call 100% so you get the full picture on
+[music] quality. And the workflow is
+super simple. You upload, the AI
+analyzes, you review, then you coach.
+You literally just drop [music] the
+audio files in. By the time you grab
+coffee, it's done. And boom, [music]
+every call is right here. The good, the
+bad. No more hunting around for info.
+Aqua pinpoints the exact moments that
+matter. [music] A missed greeting, a
+compliance risk, you name it. So
+reviewers can drop in precise timestamps
+[music] notes. No more long reports,
+just quick feedback.
+So the back end is all set. It's
+powerful, but it needs an [music]
+amazing interface. That's you. Your
+mission, build the entire front end and
+BFF to bring the Aqua experience to
+life. But don't worry, [music] you're
+not starting from scratch. We're giving
+you everything you need to start. All
+right, get those calendars out. The main
+hackathon is 10 days starting November
+28th. Look, we've handled the back end.
+Your job is [music] 100% focused on that
+user experience. Okay, so how do you
+actually win this thing? Let's break
+down the judging. It's a simple 100point
+system. 50/50 split between your app and
+[music] your AI tool usage. For the app,
+we want to see it working, well-built,
+and something with that wow factor. For
+the AI part, show [music] us how it made
+you faster and what cool stuff you
+learned. And yeah, there are prizes.
+We've got three big cash awards up for
+grabs. And that grand [music] prize for
+first place, a cool 4,000 bucks. Not
+bad, right? So, make it [music] fast,
+slick, and unforgettable. This is your
+chance to shine. Let's [music] get
+building.
+

@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "39f6697b-bce8-44de-8983-d2ac8b359752",
+		"name": "Hackaton Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8678351"
+	},
+	"item": [
+		{
+			"name": "IngestAudio",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "audioFiles",
+							"description": "Audio file(s) to ingest. Required. Accepts multiple files.",
+							"type": "file",
+							"src": "postman-cloud:///1f0b437b-94fc-48a0-b0f8-831b882f6adf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/IngestAudio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"IngestAudio"
+					]
+				},
+				"description": "## IngestAudio API Request\n\n**Endpoint:** `POST http://localhost:8080/IngestAudio`\n\n### Purpose\n\nThis request is used to upload one or more audio files to the server for ingestion and star processing. It is typically used in scenarios where audio data needs to be analyzed, stored, or further processed by backend services. (only mp3 files are allowed)\n\n### Headers\n\n- `Accept: \\\\*/\\\\*` — Indicates that the client can accept any response content type.\n    \n- `Content-Type: multipart/form-data` — Specifies that the request body contains form data, including file uploads.\n    \n\n### Request Body (multipart/form-data)\n\n- **audioFiles**: One or more audio files to be ingested. Each file should be attached under the `audioFiles` key in the form data.\n    \n\n#### Example (form-data):\n\n| Key | Type | Description |\n| --- | --- | --- |\n| audioFiles | File\\[\\] | Audio file(s) to upload |\n\n### Typical Successful Response\n\nA successful response returns a JSON object with the following structure:\n\n```\n{\n  \"transactionId\": \"<string>\",\n  \"totalFiles\": <number>,\n  \"successful\": <number>,\n  \"failed\": <number>,\n  \"results\": [\n    {\n      \"transactionId\": \"<string>\",\n      \"callId\": \"<string>\",\n      \"fileName\": \"<string>\",\n      \"state\": \"<string>\",\n      \"sizeMB\": <number>\n    }\n    // ...more results per file\n  ],\n  \"errors\": []\n}\n\n ```\n\n- **transactionId**: Unique identifier for the ingestion transaction.\n    \n- **totalFiles**: Total number of files submitted.\n    \n- **successful**: Number of files successfully ingested.\n    \n- **failed**: Number of files that failed to ingest.\n    \n- **results**: Array with details for each processed file.\n    \n- **errors**: Array of error messages (empty if all files succeeded).\n    \n\n#### Example Response\n\n```\n{\n  \"transactionId\": \"731e6393-1e79-4155-aae0-29d16836d8eb\",\n  \"totalFiles\": 1,\n  \"successful\": 1,\n  \"failed\": 0,\n  \"results\": [\n    {\n      \"transactionId\": \"731e6393-1e79-4155-aae0-29d16836d8eb\",\n      \"callId\": \"44505f02-745a-4ad4-9e4b-280ba43ed1ae\",\n      \"fileName\": \"CallSample1.mp3\",\n      \"state\": \"Ingested\",\n      \"sizeMB\": 1.29\n    }\n  ],\n  \"errors\": []\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "Audios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Audios?transactionId=731e6393-1e79-4155-aae0-29d16836d8eb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Audios"
+					],
+					"query": [
+						{
+							"key": "transactionId",
+							"value": "731e6393-1e79-4155-aae0-29d16836d8eb"
+						}
+					]
+				},
+				"description": "Purpose:  \nReturns audio records associated with a transaction.\n\nHTTP Method:  \nGET\n\nEndpoint:  \n[http://localhost:8080/Audios?transactionId={transactionId}](http://localhost:8080/Audios?transactionId={transactionId})\n\nQuery Parameters:\n\n- transactionId: GUID identifying the transaction to retrieve audios for. Example: 731e6393-1e79-4155-aae0-29d16836d8eb\n    \n- If you want to get all the audios, Do not send transactionId\n    \n\nHeaders / Authentication:\n\n- None required by default. If your API requires auth, add Authorization header (Bearer ).\n    \n\nResponses:\n\n- 200 OK: Returns a JSON array of audio metadata objects. Example:  \n    {    \"fileName\": \"CallSample1.mp3\",    \"transactionId\": \"731e6393-1e79-4155-aae0-29d16836d8eb\",    \"audio\": \"AAAAAAAAAAAAAA==\"}  \n    \n\nUsage examples:  \nCurl:  \ncurl \"[http://localhost:8080/Audios?transactionId=731e6393-1e79-4155-aae0-29d16836d8eb\"](http://localhost:8080/Audios?transactionId=731e6393-1e79-4155-aae0-29d16836d8eb)\n\nJavaScript (fetch):  \nfetch('[http://localhost:8080/Audios?transactionId=731e6393-1e79-4155-aae0-29d16836d8eb'](http://localhost:8080/Audios?transactionId=731e6393-1e79-4155-aae0-29d16836d8eb'))  \n.then(r => r.json())  \n.then(data => console.log(data));"
+			},
+			"response": []
+		},
+		{
+			"name": "Calls",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Calls?fileExtension=.mp3&transactionId=731e6393-1e79-4155-aae0-29d16836d8eb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Calls"
+					],
+					"query": [
+						{
+							"key": "fileExtension",
+							"value": ".mp3"
+						},
+						{
+							"key": "transactionId",
+							"value": "731e6393-1e79-4155-aae0-29d16836d8eb"
+						}
+					]
+				},
+				"description": "Retrieves detailed information about a specific call, including audio metadata, transcription, sentiment analysis, and scoring details.\n\n**Query Parameters:**\n\n- `fileExtension` (string): The audio file extension to filter by (e.g., .mp3).\n    \n- `transactionId` (RowGuid-string): The unique identifier for the call transaction.\n    \n- `companyId` (int): The identifier for the company.\n    \n- `projectId` (int): The identifier for the project.\n    \n- `callId` (RowGuid-string): The unique identifier for the call.\n    \n\nYou can filter for any of the fields and make sort in the service too.\n\n**Response:**  \nReturns a JSON object containing call details such as transactionId, callId, agent name, audio information, transcription with diarization and sentiment, process state, base call details, scorecard, sentiment analysis summary, and anomaly flags."
+			},
+			"response": []
+		},
+		{
+			"name": "Companies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Companies"
+					]
+				},
+				"description": "Purpose: Retrieves the list of companies from the local API service.\n\nWhat it returns: An array of company records from the resource /Companies. Each item typically represents a single company entity. The exact schema depends on your backend, but common fields might include id, name.\n\nUsage notes:\n\n- Method: GET\n    \n- URL: [http://localhost:3000/Companies](http://localhost:3000/Companies)\n    \n- Auth: None by default (inherits from parent if configured).\n    \n- Query params: None required. If your service supports filters/pagination/sorting (e.g., ?limit=10&offset=0&sort=name), add them in the Params tab.\n    \n- Response: Expect HTTP 200 with a JSON array on success. Empty array \\[\\] if no companies exist.\n    \n\nTip: If you plan to reuse the base URL across requests, consider creating an environment variable baseUrl (e.g., [http://localhost:3000](http://localhost:3000)) and changing the request URL to {{baseUrl}}/Companies."
+			},
+			"response": []
+		},
+		{
+			"name": "Companies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"5\",\r\n        \"name\": \"Test\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/Companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Companies"
+					]
+				},
+				"description": "Purpose: Create a new Company resource.\n\nMethod and URL:\n- POST http://localhost:3000/Companies\n\nRequired headers:\n- Accept: application/json\n- Content-Type: application/json (recommended when sending JSON bodies)\n\nRequest body (JSON):\n- Schema example:\n  {\n    \"id\": \"string\",\n    \"name\": \"string\"\n  }\n- Example:\n  {\n    \"id\": \"5\",\n    \"name\": \"Test\"\n  }\n\nBehavior and responses:\n- 201 Created: Company successfully created. Response typically echoes the created resource with its fields.\n- 200 OK: Some JSON servers may return 200 on create; treat as success if body contains the created object.\n- 400 Bad Request: Invalid or missing fields (e.g., missing name or invalid JSON).\n- 409 Conflict: Duplicate id if IDs must be unique.\n- 415 Unsupported Media Type: If Content-Type is not application/json when sending JSON.\n- 5xx: Server error.\n\nNotes:\n- Ensure the backend is running locally and the Companies route is enabled.\n- If using json-server, POST creates a new item and returns it with an id.\n\nExample curl:\ncurl -X POST \\\n  'http://localhost:3000/Companies' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"id\": \"5\",\n    \"name\": \"Test\"\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Teams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Teams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Teams"
+					]
+				},
+				"description": "Purpose: Retrieves the list of teams available in the service.\n\nMethod and URL:\n\n- GET [http://localhost:3000/Teams](http://localhost:3000/Teams)\n    \n\nPath params: None  \nQuery params: None\n\nExample successful response (200):  \n\\[  \n{\"id\": \"1\", \"name\": \"Team A\"},  \n{\"id\": \"1\", \"name\": \"Team B\"},  \n{\"id\": \"3\", \"name\": \"Team C\"}  \n\\]\n\nUsage notes:\n\n- Status codes:\n    \n    - 200 OK: List of teams returned successfully (array of objects with id and name).\n        \n- Tips:\n    \n    - Ensure the server at localhost:3000 is running.\n        \n    - No authentication, headers, or body are required by default unless your local service enforces them."
+			},
+			"response": []
+		},
+		{
+			"name": "Teams",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"4\",\r\n        \"name\": \"Team Test\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/Teams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Teams"
+					]
+				},
+				"description": "**Purpose:**  \nThis POST request creates a new team in the system.\n\n**Endpoint:**  \n`POST http://localhost:3000/Teams`\n\n**Request Body:**  \nThe request body must be in JSON format and include the following fields:\n\n- `id` (string or integer): Unique identifier for the team.\n    \n- `name` (string): Name of the team.\n    \n\n**Example Request Body:**\n\n``` json\n{\n  \"id\": \"4\",\n  \"name\": \"Team Test\"\n}\n\n ```\n\n**Response Format:**  \nOn success, the response will typically include the created team object in JSON format, reflecting the data sent or including additional fields generated by the server (such as timestamps or database IDs). The response status code is usually `201 Created` or `200 OK`."
+			},
+			"response": []
+		},
+		{
+			"name": "Projects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Projects"
+					]
+				},
+				"description": "**Purpose:**  \nRetrieves a list of all projects from the server.\n\n**Endpoint:**  \n`GET http://localhost:3000/Projects`\n\n**Parameters:**\n\n- This endpoint does not require any query or path parameters.\n    \n\n**Sample Successful Response:**\n\n```\nStatus: 200 OK\n[\n  {\"id\": \"1\", \"name\": \"Project BASE\"},\n  {\"id\": \"2\", \"name\": \"Project ONE\"},\n  {\"id\": \"3\", \"name\": \"Project P2\"}\n]\n\n ```\n\n**Status Codes:**\n\n- `200 OK`: Projects retrieved successfully.\n    \n\n**Example Usage:**  \nFetch all projects:\n\n```\ncurl -X GET http://localhost:3000/Projects\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "Projects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"4\",\r\n        \"name\": \"Project Test\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/Projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Projects"
+					]
+				},
+				"description": "Purpose  \nCreate a new Project resource.\n\nEndpoint\n\n- Method: POST\n    \n- Path: /Projects\n    \n- Full URL: [http://localhost:3000/Projects](http://localhost:3000/Projects)\n    \n\nHeaders\n\n- Accept: application/json\n    \n- Content-Type: application/json (recommended)\n    \n\nRequest Body\n\n- Content-Type: application/json\n    \n- Schema (example):  \n    {  \n    \"id\": string,  \n    \"name\": string  \n    }\n    \n\nExample Request Body  \n{  \n\"id\": \"4\",  \n\"name\": \"Project Test\"  \n}\n\nResponses\n\n- 201 Created\n    \n    - Description: Project successfully created.\n        \n    - Headers: Location header may contain the URL of the new resource.\n        \n    - Body (example):  \n        {  \n        \"id\": \"4\",  \n        \"name\": \"Project Test\"  \n        }\n        \n- 400 Bad Request\n    \n    - Description: Invalid input (e.g., missing required fields or wrong types). Response body may include error details.\n        \n- 500 Internal Server Error\n    \n    - Description: Server-side error while creating the project.\n        \n\nUsage Notes\n\n- Ensure the Accept and Content-Type headers are set to application/json.\n    \n- If your API auto-generates the id, omit it from the request body.\n    \n- Validate that name is provided and is a non-empty string.\n    \n\ncURL Example  \ncurl -X POST \"[http://localhost:3000/Projects\"](http://localhost:3000/Projects\")  \n\\-H \"Accept: application/json\"  \n\\-H \"Content-Type: application/json\"  \n\\-d '{  \n\"id\": \"4\",  \n\"name\": \"Project Test\"  \n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Roles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Roles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Roles"
+					]
+				},
+				"description": "**Purpose:**  \nRetrieve the list of all available user roles in the system, including their names and associated permissions. Useful for displaying role options, managing user access, or auditing permissions.\n\n**Path:** `/Roles`  \n**Method:** `GET`  \n**Request URL:** `http://localhost:3000/Roles`\n\n**Sample Successful Response:**\n\n``` json\n[\n  {\n    \"id\": \"1\",\n    \"name\": \"Entity Administrator\",\n    \"permissions\": [\"users\", \"scorecard\"]\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Super Admin\",\n    \"permissions\": [\"teams\", \"companies\", \"projects\", \"roles\"]\n  }\n]\n\n ```\n\n**Response Schema:**\n\n- `id` (string): Unique identifier for the role.\n    \n- `name` (string): Name of the role.\n    \n- `permissions` (array of strings): List of permissions assigned to the role.\n    \n\n**Suggested Usage:**\n\n- Display available roles and their permissions in admin panels.\n    \n- Use to assign roles to users or audit role-based access.\n    \n\n**Example cURL:**\n\n``` bash\ncurl -X GET \"http://localhost:3000/Roles\"\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Users"
+					]
+				},
+				"description": "Purpose: Retrieve the complete list of users from the local API service.\n\nMethod & URL:\n\n- GET [http://localhost:3000/Users](http://localhost:3000/Users)\n    \n\nQuery parameters:\n\n- None\n    \n\nSuccessful response example:\n\n- Status: 200 OK\n    \n- Body:  \n    \\[  \n    {\"id\":\"1\",\"name\":\"Demo 1\",\"lastName\":\"Team\",\"roleId\":1},  \n    {\"id\":\"2\",\"name\":\"Demo 2\",\"lastName\":\"Team\",\"roleId\":3},  \n    {\"id\":\"3\",\"name\":\"Demo 3\",\"lastName\":\"Team\",\"roleId\":2},  \n    {\"id\":\"4\",\"name\":\"Demo 4\",\"lastName\":\"Team\",\"roleId\":3}  \n    \\]\n    \n\nNotes & troubleshooting:\n\n- This endpoint assumes your API is running locally on port 3000. If not, update the base URL or start the server.\n    \n- If the request fails with connection errors (ENOTFOUND/ECONNREFUSED), verify that localhost:3000 is reachable and no VPN/firewall is blocking it.\n    \n- No authentication or headers are required by default unless your local setup enforces them."
+			},
+			"response": []
+		},
+		{
+			"name": "Agents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Agents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Agents"
+					]
+				},
+				"description": "Endpoint: Retrieve a list of customer support agents.\n\nHTTP Method: GET\n\nURL: [http://localhost:3000/Agents](http://localhost:3000/Agents)\n\nQuery Parameters: None\n\nRequest Headers: None required\n\nSuccessful Response Structure:\n\n- 200 OK: Array of Agent objects  \n    Agent object fields:\n    - id: string\n        \n    - firstname: string\n        \n    - lastname: string\n        \n    - email: string (email format)\n        \n    - phone: string\n        \n    - role: string\n        \n    - company: string\n        \n    - project: array of string\n        \n\nExample 200 Response Body:  \n\\[  \n{\"id\":\"1\",\"firstname\":\"Sean\",\"lastname\":\"Cox\",\"email\":\"[sean.cox@demo.com](https://mailto:sean.cox@demo.com)\",\"phone\":\"111333444\",\"role\":\"Customer Support Agent\",\"company\":\"Team International\",\"project\":\\[\"Project BASE\",\"Project ONE\"\\]},  \n{\"id\":\"2\",\"firstname\":\"Robert\",\"lastname\":\"Ray\",\"email\":\"[Robert.Ray@demo.com](https://mailto:Robert.Ray@demo.com)\",\"phone\":\"111333441\",\"role\":\"Customer Support Agent\",\"company\":\"Team International\",\"project\":\\[\"Project BASE\",\"Project ONE\"\\]},  \n{\"id\":\"3\",\"firstname\":\"Maria\",\"lastname\":\"Castro\",\"email\":\"[Maria.Castro@demo.com](https://mailto:Maria.Castro@demo.com)\",\"phone\":\"111333442\",\"role\":\"Customer Support Agent\",\"company\":\"Team International\",\"project\":\\[\"Project BASE\",\"Project ONE\"\\]},  \n{\"id\":\"4\",\"firstname\":\"Austin\",\"lastname\":\"Beld\",\"email\":\"[Austin.Beld@demo.com](https://mailto:Austin.Beld@demo.com)\",\"phone\":\"111333443\",\"role\":\"Customer Support Agent\",\"company\":\"Team International\",\"project\":\\[\"Project P2\"\\]}  \n\\]\n\nUsage Notes:\n\n- Authentication: None specified or required for localhost development.\n    \n- CORS/Localhost: When consuming from a browser during local development, ensure your server supports CORS for the requesting origin (e.g., [http://localhost](http://localhost):)."
+			},
+			"response": []
+		},
+		{
+			"name": "Agents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"5\",\r\n        \"firstname\": \"Test\",\r\n        \"lastname\": \"Demo\",\r\n        \"email\": \"Test.Demo@demo.com\",\r\n        \"phone\": \"111333447\",\r\n        \"role\": \"Customer Support Agent\",\r\n        \"company\": \"Team International\",\r\n        \"project\": [\r\n            \"Project P2\"\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/Agents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Agents"
+					]
+				},
+				"description": "**Endpoint:** `POST /Agents`\n\n**Purpose:**  \nCreates a new agent record in the system. This endpoint is typically used by administrators or onboarding systems to register a new customer support agent with all required details.\n\n**Request Format:**\n\n- **URL:** `http://localhost:3000/Agents`\n    \n- **Method:** `POST`\n    \n- **Headers:**\n    - `Accept: application/json`\n        \n    - `Content-Type: application/json`\n        \n- **Body (raw, JSON):**\n    \n    ``` json\n    {\n      \"id\": \"5\",\n      \"firstname\": \"Test\",\n      \"lastname\": \"Demo\",\n      \"email\": \"Test.Demo@demo.com\",\n      \"phone\": \"111333447\",\n      \"role\": \"Customer Support Agent\",\n      \"company\": \"Team International\",\n      \"project\": [\"Project P2\"]\n    }\n    \n     ```\n    \n\n**Required Fields:**\n\n- `id` (string): Unique identifier for the agent\n    \n- `firstname` (string): Agent's first name\n    \n- `lastname` (string): Agent's last name\n    \n- `email` (string): Agent's email address\n    \n- `phone` (string): Contact phone number\n    \n- `role` (string): Role or position\n    \n- `company` (string): Company name\n    \n- `project` (array of strings): Projects assigned\n    \n\n**Expected Responses:**\n\n- `201 Created`: Agent successfully created. Returns the created agent object.\n    \n- `400 Bad Request`: Invalid input data. Response includes error details.\n    \n- `500 Internal Server Error`: Server encountered an error while processing the request.\n    \n\n**Example Usage Notes:**\n\n- Ensure all required fields are provided in the request body.\n    \n- Use this endpoint for onboarding new agents only. To update existing agents, use the appropriate update endpoint if available."
+			},
+			"response": []
+		},
+		{
+			"name": "Configurations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Configurations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Configurations"
+					]
+				},
+				"description": "**Purpose:**  \nThis GET request retrieves the current configuration settings from the API server at `http://localhost:3000/Configurations`.\n\n**What it retrieves:**\n\n- Returns a list (array) of configuration objects. Each object represents a configuration entry or setting available on the server.\n    \n- The response is typically in JSON format. If no configurations are present, an empty array is returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Profiles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Profiles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Profiles"
+					]
+				},
+				"description": "**Purpose:**\nRetrieves a list of user profiles, including user details and their associated roles and permissions.\n\n**Endpoint URL:**\n`GET {{baseUrl}}/Profiles`\n\n**HTTP Method:**\nGET\n\n**Query Parameters:**\nNone.\n\n**Response Example:**\n```\n[\n  {\n    \"id\": \"1\",\n    \"idUser\": 1,\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Demo 1\",\n      \"lastName\": \"Team\",\n      \"roleId\": 1\n    },\n    \"role\": {\n      \"id\": 1,\n      \"name\": \"Entity Administrator\",\n      \"permissions\": [\"users\", \"scorecard\"]\n    }\n  },\n  ...\n]\n```\n\n**Response Schema:**\n- `id` (string): Profile identifier\n- `idUser` (integer): User ID\n- `user` (object): User details\n  - `id` (integer): User ID\n  - `name` (string): First name\n  - `lastName` (string): Last name\n  - `roleId` (integer): Role ID\n- `role` (object): Role details\n  - `id` (integer): Role ID\n  - `name` (string): Role name\n  - `permissions` (array of string): Permissions assigned to the role\n\n**Sample Usage:**\n```\ncurl --request GET '{{baseUrl}}/Profiles'\n```\n\n**Notes:**\n- The base URL (`{{baseUrl}}`) can be set as an environment variable for flexibility across environments.\n- Each profile includes the user's role and a list of permissions associated with that role.\n- No authentication or query parameters are required for this endpoint (unless your API implementation enforces them).\n- Useful for displaying user access levels and permissions in admin dashboards or user management modules."
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Notifications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Notifications"
+					]
+				},
+				"description": "Retrieves a list of notifications. Each notification includes details such as id, transactionId, callId, and message. Use this endpoint to fetch all available notifications with their associated metadata."
+			},
+			"response": []
+		},
+		{
+			"name": "CallSummary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/CallSummary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"CallSummary"
+					]
+				},
+				"description": "# CallSummary Endpoint Documentation\n\n**Purpose:**  \nRetrieves a summary of call evaluations, including transaction details, agent performance, scorecards, and flagged issues. Useful for quality assurance, analytics, and reporting on call center operations.\n\n**Endpoint:**  \n`GET http://localhost:3000/CallSummary`\n\n**Query Parameters:**  \nyou can filter by any of the fields on the response\n\n**Sample Successful Response Schema:**  \nReturns an array of objects with the following structure:\n\n``` json\n[\n  {\n    \"transactionId\": \"string (UUID)\",\n    \"callId\": \"string (UUID)\",\n    \"companyId\": integer,\n    \"projectId\": integer,\n    \"audioName\": \"string\",\n    \"processDate\": \"string (ISO 8601 datetime)\",\n    \"agentName\": \"string\",\n    \"scoreCard\": integer,\n    \"Flagged\": boolean,\n    \"Issues\": [\"string\", ...],\n    \"id\": \"string\"\n  },\n  ...\n]\n\n ```\n\n**Status Codes:**\n\n- `200 OK`: Successful retrieval of call summaries.\n    \n\n**Suggested Tests/Assertions:**"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,36 @@
+Hi! You are orchestrating 3 agents to win a hackathon. 
+These agents were already defined:
+- a project manager
+- a web architect
+- a ui developer
+
+The project manager is responsible for the overall project and the requirements.
+The web architect is responsible for the overall architecture and the technical decisions.
+The ui developer is responsible for the overall ui and the user experience.
+
+You are the orchestrator and you are responsible for the overall project.
+
+The current projact structure has 3 main directories:
+- project-resources
+- project-documentation
+- project-code
+
+- project-resources containts all the context about the project and the resources available.
+- project-documentation is the place where you will document the decisions and the progress of the project.
+- project-code is the place where we will write the code for the project.
+
+The hackathon is about building the UI for an AI-powered call center audit and audio evaluation system.
+
+Before starting the project build, make a deep analysis of the project resources and the project documentation.
+for understanding the project and the requirements.
+
+There are some specific requirements that you need to follow:
+-Use at the state of the art technologies and libraries (the architect agent will decide the best approach)
+-The UI is the main asset of the hackathon, so it needs to be pixel perfect and driven through the Figma assets.
+-The Figma MCP is already connected.
+-We need to replicate each screen of the Figma assets.
+-The UI needs to match the Figma assets 100%.
+-The Figma assets also containg the typography and the colors, so you need to use them in the UI.
+-The progress done needs to be documented in the project-documentation directory.
+
+Ask me the questions you feel necessary after the analysis before starting the project.
