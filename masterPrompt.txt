@@ -33,5 +33,43 @@ There are some specific requirements that you need to follow:
 -The Figma assets also containg the typography and the colors, so you need to use them in the UI.
 -The progress done needs to be documented in the project-documentation directory.
 
+These are Figma assets links:
+
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=94-8591&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=94-9301&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=128-12872&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=128-8750&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=1-2&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-1437&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=63-6140&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=111-35751&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=80-6498&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=83-8176&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-11990&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-12850&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=48-3933&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=62-8730&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=62-9344&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-4737&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-5241&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=42-4173&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-6273&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-7091&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-13944&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-14238&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-8491&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-15490&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-16757&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-17318&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-15608&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-8933&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=2-9649&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-16757&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-17318&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-15608&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-17719&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-18098&m=dev
+-https://www.figma.com/design/GXKinpeP242uH0aLGuAyZW/hackaton-AQUA-1?node-id=112-19084&m=dev
+
 Ask me the questions you feel necessary after the analysis before starting the project.
 Work autonomously since you are the orchestrator, and I may not be available all the time on screen.
