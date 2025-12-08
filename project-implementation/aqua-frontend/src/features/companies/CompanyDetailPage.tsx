@@ -50,6 +50,7 @@ import {
 } from 'lucide-react'
 import { usersApi, callsApi } from '@/services/api'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { Company as ApiCompany, Project as ApiProject, Agent as ApiAgent, CallSummary } from '@/types'
 
 type TabType = 'overview' | 'projects' | 'agents'
@@ -84,6 +85,8 @@ export default function CompanyDetailPage() {
   const navigate = useNavigate()
   const { companyId } = useParams()
   const queryClient = useQueryClient()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [activeTab, setActiveTab] = useState<TabType>('overview')
 
   // Edit company modal state
@@ -425,7 +428,10 @@ export default function CompanyDetailPage() {
           {/* Back link */}
           <button
             onClick={() => navigate('/companies')}
-            className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"
+            className={cn(
+              "flex items-center gap-1 text-sm",
+              isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            )}
           >
             <ChevronLeft className="h-4 w-4" />
             Back to Companies
@@ -433,17 +439,20 @@ export default function CompanyDetailPage() {
 
           {/* Header */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
+            <h1 className={cn(
+              "text-3xl font-semibold tracking-tight",
+              isTeamMode ? "text-yellow-500" : "text-slate-900"
+            )}>
               {company.name}
             </h1>
             {(activeTab === 'overview' || activeTab === 'agents') && (
-              <Button className="bg-slate-900 hover:bg-slate-800" onClick={() => setShowEditCompanyModal(true)}>
+              <Button className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"} onClick={() => setShowEditCompanyModal(true)}>
                 <Pencil className="h-4 w-4 mr-2" />
                 Edit Company
               </Button>
             )}
             {activeTab === 'projects' && (
-              <Button className="bg-slate-900 hover:bg-slate-800" onClick={() => setShowAddProjectModal(true)}>
+              <Button className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"} onClick={() => setShowAddProjectModal(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Project
               </Button>
@@ -451,7 +460,10 @@ export default function CompanyDetailPage() {
           </div>
 
           {/* Tabs - Pill/Segmented style matching Figma */}
-          <div className="flex items-start gap-0 p-[5px] bg-slate-100 rounded-md w-fit">
+          <div className={cn(
+            "flex items-start gap-0 p-[5px] rounded-md w-fit",
+            isTeamMode ? "bg-gray-800" : "bg-slate-100"
+          )}>
             {(['overview', 'projects', 'agents'] as TabType[]).map((tab) => (
               <button
                 key={tab}
@@ -459,8 +471,12 @@ export default function CompanyDetailPage() {
                 className={cn(
                   'px-3 py-1.5 text-sm font-medium capitalize rounded transition-colors',
                   activeTab === tab
-                    ? 'bg-white text-slate-900 shadow-sm'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? isTeamMode
+                      ? 'bg-yellow-500 text-black shadow-sm'
+                      : 'bg-white text-slate-900 shadow-sm'
+                    : isTeamMode
+                      ? 'text-gray-400 hover:text-white'
+                      : 'text-slate-700 hover:text-slate-900'
                 )}
               >
                 {tab}
@@ -473,56 +489,68 @@ export default function CompanyDetailPage() {
             <div className="space-y-6">
               {/* Stats Cards - Figma style with shadow */}
               <div className="grid grid-cols-3 gap-3">
-                <Card className="bg-white border border-slate-200 shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]">
+                <Card className={cn(
+                  "shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]",
+                  isTeamMode ? "bg-gray-800 border-gray-700" : "bg-white border border-slate-200"
+                )}>
                   <CardContent className="p-6 flex items-center gap-2.5">
-                    <FolderOpen className="h-6 w-6 text-slate-700" />
-                    <span className="text-xl font-semibold text-slate-900 tracking-tight">Active Projects</span>
-                    <span className="text-3xl font-semibold text-slate-900 tracking-tight">{company.stats.activeProjects}</span>
+                    <FolderOpen className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                    <span className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>Active Projects</span>
+                    <span className={cn("text-3xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>{company.stats.activeProjects}</span>
                   </CardContent>
                 </Card>
-                <Card className="bg-white border border-slate-200 shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]">
+                <Card className={cn(
+                  "shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]",
+                  isTeamMode ? "bg-gray-800 border-gray-700" : "bg-white border border-slate-200"
+                )}>
                   <CardContent className="p-6 flex items-center gap-2.5">
-                    <Users className="h-6 w-6 text-slate-700" />
-                    <span className="text-xl font-semibold text-slate-900 tracking-tight">Assigned Agents</span>
-                    <span className="text-3xl font-semibold text-slate-900 tracking-tight">{company.stats.assignedAgents}</span>
+                    <Users className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                    <span className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>Assigned Agents</span>
+                    <span className={cn("text-3xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>{company.stats.assignedAgents}</span>
                   </CardContent>
                 </Card>
-                <Card className="bg-white border border-slate-200 shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]">
+                <Card className={cn(
+                  "shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)]",
+                  isTeamMode ? "bg-gray-800 border-gray-700" : "bg-white border border-slate-200"
+                )}>
                   <CardContent className="p-6 flex items-center gap-2.5">
-                    <BarChart3 className="h-6 w-6 text-slate-700" />
-                    <span className="text-xl font-semibold text-slate-900 tracking-tight">Average Score</span>
-                    <span className="text-3xl font-semibold text-slate-900 tracking-tight">{company.stats.averageScore}%</span>
+                    <BarChart3 className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                    <span className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>Average Score</span>
+                    <span className={cn("text-3xl font-semibold tracking-tight", isTeamMode ? "text-white" : "text-slate-900")}>{company.stats.averageScore}%</span>
                     <TrendingUp className="h-6 w-6 text-green-600" />
                   </CardContent>
                 </Card>
               </div>
 
-              <h2 className="text-lg font-semibold text-slate-900">Overview</h2>
+              <h2 className={cn("text-lg font-semibold", isTeamMode ? "text-yellow-500" : "text-slate-900")}>Overview</h2>
 
               {/* Two column layout */}
               <div className="grid grid-cols-2 gap-5">
                 {/* Left Column */}
                 <div className="space-y-5">
                   {/* Company Info Card */}
-                  <div className="border border-slate-300 rounded-lg p-6 space-y-4">
+                  <div className={cn(
+                    "rounded-lg p-6 space-y-4",
+                    isTeamMode ? "bg-gray-800 border border-gray-700" : "border border-slate-300"
+                  )}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Users className="h-6 w-6 text-slate-700" />
-                        <h3 className="text-xl font-semibold text-slate-700 tracking-tight">Company Info</h3>
+                        <Users className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                        <h3 className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-yellow-500" : "text-slate-700")}>Company Info</h3>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-6 w-6 text-green-600" />
-                        <span className="text-sm text-slate-900">Active</span>
+                        <span className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>Active</span>
                       </div>
                     </div>
                     <div className="flex gap-6">
-                      <div className="flex-1 border-r border-slate-300 pr-6">
-                        <p className="text-sm font-bold text-slate-900">Address</p>
-                        <p className="text-sm text-slate-900 whitespace-pre-line">{company.address}</p>
+                      <div className={cn("flex-1 border-r pr-6", isTeamMode ? "border-gray-600" : "border-slate-300")}>
+                        <p className={cn("text-sm font-bold", isTeamMode ? "text-gray-300" : "text-slate-900")}>Address</p>
+                        <p className={cn("text-sm whitespace-pre-line", isTeamMode ? "text-white" : "text-slate-900")}>{company.address}</p>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-bold text-slate-900">Timezone</p>
-                        <p className="text-sm text-slate-900">
+                        <p className={cn("text-sm font-bold", isTeamMode ? "text-gray-300" : "text-slate-900")}>Timezone</p>
+                        <p className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>
                           {company.timezone.split(' — ')[0]} — <span className="italic">{company.timezone.split(' — ')[1]}</span>
                         </p>
                       </div>
@@ -530,22 +558,25 @@ export default function CompanyDetailPage() {
                   </div>
 
                   {/* Key Contacts Card */}
-                  <div className="border border-slate-300 rounded-lg p-6 space-y-4">
+                  <div className={cn(
+                    "rounded-lg p-6 space-y-4",
+                    isTeamMode ? "bg-gray-800 border border-gray-700" : "border border-slate-300"
+                  )}>
                     <div className="flex items-center gap-2">
-                      <Users className="h-6 w-6 text-slate-700" />
-                      <h3 className="text-xl font-semibold text-slate-700 tracking-tight">Key Contacts</h3>
+                      <Users className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                      <h3 className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-yellow-500" : "text-slate-700")}>Key Contacts</h3>
                     </div>
                     <div className="flex gap-4">
                       <div className="flex-1 text-sm">
-                        <p className="font-bold text-slate-900">{company.mainContact.name}</p>
-                        <p className="text-slate-900">{company.mainContact.role}</p>
-                        <p className="text-slate-900">{company.mainContact.phone}</p>
-                        <p className="text-slate-900">{company.mainContact.email}</p>
+                        <p className={cn("font-bold", isTeamMode ? "text-white" : "text-slate-900")}>{company.mainContact.name}</p>
+                        <p className={cn(isTeamMode ? "text-gray-300" : "text-slate-900")}>{company.mainContact.role}</p>
+                        <p className={cn(isTeamMode ? "text-gray-300" : "text-slate-900")}>{company.mainContact.phone}</p>
+                        <p className={cn(isTeamMode ? "text-gray-300" : "text-slate-900")}>{company.mainContact.email}</p>
                       </div>
                       <div className="flex-1 text-sm">
-                        <p className="font-bold text-slate-900">{company.escalationContact.name}</p>
-                        <p className="text-slate-900">{company.escalationContact.role}</p>
-                        <p className="text-slate-900">{company.escalationContact.email}</p>
+                        <p className={cn("font-bold", isTeamMode ? "text-white" : "text-slate-900")}>{company.escalationContact.name}</p>
+                        <p className={cn(isTeamMode ? "text-gray-300" : "text-slate-900")}>{company.escalationContact.role}</p>
+                        <p className={cn(isTeamMode ? "text-gray-300" : "text-slate-900")}>{company.escalationContact.email}</p>
                       </div>
                     </div>
                   </div>
@@ -554,60 +585,66 @@ export default function CompanyDetailPage() {
                 {/* Right Column */}
                 <div className="space-y-5">
                   {/* Activity Feed Card */}
-                  <div className="border border-slate-300 rounded-lg p-6 space-y-4">
+                  <div className={cn(
+                    "rounded-lg p-6 space-y-4",
+                    isTeamMode ? "bg-gray-800 border border-gray-700" : "border border-slate-300"
+                  )}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Clock className="h-6 w-6 text-slate-700" />
-                        <h3 className="text-xl font-semibold text-slate-700 tracking-tight">Activity Feed / Log</h3>
+                        <Clock className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                        <h3 className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-yellow-500" : "text-slate-700")}>Activity Feed / Log</h3>
                       </div>
-                      <Button variant="outline" size="sm" className="border-slate-700 text-slate-700">
+                      <Button variant="outline" size="sm" className={isTeamMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-slate-700 text-slate-700"}>
                         View full log
                       </Button>
                     </div>
-                    <ul className="list-disc list-inside space-y-1 text-base text-slate-700">
+                    <ul className={cn("list-disc list-inside space-y-1 text-base", isTeamMode ? "text-gray-300" : "text-slate-700")}>
                       {activity.length > 0 ? activity.map((item, i) => (
                         <li key={i}>
                           <span>{item.date} </span>
-                          <span className="font-bold">{item.highlight}</span>
+                          <span className={cn("font-bold", isTeamMode ? "text-white" : "")}>{item.highlight}</span>
                         </li>
                       )) : <li>No recent activity</li>}
                     </ul>
                   </div>
 
                   {/* Recent Projects Card */}
-                  <div className="border border-slate-300 rounded-lg p-6 space-y-4">
+                  <div className={cn(
+                    "rounded-lg p-6 space-y-4",
+                    isTeamMode ? "bg-gray-800 border border-gray-700" : "border border-slate-300"
+                  )}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <FolderOpen className="h-6 w-6 text-slate-700" />
-                        <h3 className="text-xl font-semibold text-slate-700 tracking-tight">Recent Projects</h3>
+                        <FolderOpen className={cn("h-6 w-6", isTeamMode ? "text-yellow-500" : "text-slate-700")} />
+                        <h3 className={cn("text-xl font-semibold tracking-tight", isTeamMode ? "text-yellow-500" : "text-slate-700")}>Recent Projects</h3>
                       </div>
-                      <Button variant="outline" size="sm" className="border-slate-700 text-slate-700" onClick={() => setActiveTab('projects')}>
+                      <Button variant="outline" size="sm" className={isTeamMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-slate-700 text-slate-700"} onClick={() => setActiveTab('projects')}>
                         See all projects
                       </Button>
                     </div>
                     <Table>
                       <TableHeader>
-                        <TableRow className="border-b border-slate-400 hover:bg-transparent">
-                          <TableHead className="text-sm font-bold text-slate-500">Project Name</TableHead>
-                          <TableHead className="text-sm font-bold text-slate-500">Status</TableHead>
-                          <TableHead className="text-sm font-bold text-slate-500">Progress</TableHead>
+                        <TableRow className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-700" : "border-slate-400")}>
+                          <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Project Name</TableHead>
+                          <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Status</TableHead>
+                          <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Progress</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {recentProjects.length > 0 ? recentProjects.map((project, i) => (
-                          <TableRow key={i} className="border-b border-slate-200">
-                            <TableCell className="text-sm text-slate-900">{project.name}</TableCell>
+                          <TableRow key={i} className={cn("border-b", isTeamMode ? "border-gray-700" : "border-slate-200")}>
+                            <TableCell className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>{project.name}</TableCell>
                             <TableCell>
                               <div className="flex items-center gap-2">
                                 {project.status === 'Active' && <CheckCircle className="h-6 w-6 text-green-600" />}
                                 {project.status === 'On hold' && <MinusCircle className="h-6 w-6 text-slate-400" />}
                                 {project.status === 'Archived' && <XCircle className="h-6 w-6 text-slate-700" />}
-                                <span className="text-sm text-slate-900">{project.status}</span>
+                                <span className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>{project.status}</span>
                               </div>
                             </TableCell>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="flex-1 h-4 bg-slate-300 rounded-full overflow-hidden">
+                                <div className={cn("flex-1 h-4 rounded-full overflow-hidden", isTeamMode ? "bg-gray-600" : "bg-slate-300")}>
                                   <div
                                     className={cn(
                                       'h-full rounded-full',
@@ -616,7 +653,7 @@ export default function CompanyDetailPage() {
                                     style={{ width: `${project.progress}%` }}
                                   />
                                 </div>
-                                <span className="text-sm font-medium text-slate-500 w-10">
+                                <span className={cn("text-sm font-medium w-10", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                                   {project.progress === 100 ? '100' : `${project.progress}%`}
                                 </span>
                               </div>
@@ -624,7 +661,7 @@ export default function CompanyDetailPage() {
                           </TableRow>
                         )) : (
                           <TableRow>
-                            <TableCell colSpan={3} className="text-center text-slate-500">No projects</TableCell>
+                            <TableCell colSpan={3} className={cn("text-center", isTeamMode ? "text-gray-500" : "text-slate-500")}>No projects</TableCell>
                           </TableRow>
                         )}
                       </TableBody>

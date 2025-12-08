@@ -253,24 +253,24 @@ export default function CompaniesPage() {
           {/* Search and Filters */}
           <div className="flex items-center gap-4">
             <div className="relative flex-1 max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className={cn("absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-400")} />
               <Input
                 placeholder="Search company..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className={cn("pl-10", isTeamMode && "bg-gray-800 border-gray-600 text-white placeholder:text-gray-400")}
               />
             </div>
             <div className="flex items-center gap-2">
               <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Project</span>
               <Select value={projectFilter} onValueChange={setProjectFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className={cn("w-40", isTeamMode && "bg-gray-800 border-gray-600 text-white")}>
                   <SelectValue placeholder="Select Project..." />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Projects</SelectItem>
+                <SelectContent className={isTeamMode ? "bg-gray-800 border-gray-600" : ""}>
+                  <SelectItem value="all" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>All Projects</SelectItem>
                   {apiProjects.map((project: Project) => (
-                    <SelectItem key={project.id} value={String(project.id)}>
+                    <SelectItem key={project.id} value={String(project.id)} className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>
                       {project.name}
                     </SelectItem>
                   ))}
@@ -280,27 +280,27 @@ export default function CompaniesPage() {
             <div className="flex items-center gap-2">
               <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Status</span>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className={cn("w-32", isTeamMode && "bg-gray-800 border-gray-600 text-white")}>
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="on-hold">On hold</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
+                <SelectContent className={isTeamMode ? "bg-gray-800 border-gray-600" : ""}>
+                  <SelectItem value="all" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>All</SelectItem>
+                  <SelectItem value="active" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>Active</SelectItem>
+                  <SelectItem value="on-hold" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>On hold</SelectItem>
+                  <SelectItem value="archived" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>Archived</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex items-center gap-2">
               <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Agent</span>
               <Select value={agentFilter} onValueChange={setAgentFilter}>
-                <SelectTrigger className="w-36">
+                <SelectTrigger className={cn("w-36", isTeamMode && "bg-gray-800 border-gray-600 text-white")}>
                   <SelectValue placeholder="All Agents" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Agents</SelectItem>
+                <SelectContent className={isTeamMode ? "bg-gray-800 border-gray-600" : ""}>
+                  <SelectItem value="all" className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>All Agents</SelectItem>
                   {apiAgents.map((agent: ApiAgent) => (
-                    <SelectItem key={agent.id} value={String(agent.id)}>
+                    <SelectItem key={agent.id} value={String(agent.id)} className={isTeamMode ? "text-white focus:bg-gray-700 focus:text-white" : ""}>
                       {agent.firstname} {agent.lastname}
                     </SelectItem>
                   ))}
@@ -316,7 +316,7 @@ export default function CompaniesPage() {
 
           {/* Companies Table - Figma exact styling */}
           {isLoading ? (
-            <CompaniesTableSkeleton />
+            <CompaniesTableSkeleton isTeamMode={isTeamMode} />
           ) : (
             <div className="w-full">
               <Table>
@@ -453,51 +453,59 @@ export default function CompaniesPage() {
 
       {/* Add Company Modal */}
       <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className={cn(
+          "max-w-lg max-h-[90vh] overflow-y-auto",
+          isTeamMode && "bg-[#1a1a1a] border-gray-700"
+        )}>
           <DialogHeader>
-            <DialogTitle>Add New Company</DialogTitle>
+            <DialogTitle className={isTeamMode ? "text-white" : ""}>Add New Company</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Company Name</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Company Name</label>
               <Input
                 value={newCompany.name}
                 onChange={(e) => setNewCompany({ ...newCompany, name: e.target.value })}
+                className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Company Address</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Company Address</label>
               <Input
                 value={newCompany.address}
                 onChange={(e) => setNewCompany({ ...newCompany, address: e.target.value })}
+                className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
               />
             </div>
 
             <div className="pt-2">
-              <h3 className="font-semibold text-slate-900 mb-3">Main Contact Point</h3>
+              <h3 className={cn("font-semibold mb-3", isTeamMode ? "text-yellow-500" : "text-slate-900")}>Main Contact Point</h3>
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700">Full Name</label>
+                  <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Full Name</label>
                   <Input
                     value={newCompany.mainContactName}
                     onChange={(e) => setNewCompany({ ...newCompany, mainContactName: e.target.value })}
+                    className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Email</label>
+                    <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Email</label>
                     <Input
                       type="email"
                       value={newCompany.mainContactEmail}
                       onChange={(e) => setNewCompany({ ...newCompany, mainContactEmail: e.target.value })}
+                      className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Phone</label>
+                    <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Phone</label>
                     <Input
                       type="tel"
                       value={newCompany.mainContactPhone}
                       onChange={(e) => setNewCompany({ ...newCompany, mainContactPhone: e.target.value })}
+                      className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                     />
                   </div>
                 </div>
@@ -505,30 +513,33 @@ export default function CompaniesPage() {
             </div>
 
             <div className="pt-2">
-              <h3 className="font-semibold text-slate-900 mb-3">Escalation Contact Point</h3>
+              <h3 className={cn("font-semibold mb-3", isTeamMode ? "text-yellow-500" : "text-slate-900")}>Escalation Contact Point</h3>
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700">Full Name</label>
+                  <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Full Name</label>
                   <Input
                     value={newCompany.escalationName}
                     onChange={(e) => setNewCompany({ ...newCompany, escalationName: e.target.value })}
+                    className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Email</label>
+                    <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Email</label>
                     <Input
                       type="email"
                       value={newCompany.escalationEmail}
                       onChange={(e) => setNewCompany({ ...newCompany, escalationEmail: e.target.value })}
+                      className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Phone</label>
+                    <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Phone</label>
                     <Input
                       type="tel"
                       value={newCompany.escalationPhone}
                       onChange={(e) => setNewCompany({ ...newCompany, escalationPhone: e.target.value })}
+                      className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}
                     />
                   </div>
                 </div>
@@ -536,28 +547,36 @@ export default function CompaniesPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Timezone</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Timezone</label>
               <Select
                 value={newCompany.timezone}
                 onValueChange={(value) => setNewCompany({ ...newCompany, timezone: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className={isTeamMode ? "bg-gray-800 border-gray-600 text-white" : ""}>
                   <SelectValue placeholder="Select..." />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="est">America/New_York (UTC-5)</SelectItem>
-                  <SelectItem value="pst">America/Los_Angeles (UTC-8)</SelectItem>
-                  <SelectItem value="gmt">Europe/London (UTC+0)</SelectItem>
-                  <SelectItem value="cet">Europe/Berlin (UTC+1)</SelectItem>
+                <SelectContent className={isTeamMode ? "bg-gray-800 border-gray-600" : ""}>
+                  <SelectItem value="est" className={isTeamMode ? "text-white hover:bg-gray-700" : ""}>America/New_York (UTC-5)</SelectItem>
+                  <SelectItem value="pst" className={isTeamMode ? "text-white hover:bg-gray-700" : ""}>America/Los_Angeles (UTC-8)</SelectItem>
+                  <SelectItem value="gmt" className={isTeamMode ? "text-white hover:bg-gray-700" : ""}>Europe/London (UTC+0)</SelectItem>
+                  <SelectItem value="cet" className={isTeamMode ? "text-white hover:bg-gray-700" : ""}>Europe/Berlin (UTC+1)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-              <Button variant="outline" onClick={() => setShowAddModal(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowAddModal(false)}
+                className={isTeamMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : ""}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleCreateCompany} disabled={createCompanyMutation.isPending || !newCompany.name}>
+              <Button
+                onClick={handleCreateCompany}
+                disabled={createCompanyMutation.isPending || !newCompany.name}
+                className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : ""}
+              >
                 {createCompanyMutation.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -572,19 +591,28 @@ export default function CompaniesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Company Success Modal - Figma exact styling */}
+      {/* Company Success Modal */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className={cn(
+          "max-w-lg",
+          isTeamMode && "bg-[#1a1a1a] border-gray-700"
+        )}>
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold text-[#020618]">Company successfully added</DialogTitle>
+            <DialogTitle className={cn(
+              "text-lg font-semibold",
+              isTeamMode ? "text-yellow-500" : "text-[#020618]"
+            )}>Company successfully added</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="font-bold text-sm text-[#020618]">{createdCompany.name || 'ACME CORP'}</p>
-            <p className="text-sm text-[#020618]">Address</p>
-            <p className="text-sm text-[#020618]">{createdCompany.address || 'Bogotá, Colombia'}</p>
+            <p className={cn("font-bold text-sm", isTeamMode ? "text-white" : "text-[#020618]")}>{createdCompany.name || 'ACME CORP'}</p>
+            <p className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-[#020618]")}>Address</p>
+            <p className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-[#020618]")}>{createdCompany.address || 'Bogotá, Colombia'}</p>
           </div>
           <div className="flex justify-end">
-            <Button className="bg-slate-900 hover:bg-slate-800" onClick={() => setShowSuccessModal(false)}>
+            <Button
+              className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"}
+              onClick={() => setShowSuccessModal(false)}
+            >
               Close
             </Button>
           </div>
@@ -597,14 +625,17 @@ export default function CompaniesPage() {
 /**
  * Loading skeleton for the companies table
  */
-function CompaniesTableSkeleton() {
+function CompaniesTableSkeleton({ isTeamMode }: { isTeamMode: boolean }) {
   return (
     <div className="w-full">
       <Table>
         <TableHeader>
-          <TableRow className="border-b border-[#757575] hover:bg-transparent">
+          <TableRow className={cn(
+            "border-b hover:bg-transparent",
+            isTeamMode ? "border-gray-700" : "border-[#757575]"
+          )}>
             {['Company', 'Main Contact', 'Escalation Contact', 'Project', 'Agents'].map((header) => (
-              <TableHead key={header} className="text-sm font-bold text-[#62748e]">
+              <TableHead key={header} className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>
                 {header}
               </TableHead>
             ))}
@@ -612,7 +643,7 @@ function CompaniesTableSkeleton() {
         </TableHeader>
         <TableBody>
           {Array.from({ length: 6 }).map((_, i) => (
-            <TableRow key={i} className="border-b border-[#e2e8f0]">
+            <TableRow key={i} className={cn("border-b", isTeamMode ? "border-gray-800" : "border-[#e2e8f0]")}>
               <TableCell><Skeleton className="h-5 w-28" /></TableCell>
               <TableCell><Skeleton className="h-5 w-28" /></TableCell>
               <TableCell><Skeleton className="h-5 w-28" /></TableCell>

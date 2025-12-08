@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/table'
 import { Plus, Check, X, AlertTriangle, Pencil, Eye } from 'lucide-react'
 import { usersApi } from '@/services/api'
+import { useThemeStore } from '@/stores'
+import { cn } from '@/lib/utils'
 
 interface Role {
   id: number
@@ -37,6 +39,8 @@ interface Role {
  */
 export default function RolesPage() {
   const navigate = useNavigate()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { data: roles, isLoading } = useQuery({
     queryKey: ['roles'],
     queryFn: async () => {
@@ -51,22 +55,22 @@ export default function RolesPage() {
       case 'yes':
         return (
           <div className="flex items-center gap-3">
-            <Check className="h-6 w-6 text-green-600" />
-            <span className="text-sm text-slate-900">Yes</span>
+            <Check className="h-6 w-6 text-green-500" />
+            <span className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>Yes</span>
           </div>
         )
       case 'system':
         return (
           <div className="flex items-center gap-3">
-            <X className="h-6 w-6 text-red-600" />
-            <span className="text-sm text-slate-900">System</span>
+            <X className="h-6 w-6 text-red-500" />
+            <span className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>System</span>
           </div>
         )
       case 'limited':
         return (
           <div className="flex items-center gap-3">
             <AlertTriangle className="h-6 w-6 text-orange-500" />
-            <span className="text-sm text-slate-900">Limited</span>
+            <span className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>Limited</span>
           </div>
         )
       default:
@@ -81,11 +85,14 @@ export default function RolesPage() {
         <div className="space-y-4">
           {/* Header with title and New Role button */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
+            <h1 className={cn(
+              "text-3xl font-semibold tracking-tight",
+              isTeamMode ? "text-yellow-500" : "text-slate-900"
+            )}>
               Roles Management
             </h1>
             <Button
-              className="bg-slate-900 hover:bg-slate-800"
+              className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"}
               onClick={() => navigate('/roles/new')}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -94,7 +101,7 @@ export default function RolesPage() {
           </div>
 
           {/* Showing count */}
-          <p className="text-base text-slate-600">
+          <p className={cn("text-base", isTeamMode ? "text-gray-400" : "text-slate-600")}>
             {isLoading ? (
               <Skeleton className="h-5 w-32" />
             ) : (
@@ -104,28 +111,31 @@ export default function RolesPage() {
 
           {/* Roles Table */}
           {isLoading ? (
-            <RolesTableSkeleton />
+            <RolesTableSkeleton isTeamMode={isTeamMode} />
           ) : (
             <div className="w-full">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-slate-400 hover:bg-transparent">
-                    <TableHead className="text-sm font-bold text-slate-500">
+                  <TableRow className={cn(
+                    "border-b hover:bg-transparent",
+                    isTeamMode ? "border-gray-700" : "border-slate-400"
+                  )}>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Role
                     </TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Description
                     </TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Users Assigned
                     </TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Editable
                     </TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Last Modified
                     </TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                       Actions
                     </TableHead>
                   </TableRow>
@@ -134,21 +144,26 @@ export default function RolesPage() {
                   {roles?.map((role) => (
                     <TableRow
                       key={role.id}
-                      className="border-b border-slate-200 hover:bg-slate-50"
+                      className={cn(
+                        "border-b",
+                        isTeamMode
+                          ? "border-gray-800 hover:bg-gray-800/50"
+                          : "border-slate-200 hover:bg-slate-50"
+                      )}
                     >
-                      <TableCell className="text-sm text-slate-900">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-white" : "text-slate-900")}>
                         {role.code}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-900">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                         {role.name}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-900">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                         {role.usersAssigned}
                       </TableCell>
                       <TableCell>
                         {renderEditableStatus(role.editable)}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-900">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                         {role.lastModified}
                       </TableCell>
                       <TableCell>
@@ -156,21 +171,27 @@ export default function RolesPage() {
                           {/* Edit button - shown for 'yes' and 'limited' editable */}
                           {role.editable !== 'system' && (
                             <button
-                              className="p-1 hover:bg-slate-100 rounded transition-colors"
+                              className={cn(
+                                "p-1 rounded transition-colors",
+                                isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-100"
+                              )}
                               aria-label={`Edit ${role.name}`}
                               onClick={() => navigate(`/roles/${role.id}`)}
                             >
-                              <Pencil className="h-5 w-5 text-amber-600" />
+                              <Pencil className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-amber-600")} />
                             </button>
                           )}
                           {/* View button - shown for 'yes' and 'system' editable */}
                           {role.editable !== 'limited' && (
                             <button
-                              className="p-1 hover:bg-slate-100 rounded transition-colors"
+                              className={cn(
+                                "p-1 rounded transition-colors",
+                                isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-100"
+                              )}
                               aria-label={`View ${role.name}`}
                               onClick={() => navigate(`/roles/${role.id}`)}
                             >
-                              <Eye className="h-5 w-5 text-purple-600" />
+                              <Eye className={cn("h-5 w-5", isTeamMode ? "text-purple-400" : "text-purple-600")} />
                             </button>
                           )}
                         </div>
@@ -181,7 +202,7 @@ export default function RolesPage() {
                     <TableRow>
                       <TableCell
                         colSpan={6}
-                        className="text-center text-slate-500 py-8"
+                        className={cn("text-center py-8", isTeamMode ? "text-gray-500" : "text-slate-500")}
                       >
                         No roles found
                       </TableCell>
@@ -193,7 +214,7 @@ export default function RolesPage() {
           )}
 
           {/* Footer notes */}
-          <div className="text-base text-slate-600 space-y-1 pt-4">
+          <div className={cn("text-base space-y-1 pt-4", isTeamMode ? "text-gray-400" : "text-slate-600")}>
             <p>System roles can't be modified or deleted.</p>
             <p>Editable roles allow permission changes within approved limits.</p>
             <p>Limited roles inherit restricted scopes — read-only dashboards, no exports.</p>
@@ -207,15 +228,18 @@ export default function RolesPage() {
 /**
  * Loading skeleton for the roles table
  */
-function RolesTableSkeleton() {
+function RolesTableSkeleton({ isTeamMode }: { isTeamMode: boolean }) {
   return (
     <div className="w-full">
       <Table>
         <TableHeader>
-          <TableRow className="border-b border-slate-400 hover:bg-transparent">
+          <TableRow className={cn(
+            "border-b hover:bg-transparent",
+            isTeamMode ? "border-gray-700" : "border-slate-400"
+          )}>
             {['Role', 'Description', 'Users Assigned', 'Editable', 'Last Modified', 'Actions'].map(
               (header) => (
-                <TableHead key={header} className="text-sm font-bold text-slate-500">
+                <TableHead key={header} className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>
                   {header}
                 </TableHead>
               )
@@ -224,7 +248,7 @@ function RolesTableSkeleton() {
         </TableHeader>
         <TableBody>
           {Array.from({ length: 6 }).map((_, i) => (
-            <TableRow key={i} className="border-b border-slate-200">
+            <TableRow key={i} className={cn("border-b", isTeamMode ? "border-gray-800" : "border-slate-200")}>
               <TableCell>
                 <Skeleton className="h-5 w-12" />
               </TableCell>
