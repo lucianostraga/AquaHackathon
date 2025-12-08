@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useState, useEffect } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Header, PageContainer } from '@/components/layout'
 import { Button } from '@/components/ui/button'
@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Plus } from 'lucide-react'
+import { Plus, Loader2, ChevronLeft } from 'lucide-react'
 import { usersApi } from '@/services/api'
 import { apiClient } from '@/services/api'
 
@@ -53,6 +53,7 @@ interface PermissionState {
 export default function EditRolePage() {
   const { roleId } = useParams<{ roleId: string }>()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const isNewRole = !roleId || roleId === 'new'
 
   // Fetch permission categories from backend
@@ -69,7 +70,7 @@ export default function EditRolePage() {
     queryKey: ['role', roleId],
     queryFn: async () => {
       const response = await usersApi.getRoles()
-      return (response.data as Role[]).find((r) => r.id === Number(roleId))
+      return (response.data as Role[]).find((r) => String(r.id) === String(roleId))
     },
     enabled: !isNewRole,
   })
@@ -98,24 +99,104 @@ export default function EditRolePage() {
     }))
   }
 
+  // Update role mutation
+  const updateRoleMutation = useMutation({
+    mutationFn: async (data: { name: string; code?: string }) => {
+      const response = await usersApi.updateRole(Number(roleId), data)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['roles'] })
+      queryClient.invalidateQueries({ queryKey: ['role', roleId] })
+      navigate('/roles')
+    },
+  })
+
+  // Populate form and permissions when role data is loaded
+  useEffect(() => {
+    if (role) {
+      setRoleName(role.name || '')
+      setDescription(role.code || '')
+
+      // Map role permissions to category toggles
+      // Permission mapping: which role permissions enable which category toggles
+      const permissionMapping: Record<string, { categoryId: number; types: (keyof PermissionState)[] }[]> = {
+        'teams': [{ categoryId: 1, types: ['view', 'edit'] }],          // Users & Roles
+        'score': [{ categoryId: 2, types: ['view', 'edit', 'manage'] }], // Scorecards & Thresholds
+        'reviewcalls': [{ categoryId: 3, types: ['view', 'edit'] }],    // Workflows
+        'coachingcalls': [{ categoryId: 3, types: ['view'] }],          // Workflows
+        'notes': [{ categoryId: 4, types: ['view'] }],                  // Data & Privacy Policies
+        'reports': [{ categoryId: 5, types: ['view', 'edit'] }],        // Reports & Exports
+        'upload': [{ categoryId: 6, types: ['view', 'edit'] }],         // API & Webhooks
+        'monitor': [{ categoryId: 7, types: ['view'] }],                // Monitoring
+      }
+
+      // Build new permissions state based on role permissions
+      const newPermissions: Record<number, PermissionState> = {}
+      for (let i = 1; i <= 7; i++) {
+        newPermissions[i] = { view: false, edit: false, manage: false }
+      }
+
+      role.permissions?.forEach((perm: string) => {
+        const mappings = permissionMapping[perm.toLowerCase()]
+        if (mappings) {
+          mappings.forEach(({ categoryId, types }) => {
+            types.forEach((type) => {
+              newPermissions[categoryId][type] = true
+            })
+          })
+        }
+      })
+
+      setPermissions(newPermissions)
+    }
+  }, [role])
+
   const isLoading = categoriesLoading || (!isNewRole && roleLoading)
+
+  const handleSave = async () => {
+    try {
+      await updateRoleMutation.mutateAsync({
+        name: roleName,
+        code: description,
+      })
+    } catch (error) {
+      console.error('Failed to update role:', error)
+    }
+  }
 
   return (
     <>
       <Header title={isNewRole ? 'New Role' : 'Edit Role'} />
       <PageContainer>
         <div className="space-y-6">
-          {/* Header with title and New Role button */}
+          {/* Back link */}
+          <button
+            onClick={() => navigate('/roles')}
+            className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back to Roles
+          </button>
+
+          {/* Header with title and Save button */}
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
               {isNewRole ? 'New Role' : 'Edit Role'}
             </h1>
             <Button
               className="bg-slate-900 hover:bg-slate-800"
-              onClick={() => navigate('/roles/new')}
+              onClick={handleSave}
+              disabled={updateRoleMutation.isPending || !roleName}
             >
-              <Plus className="h-4 w-4 mr-2" />
-              New Role
+              {updateRoleMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                'Save Changes'
+              )}
             </Button>
           </div>
 

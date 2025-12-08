@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Header, PageContainer } from '@/components/layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -26,6 +26,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 import {
   ChevronLeft,
   ChevronRight,
@@ -45,6 +46,7 @@ import {
   Calendar,
   Clock,
   Flag,
+  Loader2,
 } from 'lucide-react'
 import { usersApi, callsApi } from '@/services/api'
 import { cn } from '@/lib/utils'
@@ -81,7 +83,14 @@ interface ActivityItem {
 export default function CompanyDetailPage() {
   const navigate = useNavigate()
   const { companyId } = useParams()
+  const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState<TabType>('overview')
+
+  // Edit company modal state
+  const [showEditCompanyModal, setShowEditCompanyModal] = useState(false)
+  const [editCompanyForm, setEditCompanyForm] = useState({
+    name: '',
+  })
 
   // Projects tab state
   const [projectSearch, setProjectSearch] = useState('')
@@ -98,6 +107,13 @@ export default function CompanyDetailPage() {
     assignedAgents: [] as string[],
   })
 
+  // Edit project modal state
+  const [showEditProjectModal, setShowEditProjectModal] = useState(false)
+  const [editingProject, setEditingProject] = useState<ProjectDisplay | null>(null)
+  const [editProjectForm, setEditProjectForm] = useState({
+    name: '',
+  })
+
   // Agents tab state
   const [agentSearch, setAgentSearch] = useState('')
   const [agentProjectFilter, setAgentProjectFilter] = useState('all')
@@ -107,11 +123,12 @@ export default function CompanyDetailPage() {
   const itemsPerPage = 6
 
   // Fetch company data
-  const { data: apiCompany } = useQuery({
+  const { data: apiCompany, isLoading: isLoadingCompany } = useQuery({
     queryKey: ['company', companyId],
     queryFn: async () => {
       const response = await usersApi.getCompanies()
-      return response.data?.find((c: ApiCompany) => c.id === Number(companyId))
+      // Compare as strings since db.json uses string IDs
+      return response.data?.find((c: ApiCompany) => String(c.id) === String(companyId))
     },
   })
 
@@ -141,6 +158,61 @@ export default function CompanyDetailPage() {
       return response.data
     },
   })
+
+  // Update company mutation
+  const updateCompanyMutation = useMutation({
+    mutationFn: async (data: { name: string }) => {
+      const response = await usersApi.updateCompany(companyId!, data)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['company', companyId] })
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
+      setShowEditCompanyModal(false)
+    },
+  })
+
+  // Create project mutation
+  const createProjectMutation = useMutation({
+    mutationFn: async (projectData: { name: string }) => {
+      const response = await usersApi.createProject(projectData)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+    },
+  })
+
+  // Update project mutation
+  const updateProjectMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: { name: string } }) => {
+      const response = await usersApi.updateProject(id, data)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+      setShowEditProjectModal(false)
+      setEditingProject(null)
+    },
+  })
+
+  // Populate edit form when modal opens
+  useEffect(() => {
+    if (apiCompany && showEditCompanyModal) {
+      setEditCompanyForm({
+        name: apiCompany.name || '',
+      })
+    }
+  }, [apiCompany, showEditCompanyModal])
+
+  // Populate edit project form when modal opens
+  useEffect(() => {
+    if (editingProject && showEditProjectModal) {
+      setEditProjectForm({
+        name: editingProject.name || '',
+      })
+    }
+  }, [editingProject, showEditProjectModal])
 
   // Transform company data with calculated stats
   const company = useMemo(() => {
@@ -290,18 +362,39 @@ export default function CompanyDetailPage() {
   const totalProjectPages = Math.ceil(filteredProjects.length / itemsPerPage)
   const totalAgentPages = Math.ceil(filteredAgents.length / itemsPerPage)
 
-  const handleCreateProject = () => {
-    console.log('Creating project:', newProject)
-    setShowAddProjectModal(false)
-    setShowProjectSuccessModal(true)
-    setNewProject({
-      name: '',
-      description: '',
-      status: '',
-      startDate: '',
-      endDate: '',
-      assignedAgents: [],
-    })
+  const handleCreateProject = async () => {
+    try {
+      await createProjectMutation.mutateAsync({
+        name: newProject.name,
+      })
+      setShowAddProjectModal(false)
+      setShowProjectSuccessModal(true)
+      setNewProject({
+        name: '',
+        description: '',
+        status: '',
+        startDate: '',
+        endDate: '',
+        assignedAgents: [],
+      })
+    } catch (error) {
+      console.error('Failed to create project:', error)
+    }
+  }
+
+  // Show loading state while data is being fetched
+  if (isLoadingCompany) {
+    return (
+      <>
+        <Header title="Company" />
+        <PageContainer>
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto"></div>
+            <p className="text-slate-500 mt-4">Loading company...</p>
+          </div>
+        </PageContainer>
+      </>
+    )
   }
 
   if (!company) {
@@ -340,7 +433,7 @@ export default function CompanyDetailPage() {
               {company.name}
             </h1>
             {(activeTab === 'overview' || activeTab === 'agents') && (
-              <Button className="bg-slate-900 hover:bg-slate-800">
+              <Button className="bg-slate-900 hover:bg-slate-800" onClick={() => setShowEditCompanyModal(true)}>
                 <Pencil className="h-4 w-4 mr-2" />
                 Edit Company
               </Button>
@@ -684,7 +777,11 @@ export default function CompanyDetailPage() {
                       <TableCell className="text-center">
                         <button
                           className="p-1 hover:bg-slate-100 rounded transition-colors"
-                          onClick={(e) => { e.stopPropagation() }}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setEditingProject(project)
+                            setShowEditProjectModal(true)
+                          }}
                         >
                           <Pencil className="h-6 w-6 text-[#99a0aa]" />
                         </button>
@@ -996,8 +1093,15 @@ export default function CompanyDetailPage() {
               <Button variant="outline" onClick={() => setShowAddProjectModal(false)}>
                 Cancel
               </Button>
-              <Button onClick={handleCreateProject}>
-                Add Project
+              <Button onClick={handleCreateProject} disabled={createProjectMutation.isPending || !newProject.name}>
+                {createProjectMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  'Add Project'
+                )}
               </Button>
             </div>
           </div>
@@ -1019,6 +1123,93 @@ export default function CompanyDetailPage() {
             <Button onClick={() => setShowProjectSuccessModal(false)}>
               Close
             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Company Modal */}
+      <Dialog open={showEditCompanyModal} onOpenChange={setShowEditCompanyModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Company</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="companyName">Company Name</Label>
+              <Input
+                id="companyName"
+                value={editCompanyForm.name}
+                onChange={(e) => setEditCompanyForm(prev => ({ ...prev, name: e.target.value }))}
+              />
+            </div>
+            <div className="flex justify-end gap-3 pt-4">
+              <Button variant="outline" onClick={() => setShowEditCompanyModal(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => updateCompanyMutation.mutate(editCompanyForm)}
+                disabled={updateCompanyMutation.isPending || !editCompanyForm.name}
+              >
+                {updateCompanyMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Project Modal */}
+      <Dialog open={showEditProjectModal} onOpenChange={(open) => {
+        setShowEditProjectModal(open)
+        if (!open) setEditingProject(null)
+      }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Project</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="projectName">Project Name</Label>
+              <Input
+                id="projectName"
+                value={editProjectForm.name}
+                onChange={(e) => setEditProjectForm(prev => ({ ...prev, name: e.target.value }))}
+              />
+            </div>
+            <div className="flex justify-end gap-3 pt-4">
+              <Button variant="outline" onClick={() => {
+                setShowEditProjectModal(false)
+                setEditingProject(null)
+              }}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  if (editingProject) {
+                    updateProjectMutation.mutate({
+                      id: editingProject.id,
+                      data: editProjectForm,
+                    })
+                  }
+                }}
+                disabled={updateProjectMutation.isPending || !editProjectForm.name}
+              >
+                {updateProjectMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

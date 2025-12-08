@@ -55,7 +55,7 @@ import {
   Trash2,
   RotateCcw,
 } from 'lucide-react'
-import { useCallSummariesQuery } from '@/hooks'
+import { useCallSummariesQuery, useUploadMultipleAudiosMutation } from '@/hooks'
 import { cn } from '@/lib/utils'
 import type { CallSummary } from '@/types'
 
@@ -97,12 +97,15 @@ export default function CallsPage() {
     duration: string
     status: 'completed' | 'uploading' | 'failed' | 'validating'
     progress: number
+    file: File
   }>>([])
   const [applyMetadataToAll, setApplyMetadataToAll] = useState(true)
   const searchRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const itemsPerPage = 6
 
   const { data: calls = [], isLoading } = useCallSummariesQuery()
+  const uploadMutation = useUploadMultipleAudiosMutation()
 
   // Get unique agent names for autocomplete
   const agentSuggestions = useMemo(() => {
@@ -140,6 +143,72 @@ export default function CallsPage() {
   const handleClosePlayer = () => {
     setSelectedCall(null)
     setIsPlaying(false)
+  }
+
+  // Handle file selection
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    const newFiles = Array.from(files).map((file, index) => ({
+      id: Date.now() + index,
+      name: file.name,
+      duration: '-',
+      status: 'validating' as const,
+      progress: 0,
+      file: file,
+    }))
+
+    setUploadFiles(prev => [...prev, ...newFiles])
+
+    // Mark as ready after brief validation
+    setTimeout(() => {
+      setUploadFiles(prev =>
+        prev.map(f =>
+          newFiles.find(nf => nf.id === f.id)
+            ? { ...f, status: 'completed' as const, progress: 100 }
+            : f
+        )
+      )
+    }, 500)
+
+    // Reset input
+    e.target.value = ''
+  }
+
+  // Handle actual upload to API
+  const handleUpload = async () => {
+    if (uploadFiles.length === 0) return
+
+    // Set all files to uploading state
+    setUploadFiles(prev => prev.map(f => ({ ...f, status: 'uploading' as const, progress: 0 })))
+
+    try {
+      const files = uploadFiles.map(f => f.file)
+
+      await uploadMutation.mutateAsync({
+        files,
+        onProgress: (fileIndex, progress) => {
+          setUploadFiles(prev =>
+            prev.map((f, idx) =>
+              idx === fileIndex ? { ...f, progress } : f
+            )
+          )
+        },
+      })
+
+      // Mark all as completed
+      setUploadFiles(prev => prev.map(f => ({ ...f, status: 'completed' as const, progress: 100 })))
+
+      // Close modal after short delay
+      setTimeout(() => {
+        setShowUploadModal(false)
+        setUploadFiles([])
+      }, 1000)
+    } catch (error) {
+      console.error('Upload failed:', error)
+      setUploadFiles(prev => prev.map(f => ({ ...f, status: 'failed' as const })))
+    }
   }
 
   // Format time display
@@ -834,7 +903,18 @@ export default function CallsPage() {
           </DialogHeader>
           <div className="space-y-6 py-4">
             {/* Drop Zone */}
-            <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center">
+            <div
+              className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center cursor-pointer hover:border-slate-400 hover:bg-slate-50 transition-colors"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept="audio/*,.mp3,.wav,.m4a"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
               <Upload className="mx-auto h-10 w-10 text-slate-400 mb-3" />
               <p className="font-medium text-slate-900">Upload Files</p>
               <p className="text-sm text-slate-500">Drag and Drop or click to upload</p>
@@ -966,19 +1046,24 @@ export default function CallsPage() {
             </p>
 
             <div className="flex justify-end gap-3">
-              <Button variant="outline" onClick={() => setShowUploadModal(false)}>
+              <Button variant="outline" onClick={() => {
+                setShowUploadModal(false)
+                setUploadFiles([])
+              }}>
                 Cancel
               </Button>
-              <Button onClick={() => {
-                // Mock files for demo
-                setUploadFiles([
-                  { id: 1, name: 'call_01234.mp3', duration: '05:15', status: 'completed', progress: 100 },
-                  { id: 2, name: 'call_01235.mp3', duration: '06:40', status: 'uploading', progress: 45 },
-                  { id: 3, name: 'call_01236.mp3', duration: '-', status: 'failed', progress: 0 },
-                  { id: 4, name: 'call_01237.mp3', duration: '03:12', status: 'validating', progress: 40 },
-                ])
-              }}>
-                Upload
+              <Button
+                disabled={uploadFiles.length === 0 || uploadMutation.isPending}
+                onClick={handleUpload}
+              >
+                {uploadMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  'Upload'
+                )}
               </Button>
             </div>
           </div>

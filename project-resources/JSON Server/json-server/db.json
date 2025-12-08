@@ -1,2207 +1,2258 @@
-{"Calls":[{
-    "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
-    "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
-    "companyId": 1,
-    "projectId": 1,
-	  "agentName": "Robert",
-    "audio": null,
-    "audioName": "CallSample1",
-    "audioSize": 1.29,
-    "fileExtension": ".mp3",
-    "transcription": {
-      "transcriptionText": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.\n\nI'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?\n\nIt's a NetEnforcer. Hold on, let me check the number. It's TD2800.\n\nOkay, model TD2800. Let's start by resetting the modem. Can you unplug it from the power source and wait for 30 seconds, then plug it back in and turn it on?\n\nYes, I've already done that several times, and it hasn't helped.\n\nI understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?\n\nOkay, I'll try that. But it was plugged in before.\n\nOh, I see. Well, let's give it a try and see what happens.\n\nIt's actually working now. I can't believe it.\n\nI'm glad to hear that. Do you want to try to access a website just to make sure?\n\nYeah, that's a good idea. Hold on. Looking good, yup, it works fine.\n\nGreat. Is there anything else I can assist you with?\n\nNo, that's all. I'm so glad we got that resolved. Thanks for your help.\n\nMy pleasure. Thank you for calling Single Step Digital. Goodbye.",
-      "diarization": [
-        {
-          "turnIndex": 0,
-          "speaker": "Customer",
-          "text": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 1,
-          "speaker": "Agent",
-          "text": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 2,
-          "speaker": "Customer",
-          "text": "It's a NetEnforcer. Hold on, let me check the number. It's TD2800.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 3,
-          "speaker": "Agent",
-          "text": "Okay, model TD2800. Let's start by resetting the modem. Can you unplug it from the power source and wait for 30 seconds, then plug it back in and turn it on?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 4,
-          "speaker": "Customer",
-          "text": "Yes, I've already done that several times, and it hasn't helped.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 5,
-          "speaker": "Agent",
-          "text": "I understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 6,
-          "speaker": "Customer",
-          "text": "Okay, I'll try that. But it was plugged in before.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 7,
-          "speaker": "Agent",
-          "text": "Oh, I see. Well, let's give it a try and see what happens.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 8,
-          "speaker": "Customer",
-          "text": "It's actually working now. I can't believe it.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 9,
-          "speaker": "Agent",
-          "text": "I'm glad to hear that. Do you want to try to access a website just to make sure?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 10,
-          "speaker": "Customer",
-          "text": "Yeah, that's a good idea. Hold on. Looking good, yup, it works fine.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 11,
-          "speaker": "Agent",
-          "text": "Great. Is there anything else I can assist you with?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 12,
-          "speaker": "Customer",
-          "text": "No, that's all. I'm so glad we got that resolved. Thanks for your help.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 13,
-          "speaker": "Agent",
-          "text": "My pleasure. Thank you for calling Single Step Digital. Goodbye.",
-          "sentiment": "Positive"
-        }
-      ]
-    },
-    "processState": "Sentiment generated",
-    "processDate": "2025-10-14T19:03:44.0957133Z",
-    "baseCallDetails": [
-      {
-        "name": "InteractionDate",
-        "value": null
+{
+  "Calls": [
+    {
+      "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
+      "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
+      "companyId": 1,
+      "projectId": 1,
+      "agentName": "Robert",
+      "audio": null,
+      "audioName": "CallSample1",
+      "audioSize": 1.29,
+      "fileExtension": ".mp3",
+      "transcription": {
+        "transcriptionText": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.\n\nI'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?\n\nIt's a NetEnforcer. Hold on, let me check the number. It's TD2800.\n\nOkay, model TD2800. Let's start by resetting the modem. Can you unplug it from the power source and wait for 30 seconds, then plug it back in and turn it on?\n\nYes, I've already done that several times, and it hasn't helped.\n\nI understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?\n\nOkay, I'll try that. But it was plugged in before.\n\nOh, I see. Well, let's give it a try and see what happens.\n\nIt's actually working now. I can't believe it.\n\nI'm glad to hear that. Do you want to try to access a website just to make sure?\n\nYeah, that's a good idea. Hold on. Looking good, yup, it works fine.\n\nGreat. Is there anything else I can assist you with?\n\nNo, that's all. I'm so glad we got that resolved. Thanks for your help.\n\nMy pleasure. Thank you for calling Single Step Digital. Goodbye.",
+        "diarization": [
+          {
+            "turnIndex": 0,
+            "speaker": "Customer",
+            "text": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 1,
+            "speaker": "Agent",
+            "text": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 2,
+            "speaker": "Customer",
+            "text": "It's a NetEnforcer. Hold on, let me check the number. It's TD2800.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 3,
+            "speaker": "Agent",
+            "text": "Okay, model TD2800. Let's start by resetting the modem. Can you unplug it from the power source and wait for 30 seconds, then plug it back in and turn it on?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 4,
+            "speaker": "Customer",
+            "text": "Yes, I've already done that several times, and it hasn't helped.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 5,
+            "speaker": "Agent",
+            "text": "I understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 6,
+            "speaker": "Customer",
+            "text": "Okay, I'll try that. But it was plugged in before.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 7,
+            "speaker": "Agent",
+            "text": "Oh, I see. Well, let's give it a try and see what happens.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 8,
+            "speaker": "Customer",
+            "text": "It's actually working now. I can't believe it.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 9,
+            "speaker": "Agent",
+            "text": "I'm glad to hear that. Do you want to try to access a website just to make sure?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 10,
+            "speaker": "Customer",
+            "text": "Yeah, that's a good idea. Hold on. Looking good, yup, it works fine.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 11,
+            "speaker": "Agent",
+            "text": "Great. Is there anything else I can assist you with?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 12,
+            "speaker": "Customer",
+            "text": "No, that's all. I'm so glad we got that resolved. Thanks for your help.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 13,
+            "speaker": "Agent",
+            "text": "My pleasure. Thank you for calling Single Step Digital. Goodbye.",
+            "sentiment": "Positive"
+          }
+        ]
       },
-      {
-        "name": "TicketNumber",
-        "value": null
-      },
-      {
-        "name": "ClientName",
-        "value": null
-      },
-      {
-        "name": "MonitorDate",
-        "value": null
-      },
-      {
-        "name": "AgentName",
-        "value": "Robert"
-      },
-      {
-        "name": "ClientLocation",
-        "value": null
-      },
-      {
-        "name": "Language",
-        "value": "English"
-      },
-      {
-        "name": "TopContactDriver",
-        "value": "Internet Connection Issue > Modem Troubleshooting > Resolved with Direct Connection"
-      },
-      {
-        "name": "AverageHandlingTime",
-        "value": null
-      },
-      {
-        "name": "Resolution",
-        "value": "True"
-      },
-      {
-        "name": "Channel",
-        "value": "phone"
-      }
-    ],
-    "scoreCard": {
-      "groups": [
+      "processState": "Sentiment generated",
+      "processDate": "2025-10-14T19:03:44.0957133Z",
+      "baseCallDetails": [
         {
-          "groupId": 1,
-          "groupName": "Opening",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent mention the company name in a welcoming or professional manner?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 1,
-                  "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
-                }
-              ],
-              "justification": "The agent did not mention the company name in a welcoming or professional manner at the start of the conversation.",
-              "tag": "Branded_Interaction",
-              "result": "Fail"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
-              "score": 0,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 1,
-                  "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
-                }
-              ],
-              "justification": "The agent did not introduce themselves with their name at the start of the conversation.",
-              "tag": "Used_Name",
-              "result": "Fail"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent ask the caller's identity or account details or store number or store?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 1,
-                  "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
-                }
-              ],
-              "justification": "The agent did not ask for any identity or account details from the customer.",
-              "tag": "Verified_Authorization",
-              "result": "Fail"
-            }
-          ]
+          "name": "InteractionDate",
+          "value": null
         },
         {
-          "groupId": 2,
-          "groupName": "Paraphrasing_and_Assurance",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the expert provided an assurance of help statement after recap?",
-              "score": 0,
-              "maxPoint": 15,
-              "evidences": [],
-              "justification": "There is no evidence of an assurance of help statement from the Agent. The agent expresses empathy (\"I understand how frustrating this can be.\") in Turn 5, but does not make an explicit assurance statement as required by the rubric.",
-              "tag": "Assurance_of_Help",
-              "result": "Fail"
-            },
-            {
-              "id": 2,
-              "text": "Did the Expert paraphrase the client’s concerns?",
-              "score": 0,
-              "maxPoint": 14,
-              "evidences": [],
-              "justification": "There is no evidence of the Agent paraphrasing the customer's concerns or confirming them with the customer throughout the conversation.",
-              "tag": "Paraphrased_Client",
-              "result": "Fail"
-            }
-          ]
+          "name": "TicketNumber",
+          "value": null
         },
         {
-          "groupId": 3,
-          "groupName": "Solving_the_Issue",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask questions to clarify the issue?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 1,
-                  "quote": "Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?"
-                }
-              ],
-              "justification": "The agent asked about the kind of modem/router the customer has, which helps in diagnosing the issue. This aligns with the requirement to ask clarifying questions relevant to solving the customer's issue.",
-              "tag": "Asked_5Ws",
-              "result": "Pass"
-            }
-          ]
+          "name": "ClientName",
+          "value": null
         },
         {
-          "groupId": 4,
-          "groupName": "Closing",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask if further assistance was needed?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 11,
-                  "quote": "Is there anything else I can assist you with?"
-                }
-              ],
-              "justification": "The agent explicitly asked the customer if they needed further assistance.",
-              "tag": "Assistance",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent provide a ticket or reference number?",
-              "score": 0,
-              "maxPoint": 8,
-              "evidences": [],
-              "justification": "There is no evidence that the agent provided a ticket or reference number during the call.",
-              "tag": "Shared_Ticket_Number",
-              "result": "Fail"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent recap the solution?",
-              "score": 0,
-              "maxPoint": 6,
-              "evidences": [],
-              "justification": "The agent did not offer a recap of the solution at the close of the conversation.",
-              "tag": "Recap",
-              "result": "Fail"
-            }
-          ]
+          "name": "MonitorDate",
+          "value": null
         },
         {
-          "groupId": 5,
-          "groupName": "Interaction_Health",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the interaction show no signs of a language barrier affecting communication?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 0,
-                  "quote": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 2,
-                  "quote": "It's a NetEnforcer. Hold on, let me check the number. It's TD2800."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 4,
-                  "quote": "Yes, I've already done that several times, and it hasn't helped."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 6,
-                  "quote": "Okay, I'll try that. But it was plugged in before."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 8,
-                  "quote": "It's actually working now. I can't believe it."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 10,
-                  "quote": "Yeah, that's a good idea. Hold on. Looking good, yup, it works fine."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 12,
-                  "quote": "No, that's all. I'm so glad we got that resolved. Thanks for your help."
-                }
-              ],
-              "justification": "The Customer communicated effectively throughout the interaction with no requests for repetition or clarification, indicating no language barrier issues.",
-              "tag": "Language_Barrier",
-              "result": "Pass"
-            }
-          ]
-        }
-      ]
-    },
-    "sentimentAnalisys": {
-      "sentiment": [
-        {
-          "speaker": "Agent",
-          "averageScore": 4.5,
-          "trend": "stable",
-          "evidences": [
-            {
-              "turnIndex": 1,
-              "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?",
-              "score": 5,
-              "justification": "Shows empathy and a helpful attitude."
-            },
-            {
-              "turnIndex": 5,
-              "quote": "I understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?",
-              "score": 4,
-              "justification": "Acknowledges customer's frustration and offers a constructive solution."
-            },
-            {
-              "turnIndex": 11,
-              "quote": "Great. Is there anything else I can assist you with?",
-              "score": 5,
-              "justification": "Positive closure with an open offer for further assistance."
-            }
-          ]
+          "name": "AgentName",
+          "value": "Robert"
         },
         {
-          "speaker": "Customer",
-          "averageScore": 3.5,
-          "trend": "improving",
-          "evidences": [
-            {
-              "turnIndex": 0,
-              "quote": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.",
-              "score": 2,
-              "justification": "Expresses frustration and dissatisfaction at the beginning of the call."
-            },
-            {
-              "turnIndex": 4,
-              "quote": "Yes, I've already done that several times, and it hasn't helped.",
-              "score": 2,
-              "justification": "Indicates ongoing frustration with the unresolved issue."
-            },
-            {
-              "turnIndex": 8,
-              "quote": "It's actually working now. I can't believe it.",
-              "score": 4,
-              "justification": "Surprise and reduced frustration as the issue seems resolved."
-            },
-            {
-              "turnIndex": 12,
-              "quote": "No, that's all. I'm so glad we got that resolved. Thanks for your help.",
-              "score": 5,
-              "justification": "Expresses gratitude and satisfaction at the end of the call."
-            }
-          ]
+          "name": "ClientLocation",
+          "value": null
+        },
+        {
+          "name": "Language",
+          "value": "English"
+        },
+        {
+          "name": "TopContactDriver",
+          "value": "Internet Connection Issue > Modem Troubleshooting > Resolved with Direct Connection"
+        },
+        {
+          "name": "AverageHandlingTime",
+          "value": null
+        },
+        {
+          "name": "Resolution",
+          "value": "True"
+        },
+        {
+          "name": "Channel",
+          "value": "phone"
         }
       ],
-      "summary": "The customer's sentiment improved significantly over the course of the call, starting from frustration and ending with gratitude and satisfaction as the problem was resolved. The agent maintained a consistently positive and empathetic tone, contributing to the improvement in the customer's sentiment."
+      "scoreCard": {
+        "groups": [
+          {
+            "groupId": 1,
+            "groupName": "Opening",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent mention the company name in a welcoming or professional manner?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 1,
+                    "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
+                  }
+                ],
+                "justification": "The agent did not mention the company name in a welcoming or professional manner at the start of the conversation.",
+                "tag": "Branded_Interaction",
+                "result": "Fail"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
+                "score": 0,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 1,
+                    "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
+                  }
+                ],
+                "justification": "The agent did not introduce themselves with their name at the start of the conversation.",
+                "tag": "Used_Name",
+                "result": "Fail"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent ask the caller's identity or account details or store number or store?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 1,
+                    "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue."
+                  }
+                ],
+                "justification": "The agent did not ask for any identity or account details from the customer.",
+                "tag": "Verified_Authorization",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 2,
+            "groupName": "Paraphrasing_and_Assurance",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the expert provided an assurance of help statement after recap?",
+                "score": 0,
+                "maxPoint": 15,
+                "evidences": [],
+                "justification": "There is no evidence of an assurance of help statement from the Agent. The agent expresses empathy (\"I understand how frustrating this can be.\") in Turn 5, but does not make an explicit assurance statement as required by the rubric.",
+                "tag": "Assurance_of_Help",
+                "result": "Fail"
+              },
+              {
+                "id": 2,
+                "text": "Did the Expert paraphrase the client’s concerns?",
+                "score": 0,
+                "maxPoint": 14,
+                "evidences": [],
+                "justification": "There is no evidence of the Agent paraphrasing the customer's concerns or confirming them with the customer throughout the conversation.",
+                "tag": "Paraphrased_Client",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 3,
+            "groupName": "Solving_the_Issue",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask questions to clarify the issue?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 1,
+                    "quote": "Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?"
+                  }
+                ],
+                "justification": "The agent asked about the kind of modem/router the customer has, which helps in diagnosing the issue. This aligns with the requirement to ask clarifying questions relevant to solving the customer's issue.",
+                "tag": "Asked_5Ws",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 4,
+            "groupName": "Closing",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask if further assistance was needed?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 11,
+                    "quote": "Is there anything else I can assist you with?"
+                  }
+                ],
+                "justification": "The agent explicitly asked the customer if they needed further assistance.",
+                "tag": "Assistance",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent provide a ticket or reference number?",
+                "score": 0,
+                "maxPoint": 8,
+                "evidences": [],
+                "justification": "There is no evidence that the agent provided a ticket or reference number during the call.",
+                "tag": "Shared_Ticket_Number",
+                "result": "Fail"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent recap the solution?",
+                "score": 0,
+                "maxPoint": 6,
+                "evidences": [],
+                "justification": "The agent did not offer a recap of the solution at the close of the conversation.",
+                "tag": "Recap",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 5,
+            "groupName": "Interaction_Health",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the interaction show no signs of a language barrier affecting communication?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 0,
+                    "quote": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 2,
+                    "quote": "It's a NetEnforcer. Hold on, let me check the number. It's TD2800."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 4,
+                    "quote": "Yes, I've already done that several times, and it hasn't helped."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 6,
+                    "quote": "Okay, I'll try that. But it was plugged in before."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 8,
+                    "quote": "It's actually working now. I can't believe it."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 10,
+                    "quote": "Yeah, that's a good idea. Hold on. Looking good, yup, it works fine."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 12,
+                    "quote": "No, that's all. I'm so glad we got that resolved. Thanks for your help."
+                  }
+                ],
+                "justification": "The Customer communicated effectively throughout the interaction with no requests for repetition or clarification, indicating no language barrier issues.",
+                "tag": "Language_Barrier",
+                "result": "Pass"
+              }
+            ]
+          }
+        ]
+      },
+      "sentimentAnalisys": {
+        "sentiment": [
+          {
+            "speaker": "Agent",
+            "averageScore": 4.5,
+            "trend": "stable",
+            "evidences": [
+              {
+                "turnIndex": 1,
+                "quote": "I'm so sorry to hear that. Let's see if we can troubleshoot the issue. First, can you tell me what kind of modem or router you have?",
+                "score": 5,
+                "justification": "Shows empathy and a helpful attitude."
+              },
+              {
+                "turnIndex": 5,
+                "quote": "I understand how frustrating this can be. Let's try something else. Can you try connecting your computer directly to the modem with an Ethernet cable and see if you're able to get a stable internet connection that way?",
+                "score": 4,
+                "justification": "Acknowledges customer's frustration and offers a constructive solution."
+              },
+              {
+                "turnIndex": 11,
+                "quote": "Great. Is there anything else I can assist you with?",
+                "score": 5,
+                "justification": "Positive closure with an open offer for further assistance."
+              }
+            ]
+          },
+          {
+            "speaker": "Customer",
+            "averageScore": 3.5,
+            "trend": "improving",
+            "evidences": [
+              {
+                "turnIndex": 0,
+                "quote": "Hi, I'm having trouble with my internet connection. It keeps dropping out and it's driving me crazy.",
+                "score": 2,
+                "justification": "Expresses frustration and dissatisfaction at the beginning of the call."
+              },
+              {
+                "turnIndex": 4,
+                "quote": "Yes, I've already done that several times, and it hasn't helped.",
+                "score": 2,
+                "justification": "Indicates ongoing frustration with the unresolved issue."
+              },
+              {
+                "turnIndex": 8,
+                "quote": "It's actually working now. I can't believe it.",
+                "score": 4,
+                "justification": "Surprise and reduced frustration as the issue seems resolved."
+              },
+              {
+                "turnIndex": 12,
+                "quote": "No, that's all. I'm so glad we got that resolved. Thanks for your help.",
+                "score": 5,
+                "justification": "Expresses gratitude and satisfaction at the end of the call."
+              }
+            ]
+          }
+        ],
+        "summary": "The customer's sentiment improved significantly over the course of the call, starting from frustration and ending with gratitude and satisfaction as the problem was resolved. The agent maintained a consistently positive and empathetic tone, contributing to the improvement in the customer's sentiment."
+      },
+      "anomaly": {
+        "flag": "Red",
+        "justification": [
+          "<75% of total score points from 100%",
+          "Agent did not verify the Account",
+          "Unresolved Issue"
+        ]
+      },
+      "id": "0845"
     },
-    "anomaly": {
-      "flag": "Red",
-      "justification": [
+    {
+      "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
+      "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
+      "companyId": 1,
+      "projectId": 2,
+      "agentName": "Sean",
+      "audio": null,
+      "audioName": "CallSample2",
+      "audioSize": 1.2,
+      "fileExtension": ".mp3",
+      "transcription": {
+        "transcriptionText": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you? Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done. I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using? It's Windows 10. Alright, let's try running a system file checker to see if there are any corrupted files that need to be repaired. Can you open the command prompt as an administrator? No, I don't know how to do that. That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator. Alright, I seem to have done that. Now, type sfc slash scan now and press enter. This will scan your system files and repair any corrupted files that it finds. How long is this going to take? I have a lot of work to do. It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned. Hey, it's actually working now. That was fast. Thank you so much for your help. You're welcome. Is there anything else I can help you with today? No, that's all. Thanks again. You're very welcome. Goodbye.",
+        "diarization": [
+          {
+            "turnIndex": 0,
+            "speaker": "Agent",
+            "text": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 1,
+            "speaker": "Customer",
+            "text": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 2,
+            "speaker": "Agent",
+            "text": "I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 3,
+            "speaker": "Customer",
+            "text": "It's Windows 10.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 4,
+            "speaker": "Agent",
+            "text": "Alright, let's try running a system file checker to see if there are any corrupted files that need to be repaired. Can you open the command prompt as an administrator?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 5,
+            "speaker": "Customer",
+            "text": "No, I don't know how to do that.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 6,
+            "speaker": "Agent",
+            "text": "That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 7,
+            "speaker": "Customer",
+            "text": "Alright, I seem to have done that.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 8,
+            "speaker": "Agent",
+            "text": "Now, type sfc slash scan now and press enter. This will scan your system files and repair any corrupted files that it finds.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 9,
+            "speaker": "Customer",
+            "text": "How long is this going to take? I have a lot of work to do.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 10,
+            "speaker": "Agent",
+            "text": "It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 11,
+            "speaker": "Customer",
+            "text": "Hey, it's actually working now. That was fast. Thank you so much for your help.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 12,
+            "speaker": "Agent",
+            "text": "You're welcome. Is there anything else I can help you with today?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 13,
+            "speaker": "Customer",
+            "text": "No, that's all. Thanks again.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 14,
+            "speaker": "Agent",
+            "text": "You're very welcome. Goodbye.",
+            "sentiment": "Positive"
+          }
+        ]
+      },
+      "processState": "Sentiment generated",
+      "processDate": "2025-10-14T19:09:56.9028764Z",
+      "baseCallDetails": [
+        {
+          "name": "InteractionDate",
+          "value": null
+        },
+        {
+          "name": "TicketNumber",
+          "value": null
+        },
+        {
+          "name": "ClientName",
+          "value": null
+        },
+        {
+          "name": "MonitorDate",
+          "value": null
+        },
+        {
+          "name": "AgentName",
+          "value": "Sean"
+        },
+        {
+          "name": "ClientLocation",
+          "value": null
+        },
+        {
+          "name": "Language",
+          "value": "English"
+        },
+        {
+          "name": "TopContactDriver",
+          "value": "Computer issue -> Freezing up -> Troubleshoot"
+        },
+        {
+          "name": "AverageHandlingTime",
+          "value": null
+        },
+        {
+          "name": "Resolution",
+          "value": "True"
+        },
+        {
+          "name": "Channel",
+          "value": "phone"
+        }
+      ],
+      "scoreCard": {
+        "groups": [
+          {
+            "groupId": 1,
+            "groupName": "Opening",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent mention the company name in a welcoming or professional manner?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "Thank you for calling SingleStep Digital."
+                  }
+                ],
+                "justification": "The agent mentioned the company name in the opening. [TurnIndex: 0] \"Thank you for calling SingleStep Digital.\"",
+                "tag": "Branded_Interaction",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "My name is Ryan."
+                  }
+                ],
+                "justification": "The agent introduced themselves by name. [TurnIndex: 0] \"My name is Ryan.\"",
+                "tag": "Used_Name",
+                "result": "Pass"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent ask the caller's identity or account details or store number or store?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [],
+                "justification": "There is no evidence that the agent asked for the caller's identity or account details.",
+                "tag": "Verified_Authorization",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 2,
+            "groupName": "Paraphrasing_and_Assurance",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the expert provided an assurance of help statement after recap?",
+                "score": 0,
+                "maxPoint": 15,
+                "evidences": [],
+                "justification": "There is no evidence of an assurance of help statement made by the Agent in the conversation.",
+                "tag": "Assurance_of_Help",
+                "result": "Fail"
+              },
+              {
+                "id": 2,
+                "text": "Did the Expert paraphrase the client’s concerns?",
+                "score": 0,
+                "maxPoint": 14,
+                "evidences": [],
+                "justification": "There is no evidence in the conversation that the Agent paraphrased the customer's concerns about the computer issue.",
+                "tag": "Paraphrased_Client",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 3,
+            "groupName": "Solving_the_Issue",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask questions to clarify the issue?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "Could you tell me which version of Windows you're using?"
+                  }
+                ],
+                "justification": "The agent asked a clarifying question to determine the version of Windows, which is relevant to diagnosing and resolving the customer's issue.",
+                "tag": "Asked_5Ws",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 4,
+            "groupName": "Closing",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask if further assistance was needed?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 12,
+                    "quote": "Is there anything else I can help you with today?"
+                  }
+                ],
+                "justification": "The agent asked if further assistance was needed at TurnIndex 12.",
+                "tag": "Assistance",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent provide a ticket or reference number?",
+                "score": 0,
+                "maxPoint": 8,
+                "evidences": [],
+                "justification": "There is no mention of a ticket or reference number in the agent's dialogue.",
+                "tag": "Shared_Ticket_Number",
+                "result": "Fail"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent recap the solution?",
+                "score": 0,
+                "maxPoint": 6,
+                "evidences": [],
+                "justification": "The agent did not provide a recap of the solution or summarize the troubleshooting steps.",
+                "tag": "Recap",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 5,
+            "groupName": "Interaction_Health",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the interaction show no signs of a language barrier affecting communication?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 1,
+                    "quote": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 3,
+                    "quote": "It's Windows 10."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 5,
+                    "quote": "No, I don't know how to do that."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 7,
+                    "quote": "Alright, I seem to have done that."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 9,
+                    "quote": "How long is this going to take? I have a lot of work to do."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 11,
+                    "quote": "Hey, it's actually working now. That was fast. Thank you so much for your help."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 13,
+                    "quote": "No, that's all. Thanks again."
+                  }
+                ],
+                "justification": "The Customer was able to communicate effectively and follow the steps as explained by the Agent without asking for repeats or clarifications, indicating no language barrier.",
+                "tag": "Language_Barrier",
+                "result": "Pass"
+              }
+            ]
+          }
+        ]
+      },
+      "sentimentAnalisys": {
+        "sentiment": [
+          {
+            "speaker": "Customer",
+            "averageScore": 3.5,
+            "trend": "improving",
+            "evidences": [
+              {
+                "turnIndex": 1,
+                "quote": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done.",
+                "score": 2,
+                "justification": "The customer expresses frustration with the problem they are experiencing."
+              },
+              {
+                "turnIndex": 5,
+                "quote": "No, I don't know how to do that.",
+                "score": 2,
+                "justification": "The customer shows a lack of knowledge and possible frustration in their inability to perform the task."
+              },
+              {
+                "turnIndex": 9,
+                "quote": "How long is this going to take? I have a lot of work to do.",
+                "score": 2,
+                "justification": "The customer shows impatience and concern about the duration of the task."
+              },
+              {
+                "turnIndex": 11,
+                "quote": "Hey, it's actually working now. That was fast. Thank you so much for your help.",
+                "score": 5,
+                "justification": "The customer expresses happiness and gratitude as their problem is resolved."
+              },
+              {
+                "turnIndex": 13,
+                "quote": "No, that's all. Thanks again.",
+                "score": 5,
+                "justification": "The customer thanks the agent again, indicating a positive resolution to their issue."
+              }
+            ]
+          },
+          {
+            "speaker": "Agent",
+            "averageScore": 4.25,
+            "trend": "improving",
+            "evidences": [
+              {
+                "turnIndex": 0,
+                "quote": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you?",
+                "score": 4,
+                "justification": "The agent starts the conversation on a neutral to slightly positive note, offering assistance."
+              },
+              {
+                "turnIndex": 2,
+                "quote": "I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using?",
+                "score": 4,
+                "justification": "Shows understanding and willingness to help, maintaining a neutral to positive tone."
+              },
+              {
+                "turnIndex": 6,
+                "quote": "That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator.",
+                "score": 5,
+                "justification": "The agent is supportive and offers clear instructions, improving the sentiment."
+              },
+              {
+                "turnIndex": 10,
+                "quote": "It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned.",
+                "score": 4,
+                "justification": "The agent provides information and reassurance, improving customer sentiment by addressing concerns."
+              },
+              {
+                "turnIndex": 12,
+                "quote": "You're welcome. Is there anything else I can help you with today?",
+                "score": 5,
+                "justification": "Warm conclusion to their interaction, maintaining a positive sentiment."
+              }
+            ]
+          }
+        ],
+        "summary": "The call began with the customer expressing frustration and impatience due to a technical issue, but the agent's calm and supportive guidance led to a positive resolution. The customer's sentiment improved significantly as their problem was resolved swiftly, ending with gratitude and satisfaction. The agent maintained a professional and empathetic demeanor throughout, gradually improving the overall positive sentiment by providing effective assistance and reassurance."
+      },
+      "anomaly": {
+        "flag": "Red",
+        "justification": [
+          "<75% of total score points from 100%",
+          "Agent did not verify the Account",
+          "Unresolved Issue"
+        ]
+      },
+      "id": "fe8b"
+    },
+    {
+      "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
+      "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
+      "companyId": 1,
+      "projectId": 3,
+      "agentName": "Sean",
+      "audio": null,
+      "audioName": "CallSample3",
+      "audioSize": 1.54,
+      "fileExtension": ".mp3",
+      "transcription": {
+        "transcriptionText": "Calling Single Step Digital. My name is Stephanie. How may I assist you?\n\nHi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.\n\nI'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?\n\nIt's a Ganon Pixelator CW4000.\n\nAll right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?\n\nYes, I've already checked that. The ink levels are fine. That's not the issue.\n\nI see. Let's try something else then. Have you tried resetting the printer to its default settings?\n\nNo, I haven't. How do I do that?\n\nFirst, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.\n\nOK, I'll try that.\n\nLet's give it a minute or so.\n\nIt's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.\n\nI'm so happy to hear that. Is there anything else I can assist you with?\n\nNo, that's all. Thank you so much for your help. I really thought my printer had died.\n\nI am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.\n\nWhat's your name again?\n\nMy name is Stephanie.\n\nOK, Stephanie. Thanks again.\n\nYou're welcome, sir. Have a nice day. Goodbye.",
+        "diarization": [
+          {
+            "turnIndex": 0,
+            "speaker": "Agent",
+            "text": "Calling Single Step Digital. My name is Stephanie. How may I assist you?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 1,
+            "speaker": "Customer",
+            "text": "Hi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 2,
+            "speaker": "Agent",
+            "text": "I'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 3,
+            "speaker": "Customer",
+            "text": "It's a Ganon Pixelator CW4000.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 4,
+            "speaker": "Agent",
+            "text": "All right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 5,
+            "speaker": "Customer",
+            "text": "Yes, I've already checked that. The ink levels are fine. That's not the issue.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 6,
+            "speaker": "Agent",
+            "text": "I see. Let's try something else then. Have you tried resetting the printer to its default settings?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 7,
+            "speaker": "Customer",
+            "text": "No, I haven't. How do I do that?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 8,
+            "speaker": "Agent",
+            "text": "First, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 9,
+            "speaker": "Customer",
+            "text": "OK, I'll try that.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 10,
+            "speaker": "Agent",
+            "text": "Let's give it a minute or so.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 11,
+            "speaker": "Customer",
+            "text": "It's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 12,
+            "speaker": "Agent",
+            "text": "I'm so happy to hear that. Is there anything else I can assist you with?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 13,
+            "speaker": "Customer",
+            "text": "No, that's all. Thank you so much for your help. I really thought my printer had died.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 14,
+            "speaker": "Agent",
+            "text": "I am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 15,
+            "speaker": "Customer",
+            "text": "What's your name again?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 16,
+            "speaker": "Agent",
+            "text": "My name is Stephanie.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 17,
+            "speaker": "Customer",
+            "text": "OK, Stephanie. Thanks again.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 18,
+            "speaker": "Agent",
+            "text": "You're welcome, sir. Have a nice day. Goodbye.",
+            "sentiment": "Positive"
+          }
+        ]
+      },
+      "processState": "Sentiment generated",
+      "processDate": "2025-10-14T19:16:57.4277619Z",
+      "baseCallDetails": [
+        {
+          "name": "InteractionDate",
+          "value": null
+        },
+        {
+          "name": "TicketNumber",
+          "value": null
+        },
+        {
+          "name": "ClientName",
+          "value": null
+        },
+        {
+          "name": "MonitorDate",
+          "value": null
+        },
+        {
+          "name": "AgentName",
+          "value": "Sean"
+        },
+        {
+          "name": "ClientLocation",
+          "value": null
+        },
+        {
+          "name": "Language",
+          "value": "English"
+        },
+        {
+          "name": "TopContactDriver",
+          "value": null
+        },
+        {
+          "name": "AverageHandlingTime",
+          "value": null
+        },
+        {
+          "name": "Resolution",
+          "value": "True"
+        },
+        {
+          "name": "Channel",
+          "value": null
+        }
+      ],
+      "scoreCard": {
+        "groups": [
+          {
+            "groupId": 1,
+            "groupName": "Opening",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent mention the company name in a welcoming or professional manner?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?"
+                  }
+                ],
+                "justification": "The agent opened the call with both the company name and a welcoming manner: 'Calling Single Step Digital. My name is Stephanie. How may I assist you?'",
+                "tag": "Branded_Interaction",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?"
+                  }
+                ],
+                "justification": "The agent introduced themselves using their name in the opening: 'My name is Stephanie.'",
+                "tag": "Used_Name",
+                "result": "Pass"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent ask the caller's identity or account details or store number or store?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [],
+                "justification": "There is no evidence of the agent asking for the caller's identity or account details.",
+                "tag": "Verified_Authorization",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 2,
+            "groupName": "Paraphrasing_and_Assurance",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the expert provided an assurance of help statement after recap?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "Please don't throw it out the window. Let's see if we can troubleshoot the issue."
+                  }
+                ],
+                "justification": "The agent provided assurance by suggesting to troubleshoot the issue: \"Please don't throw it out the window. Let's see if we can troubleshoot the issue.\" (Turn 2)",
+                "tag": "Assurance_of_Help",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the Expert paraphrase the client’s concerns?",
+                "score": 0,
+                "maxPoint": 14,
+                "evidences": [],
+                "justification": "There is no quoted evidence of the Agent paraphrasing or summarizing the customer's problem based on their statements.",
+                "tag": "Paraphrased_Client",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 3,
+            "groupName": "Solving_the_Issue",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask questions to clarify the issue?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "Could you please tell me what kind of printer you have?"
+                  },
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 4,
+                    "quote": "All right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?"
+                  },
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 6,
+                    "quote": "Have you tried resetting the printer to its default settings?"
+                  }
+                ],
+                "justification": "The agent asked several questions to clarify and diagnose the issue, including asking about the printer model, checking ink levels, and inquiring if the customer has tried resetting the printer.",
+                "tag": "Asked_5Ws",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 4,
+            "groupName": "Closing",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask if further assistance was needed?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 12,
+                    "quote": "Is there anything else I can assist you with?"
+                  }
+                ],
+                "justification": "The agent asked the customer if there was a need for further assistance.",
+                "tag": "Assistance",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent provide a ticket or reference number?",
+                "score": 0,
+                "maxPoint": 8,
+                "evidences": [],
+                "justification": "The agent did not provide a ticket or reference number during the call.",
+                "tag": "Shared_Ticket_Number",
+                "result": "Fail"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent recap the solution?",
+                "score": 0,
+                "maxPoint": 6,
+                "evidences": [],
+                "justification": "The agent did not recap the solution or clearly confirm the resolution path.",
+                "tag": "Recap",
+                "result": "Fail"
+              }
+            ]
+          },
+          {
+            "groupId": 5,
+            "groupName": "Interaction_Health",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the interaction show no signs of a language barrier affecting communication?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 7,
+                    "quote": "No, I haven't. How do I do that?"
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 15,
+                    "quote": "What's your name again?"
+                  }
+                ],
+                "justification": "The customer clearly understood the agent's instructions and asked relevant questions for clarification, indicating there was no language barrier.",
+                "tag": "Language_Barrier",
+                "result": "Pass"
+              }
+            ]
+          }
+        ]
+      },
+      "sentimentAnalisys": {
+        "sentiment": [
+          {
+            "speaker": "Agent",
+            "averageScore": 4.5,
+            "trend": "stable",
+            "evidences": [
+              {
+                "turnIndex": 0,
+                "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?",
+                "score": 4,
+                "justification": "Neutral and professional opening."
+              },
+              {
+                "turnIndex": 2,
+                "quote": "I'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?",
+                "score": 5,
+                "justification": "Displays empathy and willingness to help."
+              },
+              {
+                "turnIndex": 8,
+                "quote": "First, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.",
+                "score": 4,
+                "justification": "Provides clear and helpful instructions."
+              },
+              {
+                "turnIndex": 12,
+                "quote": "I'm so happy to hear that. Is there anything else I can assist you with?",
+                "score": 5,
+                "justification": "Positive response showing satisfaction with the outcome."
+              },
+              {
+                "turnIndex": 14,
+                "quote": "I am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.",
+                "score": 5,
+                "justification": "Expresses satisfaction and openness to future assistance."
+              },
+              {
+                "turnIndex": 18,
+                "quote": "You're welcome, sir. Have a nice day. Goodbye.",
+                "score": 4,
+                "justification": "Polite closing."
+              }
+            ]
+          },
+          {
+            "speaker": "Customer",
+            "averageScore": 4,
+            "trend": "improving",
+            "evidences": [
+              {
+                "turnIndex": 1,
+                "quote": "Hi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.",
+                "score": 2,
+                "justification": "Shows frustration and suggests readiness to give up."
+              },
+              {
+                "turnIndex": 5,
+                "quote": "Yes, I've already checked that. The ink levels are fine. That's not the issue.",
+                "score": 3,
+                "justification": "Neutral acknowledgment of the agent's suggestion."
+              },
+              {
+                "turnIndex": 11,
+                "quote": "It's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.",
+                "score": 5,
+                "justification": "Positive reaction to the successful troubleshooting."
+              },
+              {
+                "turnIndex": 13,
+                "quote": "No, that's all. Thank you so much for your help. I really thought my printer had died.",
+                "score": 5,
+                "justification": "Expresses gratitude and relief."
+              },
+              {
+                "turnIndex": 17,
+                "quote": "OK, Stephanie. Thanks again.",
+                "score": 5,
+                "justification": "Shows appreciation at the end of the call."
+              }
+            ]
+          }
+        ],
+        "summary": "The interaction began with the customer feeling frustrated, which was countered by the agent's empathetic and helpful demeanor throughout the call. As the issue is resolved, the customer's sentiment improves significantly, ending on a positive note with feelings of gratitude. The agent consistently maintained a calm and supportive tone, leading to a successful and amicable resolution."
+      },
+      "anomaly": {
+        "flag": "Red",
+        "justification": [
+          "<75% of total score points from 100%",
+          "Agent did not verify the Account",
+          "Unresolved Issue"
+        ]
+      },
+      "id": "bb67"
+    },
+    {
+      "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
+      "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
+      "companyId": 2,
+      "projectId": 3,
+      "agentName": "Sean",
+      "audio": null,
+      "audioName": "CallSample4",
+      "audioSize": 2.67,
+      "fileExtension": ".mp3",
+      "transcription": {
+        "transcriptionText": "Thank you for calling our customer support line. My name is Annie. How may I assist you today? Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help. I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase? Yes, my order number is 123456789. Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop? The laptop shuts down unexpectedly after running for only a few minutes. It sounds frustrating. Let's troubleshoot this together. Have you tried restarting the laptop to see if the problem persists? Yes, I have, and the issue continued even after restarting. In that case, let's try a few more troubleshooting steps. First, could you please check if all the cables are properly connected? Sometimes a loose connection can cause unexpected shutdowns. I will make sure everything is properly connected. Okay, everything seems fine. Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers. This often resolves these types of problems. Can I guide you through the steps to update the software? Yes, please guide me. Great! Please go to the settings on your laptop and choose the update security option. From there, select check for updates and let me know if any updates are found. Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process. Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance. Okay, I'll do that. Thank you for your help. You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us. We are here 24-7 to support you. Thank you for choosing our company, and have a great day.",
+        "diarization": [
+          {
+            "turnIndex": 0,
+            "speaker": "Agent",
+            "text": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 1,
+            "speaker": "Customer",
+            "text": "Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 2,
+            "speaker": "Agent",
+            "text": "I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 3,
+            "speaker": "Customer",
+            "text": "Yes, my order number is 123456789.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 4,
+            "speaker": "Agent",
+            "text": "Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 5,
+            "speaker": "Customer",
+            "text": "The laptop shuts down unexpectedly after running for only a few minutes.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 6,
+            "speaker": "Agent",
+            "text": "It sounds frustrating. Let's troubleshoot this together. Have you tried restarting the laptop to see if the problem persists?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 7,
+            "speaker": "Customer",
+            "text": "Yes, I have, and the issue continued even after restarting.",
+            "sentiment": "Negative"
+          },
+          {
+            "turnIndex": 8,
+            "speaker": "Agent",
+            "text": "In that case, let's try a few more troubleshooting steps. First, could you please check if all the cables are properly connected? Sometimes a loose connection can cause unexpected shutdowns.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 9,
+            "speaker": "Customer",
+            "text": "I will make sure everything is properly connected. Okay, everything seems fine.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 10,
+            "speaker": "Agent",
+            "text": "Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers. This often resolves these types of problems. Can I guide you through the steps to update the software?",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 11,
+            "speaker": "Customer",
+            "text": "Yes, please guide me.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 12,
+            "speaker": "Agent",
+            "text": "Great! Please go to the settings on your laptop and choose the update security option. From there, select check for updates and let me know if any updates are found.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 13,
+            "speaker": "Customer",
+            "text": "Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process.",
+            "sentiment": "Neutral"
+          },
+          {
+            "turnIndex": 14,
+            "speaker": "Agent",
+            "text": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 15,
+            "speaker": "Customer",
+            "text": "Okay, I'll do that. Thank you for your help.",
+            "sentiment": "Positive"
+          },
+          {
+            "turnIndex": 16,
+            "speaker": "Agent",
+            "text": "You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us. We are here 24-7 to support you. Thank you for choosing our company, and have a great day.",
+            "sentiment": "Positive"
+          }
+        ]
+      },
+      "processState": "Sentiment generated",
+      "processDate": "2025-10-14T20:13:05.5459347Z",
+      "baseCallDetails": [
+        {
+          "name": "InteractionDate",
+          "value": null
+        },
+        {
+          "name": "TicketNumber",
+          "value": "123456789"
+        },
+        {
+          "name": "ClientName",
+          "value": null
+        },
+        {
+          "name": "MonitorDate",
+          "value": null
+        },
+        {
+          "name": "AgentName",
+          "value": "Sean"
+        },
+        {
+          "name": "ClientLocation",
+          "value": null
+        },
+        {
+          "name": "Language",
+          "value": "English"
+        },
+        {
+          "name": "TopContactDriver",
+          "value": "Laptop issues > Unexpected shutdown > Software update"
+        },
+        {
+          "name": "AverageHandlingTime",
+          "value": null
+        },
+        {
+          "name": "Resolution",
+          "value": "True"
+        },
+        {
+          "name": "Channel",
+          "value": "phone"
+        }
+      ],
+      "scoreCard": {
+        "groups": [
+          {
+            "groupId": 1,
+            "groupName": "Opening",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent mention the company name in a welcoming or professional manner?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?"
+                  }
+                ],
+                "justification": "The agent did not mention the company name in their introduction or throughout the call opening.",
+                "tag": "Branded_Interaction",
+                "result": "Fail"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 0,
+                    "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?"
+                  }
+                ],
+                "justification": "The agent introduced themselves by name, \"Annie,\" as required.",
+                "tag": "Used_Name",
+                "result": "Pass"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent ask the caller's identity or account details or store number or store?",
+                "score": 10,
+                "maxPoint": 10,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "Could you please provide me with your order number or any relevant details about your purchase?"
+                  }
+                ],
+                "justification": "The agent asked for the customer's order number to verify identity and access account details.",
+                "tag": "Verified_Authorization",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 2,
+            "groupName": "Paraphrasing_and_Assurance",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the expert provided an assurance of help statement after recap?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "I'm here to help you."
+                  }
+                ],
+                "justification": "The Agent provided an assurance of help statement: 'I'm here to help you.'",
+                "tag": "Assurance_of_Help",
+                "result": "Pass"
+              },
+              {
+                "id": 2,
+                "text": "Did the Expert paraphrase the client’s concerns?",
+                "score": 14,
+                "maxPoint": 14,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 4,
+                    "quote": "Now, may I know the specific issue you are facing with your laptop?"
+                  }
+                ],
+                "justification": "The Agent paraphrased the customer's concerns by clarifying the specific issue with the laptop: 'Now, may I know the specific issue you are facing with your laptop?'",
+                "tag": "Paraphrased_Client",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 3,
+            "groupName": "Solving_the_Issue",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask questions to clarify the issue?",
+                "score": 15,
+                "maxPoint": 15,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 2,
+                    "quote": "Could you please provide me with your order number or any relevant details about your purchase?"
+                  },
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 4,
+                    "quote": "Now, may I know the specific issue you are facing with your laptop?"
+                  },
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 6,
+                    "quote": "Have you tried restarting the laptop to see if the problem persists?"
+                  },
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 8,
+                    "quote": "First, could you please check if all the cables are properly connected?"
+                  }
+                ],
+                "justification": "The agent asked multiple questions to clarify and diagnose the issue: requested order details, inquired about the specific laptop issue, asked if the customer tried restarting the laptop, and whether the cables were checked.",
+                "tag": "Asked_5Ws",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 4,
+            "groupName": "Closing",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the agent ask if further assistance was needed?",
+                "score": 0,
+                "maxPoint": 10,
+                "evidences": [],
+                "justification": "The agent did not explicitly ask if further assistance was needed. No statements match the examples given.",
+                "tag": "Assistance",
+                "result": "Fail"
+              },
+              {
+                "id": 2,
+                "text": "Did the agent provide a ticket or reference number?",
+                "score": 0,
+                "maxPoint": 8,
+                "evidences": [],
+                "justification": "The agent did not provide a ticket or reference number at any point during the conversation.",
+                "tag": "Shared_Ticket_Number",
+                "result": "Fail"
+              },
+              {
+                "id": 3,
+                "text": "Did the agent recap the solution?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Agent",
+                    "turnIndex": 14,
+                    "quote": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance."
+                  }
+                ],
+                "justification": "The agent recapped the solution by summarizing the troubleshooting steps and confirming the final action of updating the software to resolve the issue.",
+                "tag": "Recap",
+                "result": "Pass"
+              }
+            ]
+          },
+          {
+            "groupId": 5,
+            "groupName": "Interaction_Health",
+            "questions": [
+              {
+                "id": 1,
+                "text": "Did the interaction show no signs of a language barrier affecting communication?",
+                "score": 6,
+                "maxPoint": 6,
+                "evidences": [
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 3,
+                    "quote": "Yes, my order number is 123456789."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 11,
+                    "quote": "Yes, please guide me."
+                  },
+                  {
+                    "speaker": "Customer",
+                    "turnIndex": 15,
+                    "quote": "Okay, I'll do that. Thank you for your help."
+                  }
+                ],
+                "justification": "The customer was able to understand and respond appropriately throughout the interaction without requesting clarification or repeating information, indicating no language barrier.",
+                "tag": "Language_Barrier",
+                "result": "Pass"
+              }
+            ]
+          }
+        ]
+      },
+      "sentimentAnalisys": {
+        "sentiment": [
+          {
+            "speaker": "Agent",
+            "averageScore": 5,
+            "trend": "stable",
+            "evidences": [
+              {
+                "turnIndex": 0,
+                "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?",
+                "score": 3,
+                "justification": "Neutral opening, no emotional tone yet."
+              },
+              {
+                "turnIndex": 2,
+                "quote": "I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase?",
+                "score": 5,
+                "justification": "Empathy and reassurance, clear willingness to help."
+              },
+              {
+                "turnIndex": 4,
+                "quote": "Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop?",
+                "score": 5,
+                "justification": "Polite, helpful, and showing empathy."
+              },
+              {
+                "turnIndex": 6,
+                "quote": "It sounds frustrating. Let's troubleshoot this together.",
+                "score": 5,
+                "justification": "Continued empathy and cooperation."
+              },
+              {
+                "turnIndex": 10,
+                "quote": "Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers.",
+                "score": 5,
+                "justification": "Consistently professional and helpful."
+              },
+              {
+                "turnIndex": 14,
+                "quote": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again.",
+                "score": 5,
+                "justification": "Positive encouragement and clear resolution steps."
+              },
+              {
+                "turnIndex": 16,
+                "quote": "You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us.",
+                "score": 5,
+                "justification": "Expressive gratitude and invitation to contact for future help."
+              }
+            ]
+          },
+          {
+            "speaker": "Customer",
+            "averageScore": 3.3,
+            "trend": "improving",
+            "evidences": [
+              {
+                "turnIndex": 1,
+                "quote": "Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help.",
+                "score": 2,
+                "justification": "Clear expression of frustration and need for urgent help."
+              },
+              {
+                "turnIndex": 5,
+                "quote": "The laptop shuts down unexpectedly after running for only a few minutes.",
+                "score": 2,
+                "justification": "Continued description of problem with frustration."
+              },
+              {
+                "turnIndex": 7,
+                "quote": "Yes, I have, and the issue continued even after restarting.",
+                "score": 2,
+                "justification": "Persistent frustration as issue continues."
+              },
+              {
+                "turnIndex": 9,
+                "quote": "I will make sure everything is properly connected. Okay, everything seems fine.",
+                "score": 3,
+                "justification": "Neutral, following instructions."
+              },
+              {
+                "turnIndex": 13,
+                "quote": "Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process.",
+                "score": 3,
+                "justification": "Cooperative and receptive to instructions."
+              },
+              {
+                "turnIndex": 15,
+                "quote": "Okay, I'll do that. Thank you for your help.",
+                "score": 4,
+                "justification": "Showing appreciation and a calmer tone."
+              }
+            ]
+          }
+        ],
+        "summary": "The interaction began with the customer expressing frustration and the need for immediate help due to their laptop issues. The agent consistently maintained a positive and empathetic tone, which contributed to an improving sentiment from the customer. The customer's sentiment saw a significant shift from initial frustration to appreciation and cooperation by the end of the call. This was largely due to the agent's effective communication and problem-solving approach."
+      },
+      "anomaly": {
+        "flag": "Red",
+        "justification": [
+          "<75% of total score points from 100%"
+        ]
+      },
+      "id": "ed85"
+    }
+  ],
+  "Companies": [
+    {
+      "id": "1",
+      "name": "Team International2"
+    },
+    {
+      "id": "2",
+      "name": "Colo SAS"
+    },
+    {
+      "id": "3",
+      "name": "Aushaid Corp"
+    },
+    {
+      "id": "4",
+      "name": "MEGA Corp"
+    }
+  ],
+  "Teams": [
+    {
+      "id": "1",
+      "name": "Team A"
+    },
+    {
+      "id": "1",
+      "name": "Team B"
+    },
+    {
+      "id": "3",
+      "name": "Team C"
+    }
+  ],
+  "Projects": [
+    {
+      "id": "1",
+      "name": "sss"
+    },
+    {
+      "id": "2",
+      "name": "Project ONE"
+    },
+    {
+      "id": "3",
+      "name": "Project P2"
+    }
+  ],
+  "PermissionCategories": [
+    {
+      "id": "1",
+      "name": "Users & Roles",
+      "note": "Full access"
+    },
+    {
+      "id": "2",
+      "name": "Scorecards & Thresholds",
+      "note": "QA control only"
+    },
+    {
+      "id": "3",
+      "name": "Workflows",
+      "note": "Cannot delete flow"
+    },
+    {
+      "id": "4",
+      "name": "Data & Privacy Policies",
+      "note": "Read-only"
+    },
+    {
+      "id": "5",
+      "name": "Reports & Exports",
+      "note": "No PII export"
+    },
+    {
+      "id": "6",
+      "name": "API & Webhooks",
+      "note": "Hidden by default"
+    },
+    {
+      "id": "7",
+      "name": "Audit Logs",
+      "note": "Viewer only"
+    }
+  ],
+  "Roles": [
+    {
+      "id": "1",
+      "code": "QC",
+      "name": "Quality Control auditor",
+      "usersAssigned": 12,
+      "editable": "yes",
+      "lastModified": "2025-09-09",
+      "permissions": [
+        "upload",
+        "reviewcalls",
+        "score",
+        "notes",
+        "coachingcalls"
+      ]
+    },
+    {
+      "id": "2",
+      "code": "TL",
+      "name": "Team Leader / Coach",
+      "usersAssigned": 5,
+      "editable": "yes",
+      "lastModified": "2025-09-07",
+      "permissions": [
+        "monitor",
+        "reports",
+        "teams"
+      ]
+    },
+    {
+      "id": "3",
+      "code": "SA",
+      "name": "Supervisor Admin",
+      "usersAssigned": 3,
+      "editable": "system",
+      "lastModified": "2025-09-01",
+      "permissions": [
+        "teams",
+        "companies",
+        "projects",
+        "roles",
+        "users"
+      ]
+    },
+    {
+      "id": "4",
+      "code": "DM",
+      "name": "Director Manager",
+      "usersAssigned": 2,
+      "editable": "system",
+      "lastModified": "2025-09-01",
+      "permissions": [
+        "monitor",
+        "reports",
+        "exportinfo",
+        "teams",
+        "companies"
+      ]
+    },
+    {
+      "id": "5",
+      "code": "CL",
+      "name": "Client (readonly)",
+      "usersAssigned": 7,
+      "editable": "limited",
+      "lastModified": "2025-09-10",
+      "permissions": [
+        "monitor",
+        "reports"
+      ]
+    },
+    {
+      "id": "6",
+      "code": "AG",
+      "name": "Call Center Operator",
+      "usersAssigned": 40,
+      "editable": "yes",
+      "lastModified": "2025-09-10",
+      "permissions": [
+        "reviewcalls",
+        "coachingcalls"
+      ]
+    }
+  ],
+  "Users": [
+    {
+      "id": "1",
+      "name": "Demo 1",
+      "lastName": "Team",
+      "roleId": 1
+    },
+    {
+      "id": "2",
+      "name": "Demo 2",
+      "lastName": "Team",
+      "roleId": 3
+    },
+    {
+      "id": "3",
+      "name": "Demo 3",
+      "lastName": "Team",
+      "roleId": 2
+    },
+    {
+      "id": "4",
+      "name": "Demo 4",
+      "lastName": "Team",
+      "roleId": 3
+    }
+  ],
+  "Agents": [
+    {
+      "id": "1",
+      "firstname": "Sean",
+      "lastname": "Cox",
+      "email": "sean.cox@demo.com",
+      "phone": "111333444",
+      "role": "Customer Support Agent",
+      "company": "Team International",
+      "project": [
+        "Project BASE",
+        "Project ONE"
+      ]
+    },
+    {
+      "id": "2",
+      "firstname": "Robert",
+      "lastname": "Ray",
+      "email": "Robert.Ray@demo.com",
+      "phone": "111333441",
+      "role": "Customer Support Agent",
+      "company": "Team International",
+      "project": [
+        "Project BASE",
+        "Project ONE"
+      ]
+    },
+    {
+      "id": "3",
+      "firstname": "Maria",
+      "lastname": "Castro",
+      "email": "Maria.Castro@demo.com",
+      "phone": "111333442",
+      "role": "Customer Support Agent",
+      "company": "Team International",
+      "project": [
+        "Project BASE",
+        "Project ONE"
+      ]
+    },
+    {
+      "id": "4",
+      "firstname": "Austin",
+      "lastname": "Beld",
+      "email": "Austin.Beld@demo.com",
+      "phone": "111333443",
+      "role": "Customer Support Agent",
+      "company": "Team International",
+      "project": [
+        "Project P2"
+      ]
+    },
+    {
+      "id": "01cf",
+      "firstname": "test",
+      "lastname": "test",
+      "role": "Call Center Operator",
+      "email": "test@test.com",
+      "phone": "23234234",
+      "company": "Colo SAS",
+      "project": [
+        "Project BASE"
+      ]
+    }
+  ],
+  "Configurations": [
+    {
+      "id": "0368"
+    }
+  ],
+  "Profiles": [
+    {
+      "id": "qc",
+      "code": "QC",
+      "name": "Quality Control Auditor",
+      "color": "blue",
+      "permissions": [
+        "upload",
+        "reviewcalls",
+        "score",
+        "notes",
+        "coachingcalls"
+      ]
+    },
+    {
+      "id": "tl",
+      "code": "TL",
+      "name": "Team Leader",
+      "color": "yellow",
+      "permissions": [
+        "monitor",
+        "reports",
+        "teams",
+        "reviewcalls"
+      ]
+    },
+    {
+      "id": "sa",
+      "code": "SA",
+      "name": "Supervisor Admin",
+      "color": "green",
+      "permissions": [
+        "teams",
+        "companies",
+        "projects",
+        "roles",
+        "users",
+        "monitor",
+        "reports"
+      ]
+    },
+    {
+      "id": "dm",
+      "code": "DM",
+      "name": "Director Manager",
+      "color": "red",
+      "permissions": [
+        "monitor",
+        "reports",
+        "exportinfo",
+        "teams",
+        "companies"
+      ]
+    },
+    {
+      "id": "cl",
+      "code": "CL",
+      "name": "Client",
+      "color": "gray",
+      "permissions": [
+        "monitor",
+        "reports"
+      ]
+    },
+    {
+      "id": "co",
+      "code": "CO",
+      "name": "Call Center Operator",
+      "color": "blue",
+      "permissions": [
+        "reviewcalls",
+        "coachingcalls"
+      ]
+    }
+  ],
+  "Notifications": [
+    {
+      "id": "100",
+      "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
+      "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
+      "message": "Call Processed"
+    },
+    {
+      "id": "125",
+      "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
+      "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
+      "message": "Call Processed"
+    },
+    {
+      "id": "202",
+      "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
+      "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
+      "message": "Call Processed"
+    },
+    {
+      "id": "203",
+      "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
+      "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
+      "message": "Call Processed"
+    }
+  ],
+  "Audios": [
+    {
+      "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
+      "audio": "Call Processed",
+      "id": "11ae"
+    },
+    {
+      "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
+      "audio": "Call Processed",
+      "id": "9fee"
+    },
+    {
+      "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
+      "audio": "Call Processed",
+      "id": "62ff"
+    },
+    {
+      "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
+      "audio": "Call Processed",
+      "id": "2c03"
+    }
+  ],
+  "CallSummary": [
+    {
+      "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
+      "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
+      "companyId": 1,
+      "projectId": 1,
+      "company": "Team International",
+      "project": "Project BASE",
+      "audioName": "CallSample1",
+      "processDate": "2025-10-14T19:03:44.0957133Z",
+      "agentName": "Robert",
+      "scoreCard": 31,
+      "Flagged": true,
+      "dominantSentiment": "Negative",
+      "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]
-    }
-  },
-{
-    "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
-    "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
-    "companyId": 1,
-    "projectId": 2,
-	  "agentName": "Sean",
-    "audio": null,
-    "audioName": "CallSample2",
-    "audioSize": 1.2,
-    "fileExtension": ".mp3",
-    "transcription": {
-      "transcriptionText": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you? Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done. I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using? It's Windows 10. Alright, let's try running a system file checker to see if there are any corrupted files that need to be repaired. Can you open the command prompt as an administrator? No, I don't know how to do that. That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator. Alright, I seem to have done that. Now, type sfc slash scan now and press enter. This will scan your system files and repair any corrupted files that it finds. How long is this going to take? I have a lot of work to do. It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned. Hey, it's actually working now. That was fast. Thank you so much for your help. You're welcome. Is there anything else I can help you with today? No, that's all. Thanks again. You're very welcome. Goodbye.",
-      "diarization": [
-        {
-          "turnIndex": 0,
-          "speaker": "Agent",
-          "text": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 1,
-          "speaker": "Customer",
-          "text": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 2,
-          "speaker": "Agent",
-          "text": "I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 3,
-          "speaker": "Customer",
-          "text": "It's Windows 10.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 4,
-          "speaker": "Agent",
-          "text": "Alright, let's try running a system file checker to see if there are any corrupted files that need to be repaired. Can you open the command prompt as an administrator?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 5,
-          "speaker": "Customer",
-          "text": "No, I don't know how to do that.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 6,
-          "speaker": "Agent",
-          "text": "That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 7,
-          "speaker": "Customer",
-          "text": "Alright, I seem to have done that.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 8,
-          "speaker": "Agent",
-          "text": "Now, type sfc slash scan now and press enter. This will scan your system files and repair any corrupted files that it finds.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 9,
-          "speaker": "Customer",
-          "text": "How long is this going to take? I have a lot of work to do.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 10,
-          "speaker": "Agent",
-          "text": "It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 11,
-          "speaker": "Customer",
-          "text": "Hey, it's actually working now. That was fast. Thank you so much for your help.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 12,
-          "speaker": "Agent",
-          "text": "You're welcome. Is there anything else I can help you with today?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 13,
-          "speaker": "Customer",
-          "text": "No, that's all. Thanks again.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 14,
-          "speaker": "Agent",
-          "text": "You're very welcome. Goodbye.",
-          "sentiment": "Positive"
-        }
-      ]
-    },
-    "processState": "Sentiment generated",
-    "processDate": "2025-10-14T19:09:56.9028764Z",
-    "baseCallDetails": [
-      {
-        "name": "InteractionDate",
-        "value": null
-      },
-      {
-        "name": "TicketNumber",
-        "value": null
-      },
-      {
-        "name": "ClientName",
-        "value": null
-      },
-      {
-        "name": "MonitorDate",
-        "value": null
-      },
-      {
-        "name": "AgentName",
-        "value": "Sean"
-      },
-      {
-        "name": "ClientLocation",
-        "value": null
-      },
-      {
-        "name": "Language",
-        "value": "English"
-      },
-      {
-        "name": "TopContactDriver",
-        "value": "Computer issue -> Freezing up -> Troubleshoot"
-      },
-      {
-        "name": "AverageHandlingTime",
-        "value": null
-      },
-      {
-        "name": "Resolution",
-        "value": "True"
-      },
-      {
-        "name": "Channel",
-        "value": "phone"
-      }
-    ],
-    "scoreCard": {
-      "groups": [
-        {
-          "groupId": 1,
-          "groupName": "Opening",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent mention the company name in a welcoming or professional manner?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "Thank you for calling SingleStep Digital."
-                }
-              ],
-              "justification": "The agent mentioned the company name in the opening. [TurnIndex: 0] \"Thank you for calling SingleStep Digital.\"",
-              "tag": "Branded_Interaction",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "My name is Ryan."
-                }
-              ],
-              "justification": "The agent introduced themselves by name. [TurnIndex: 0] \"My name is Ryan.\"",
-              "tag": "Used_Name",
-              "result": "Pass"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent ask the caller's identity or account details or store number or store?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [],
-              "justification": "There is no evidence that the agent asked for the caller's identity or account details.",
-              "tag": "Verified_Authorization",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 2,
-          "groupName": "Paraphrasing_and_Assurance",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the expert provided an assurance of help statement after recap?",
-              "score": 0,
-              "maxPoint": 15,
-              "evidences": [],
-              "justification": "There is no evidence of an assurance of help statement made by the Agent in the conversation.",
-              "tag": "Assurance_of_Help",
-              "result": "Fail"
-            },
-            {
-              "id": 2,
-              "text": "Did the Expert paraphrase the client’s concerns?",
-              "score": 0,
-              "maxPoint": 14,
-              "evidences": [],
-              "justification": "There is no evidence in the conversation that the Agent paraphrased the customer's concerns about the computer issue.",
-              "tag": "Paraphrased_Client",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 3,
-          "groupName": "Solving_the_Issue",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask questions to clarify the issue?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "Could you tell me which version of Windows you're using?"
-                }
-              ],
-              "justification": "The agent asked a clarifying question to determine the version of Windows, which is relevant to diagnosing and resolving the customer's issue.",
-              "tag": "Asked_5Ws",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 4,
-          "groupName": "Closing",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask if further assistance was needed?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 12,
-                  "quote": "Is there anything else I can help you with today?"
-                }
-              ],
-              "justification": "The agent asked if further assistance was needed at TurnIndex 12.",
-              "tag": "Assistance",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent provide a ticket or reference number?",
-              "score": 0,
-              "maxPoint": 8,
-              "evidences": [],
-              "justification": "There is no mention of a ticket or reference number in the agent's dialogue.",
-              "tag": "Shared_Ticket_Number",
-              "result": "Fail"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent recap the solution?",
-              "score": 0,
-              "maxPoint": 6,
-              "evidences": [],
-              "justification": "The agent did not provide a recap of the solution or summarize the troubleshooting steps.",
-              "tag": "Recap",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 5,
-          "groupName": "Interaction_Health",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the interaction show no signs of a language barrier affecting communication?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 1,
-                  "quote": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 3,
-                  "quote": "It's Windows 10."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 5,
-                  "quote": "No, I don't know how to do that."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 7,
-                  "quote": "Alright, I seem to have done that."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 9,
-                  "quote": "How long is this going to take? I have a lot of work to do."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 11,
-                  "quote": "Hey, it's actually working now. That was fast. Thank you so much for your help."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 13,
-                  "quote": "No, that's all. Thanks again."
-                }
-              ],
-              "justification": "The Customer was able to communicate effectively and follow the steps as explained by the Agent without asking for repeats or clarifications, indicating no language barrier.",
-              "tag": "Language_Barrier",
-              "result": "Pass"
-            }
-          ]
-        }
-      ]
-    },
-    "sentimentAnalisys": {
-      "sentiment": [
-        {
-          "speaker": "Customer",
-          "averageScore": 3.5,
-          "trend": "improving",
-          "evidences": [
-            {
-              "turnIndex": 1,
-              "quote": "Hi there, I'm having trouble with my computer. It keeps freezing up and I can't get anything done.",
-              "score": 2,
-              "justification": "The customer expresses frustration with the problem they are experiencing."
-            },
-            {
-              "turnIndex": 5,
-              "quote": "No, I don't know how to do that.",
-              "score": 2,
-              "justification": "The customer shows a lack of knowledge and possible frustration in their inability to perform the task."
-            },
-            {
-              "turnIndex": 9,
-              "quote": "How long is this going to take? I have a lot of work to do.",
-              "score": 2,
-              "justification": "The customer shows impatience and concern about the duration of the task."
-            },
-            {
-              "turnIndex": 11,
-              "quote": "Hey, it's actually working now. That was fast. Thank you so much for your help.",
-              "score": 5,
-              "justification": "The customer expresses happiness and gratitude as their problem is resolved."
-            },
-            {
-              "turnIndex": 13,
-              "quote": "No, that's all. Thanks again.",
-              "score": 5,
-              "justification": "The customer thanks the agent again, indicating a positive resolution to their issue."
-            }
-          ]
-        },
-        {
-          "speaker": "Agent",
-          "averageScore": 4.25,
-          "trend": "improving",
-          "evidences": [
-            {
-              "turnIndex": 0,
-              "quote": "Thank you for calling SingleStep Digital. My name is Ryan. How may I assist you?",
-              "score": 4,
-              "justification": "The agent starts the conversation on a neutral to slightly positive note, offering assistance."
-            },
-            {
-              "turnIndex": 2,
-              "quote": "I'm very sorry to hear that. Let's see if we can troubleshoot the issue. Could you tell me which version of Windows you're using?",
-              "score": 4,
-              "justification": "Shows understanding and willingness to help, maintaining a neutral to positive tone."
-            },
-            {
-              "turnIndex": 6,
-              "quote": "That's okay. I can guide you through the steps. First, type command prompt into the search bar in the bottom left corner of your screen. Right click on it and select run as administrator.",
-              "score": 5,
-              "justification": "The agent is supportive and offers clear instructions, improving the sentiment."
-            },
-            {
-              "turnIndex": 10,
-              "quote": "It shouldn't take too long. It depends on the size of your hard drive and the number of files that need to be scanned.",
-              "score": 4,
-              "justification": "The agent provides information and reassurance, improving customer sentiment by addressing concerns."
-            },
-            {
-              "turnIndex": 12,
-              "quote": "You're welcome. Is there anything else I can help you with today?",
-              "score": 5,
-              "justification": "Warm conclusion to their interaction, maintaining a positive sentiment."
-            }
-          ]
-        }
       ],
-      "summary": "The call began with the customer expressing frustration and impatience due to a technical issue, but the agent's calm and supportive guidance led to a positive resolution. The customer's sentiment improved significantly as their problem was resolved swiftly, ending with gratitude and satisfaction. The agent maintained a professional and empathetic demeanor throughout, gradually improving the overall positive sentiment by providing effective assistance and reassurance."
+      "id": "e3e9"
     },
-    "anomaly": {
-      "flag": "Red",
-      "justification": [
+    {
+      "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
+      "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
+      "companyId": 1,
+      "projectId": 2,
+      "company": "Team International",
+      "project": "Project ONE",
+      "audioName": "CallSample2",
+      "processDate": "2025-10-14T19:09:56.9028764Z",
+      "agentName": "Sean",
+      "scoreCard": 47,
+      "Flagged": true,
+      "dominantSentiment": "Neutral",
+      "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]
-    }
-  },
-{
-    "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
-    "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
-    "companyId": 1,
-    "projectId": 3,
-	  "agentName": "Sean",
-    "audio": null,
-    "audioName": "CallSample3",
-    "audioSize": 1.54,
-    "fileExtension": ".mp3",
-    "transcription": {
-      "transcriptionText": "Calling Single Step Digital. My name is Stephanie. How may I assist you?\n\nHi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.\n\nI'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?\n\nIt's a Ganon Pixelator CW4000.\n\nAll right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?\n\nYes, I've already checked that. The ink levels are fine. That's not the issue.\n\nI see. Let's try something else then. Have you tried resetting the printer to its default settings?\n\nNo, I haven't. How do I do that?\n\nFirst, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.\n\nOK, I'll try that.\n\nLet's give it a minute or so.\n\nIt's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.\n\nI'm so happy to hear that. Is there anything else I can assist you with?\n\nNo, that's all. Thank you so much for your help. I really thought my printer had died.\n\nI am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.\n\nWhat's your name again?\n\nMy name is Stephanie.\n\nOK, Stephanie. Thanks again.\n\nYou're welcome, sir. Have a nice day. Goodbye.",
-      "diarization": [
-        {
-          "turnIndex": 0,
-          "speaker": "Agent",
-          "text": "Calling Single Step Digital. My name is Stephanie. How may I assist you?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 1,
-          "speaker": "Customer",
-          "text": "Hi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 2,
-          "speaker": "Agent",
-          "text": "I'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 3,
-          "speaker": "Customer",
-          "text": "It's a Ganon Pixelator CW4000.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 4,
-          "speaker": "Agent",
-          "text": "All right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 5,
-          "speaker": "Customer",
-          "text": "Yes, I've already checked that. The ink levels are fine. That's not the issue.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 6,
-          "speaker": "Agent",
-          "text": "I see. Let's try something else then. Have you tried resetting the printer to its default settings?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 7,
-          "speaker": "Customer",
-          "text": "No, I haven't. How do I do that?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 8,
-          "speaker": "Agent",
-          "text": "First, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 9,
-          "speaker": "Customer",
-          "text": "OK, I'll try that.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 10,
-          "speaker": "Agent",
-          "text": "Let's give it a minute or so.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 11,
-          "speaker": "Customer",
-          "text": "It's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 12,
-          "speaker": "Agent",
-          "text": "I'm so happy to hear that. Is there anything else I can assist you with?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 13,
-          "speaker": "Customer",
-          "text": "No, that's all. Thank you so much for your help. I really thought my printer had died.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 14,
-          "speaker": "Agent",
-          "text": "I am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 15,
-          "speaker": "Customer",
-          "text": "What's your name again?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 16,
-          "speaker": "Agent",
-          "text": "My name is Stephanie.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 17,
-          "speaker": "Customer",
-          "text": "OK, Stephanie. Thanks again.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 18,
-          "speaker": "Agent",
-          "text": "You're welcome, sir. Have a nice day. Goodbye.",
-          "sentiment": "Positive"
-        }
-      ]
-    },
-    "processState": "Sentiment generated",
-    "processDate": "2025-10-14T19:16:57.4277619Z",
-    "baseCallDetails": [
-      {
-        "name": "InteractionDate",
-        "value": null
-      },
-      {
-        "name": "TicketNumber",
-        "value": null
-      },
-      {
-        "name": "ClientName",
-        "value": null
-      },
-      {
-        "name": "MonitorDate",
-        "value": null
-      },
-      {
-        "name": "AgentName",
-        "value": "Sean"
-      },
-      {
-        "name": "ClientLocation",
-        "value": null
-      },
-      {
-        "name": "Language",
-        "value": "English"
-      },
-      {
-        "name": "TopContactDriver",
-        "value": null
-      },
-      {
-        "name": "AverageHandlingTime",
-        "value": null
-      },
-      {
-        "name": "Resolution",
-        "value": "True"
-      },
-      {
-        "name": "Channel",
-        "value": null
-      }
-    ],
-    "scoreCard": {
-      "groups": [
-        {
-          "groupId": 1,
-          "groupName": "Opening",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent mention the company name in a welcoming or professional manner?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?"
-                }
-              ],
-              "justification": "The agent opened the call with both the company name and a welcoming manner: 'Calling Single Step Digital. My name is Stephanie. How may I assist you?'",
-              "tag": "Branded_Interaction",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?"
-                }
-              ],
-              "justification": "The agent introduced themselves using their name in the opening: 'My name is Stephanie.'",
-              "tag": "Used_Name",
-              "result": "Pass"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent ask the caller's identity or account details or store number or store?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [],
-              "justification": "There is no evidence of the agent asking for the caller's identity or account details.",
-              "tag": "Verified_Authorization",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 2,
-          "groupName": "Paraphrasing_and_Assurance",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the expert provided an assurance of help statement after recap?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "Please don't throw it out the window. Let's see if we can troubleshoot the issue."
-                }
-              ],
-              "justification": "The agent provided assurance by suggesting to troubleshoot the issue: \"Please don't throw it out the window. Let's see if we can troubleshoot the issue.\" (Turn 2)",
-              "tag": "Assurance_of_Help",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the Expert paraphrase the client’s concerns?",
-              "score": 0,
-              "maxPoint": 14,
-              "evidences": [],
-              "justification": "There is no quoted evidence of the Agent paraphrasing or summarizing the customer's problem based on their statements.",
-              "tag": "Paraphrased_Client",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 3,
-          "groupName": "Solving_the_Issue",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask questions to clarify the issue?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "Could you please tell me what kind of printer you have?"
-                },
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 4,
-                  "quote": "All right, let's start by checking the ink levels. Can you go to your printer settings and see if any of the ink cartridges are low or empty?"
-                },
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 6,
-                  "quote": "Have you tried resetting the printer to its default settings?"
-                }
-              ],
-              "justification": "The agent asked several questions to clarify and diagnose the issue, including asking about the printer model, checking ink levels, and inquiring if the customer has tried resetting the printer.",
-              "tag": "Asked_5Ws",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 4,
-          "groupName": "Closing",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask if further assistance was needed?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 12,
-                  "quote": "Is there anything else I can assist you with?"
-                }
-              ],
-              "justification": "The agent asked the customer if there was a need for further assistance.",
-              "tag": "Assistance",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent provide a ticket or reference number?",
-              "score": 0,
-              "maxPoint": 8,
-              "evidences": [],
-              "justification": "The agent did not provide a ticket or reference number during the call.",
-              "tag": "Shared_Ticket_Number",
-              "result": "Fail"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent recap the solution?",
-              "score": 0,
-              "maxPoint": 6,
-              "evidences": [],
-              "justification": "The agent did not recap the solution or clearly confirm the resolution path.",
-              "tag": "Recap",
-              "result": "Fail"
-            }
-          ]
-        },
-        {
-          "groupId": 5,
-          "groupName": "Interaction_Health",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the interaction show no signs of a language barrier affecting communication?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 7,
-                  "quote": "No, I haven't. How do I do that?"
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 15,
-                  "quote": "What's your name again?"
-                }
-              ],
-              "justification": "The customer clearly understood the agent's instructions and asked relevant questions for clarification, indicating there was no language barrier.",
-              "tag": "Language_Barrier",
-              "result": "Pass"
-            }
-          ]
-        }
-      ]
-    },
-    "sentimentAnalisys": {
-      "sentiment": [
-        {
-          "speaker": "Agent",
-          "averageScore": 4.5,
-          "trend": "stable",
-          "evidences": [
-            {
-              "turnIndex": 0,
-              "quote": "Calling Single Step Digital. My name is Stephanie. How may I assist you?",
-              "score": 4,
-              "justification": "Neutral and professional opening."
-            },
-            {
-              "turnIndex": 2,
-              "quote": "I'm so sorry to hear that. Please don't throw it out the window. Let's see if we can troubleshoot the issue. Could you please tell me what kind of printer you have?",
-              "score": 5,
-              "justification": "Displays empathy and willingness to help."
-            },
-            {
-              "turnIndex": 8,
-              "quote": "First, turn off the printer and unplug it from the power source. Then, hold down the power button for 15 seconds. After that, plug the printer back in and turn it on again.",
-              "score": 4,
-              "justification": "Provides clear and helpful instructions."
-            },
-            {
-              "turnIndex": 12,
-              "quote": "I'm so happy to hear that. Is there anything else I can assist you with?",
-              "score": 5,
-              "justification": "Positive response showing satisfaction with the outcome."
-            },
-            {
-              "turnIndex": 14,
-              "quote": "I am so glad we brought your printer back to life. Don't hesitate to reach out to us if you have any further issues in the future.",
-              "score": 5,
-              "justification": "Expresses satisfaction and openness to future assistance."
-            },
-            {
-              "turnIndex": 18,
-              "quote": "You're welcome, sir. Have a nice day. Goodbye.",
-              "score": 4,
-              "justification": "Polite closing."
-            }
-          ]
-        },
-        {
-          "speaker": "Customer",
-          "averageScore": 4,
-          "trend": "improving",
-          "evidences": [
-            {
-              "turnIndex": 1,
-              "quote": "Hi, my printer is acting up again. I've tried everything I can think of, and I'm about ready to throw it out the window.",
-              "score": 2,
-              "justification": "Shows frustration and suggests readiness to give up."
-            },
-            {
-              "turnIndex": 5,
-              "quote": "Yes, I've already checked that. The ink levels are fine. That's not the issue.",
-              "score": 3,
-              "justification": "Neutral acknowledgment of the agent's suggestion."
-            },
-            {
-              "turnIndex": 11,
-              "quote": "It's making some noises. That might be a good sign. OK. Wait, I hear some paper mooing. Yes, hold on, it's actually printing again. I can't believe it.",
-              "score": 5,
-              "justification": "Positive reaction to the successful troubleshooting."
-            },
-            {
-              "turnIndex": 13,
-              "quote": "No, that's all. Thank you so much for your help. I really thought my printer had died.",
-              "score": 5,
-              "justification": "Expresses gratitude and relief."
-            },
-            {
-              "turnIndex": 17,
-              "quote": "OK, Stephanie. Thanks again.",
-              "score": 5,
-              "justification": "Shows appreciation at the end of the call."
-            }
-          ]
-        }
       ],
-      "summary": "The interaction began with the customer feeling frustrated, which was countered by the agent's empathetic and helpful demeanor throughout the call. As the issue is resolved, the customer's sentiment improves significantly, ending on a positive note with feelings of gratitude. The agent consistently maintained a calm and supportive tone, leading to a successful and amicable resolution."
+      "id": "83ed"
     },
-    "anomaly": {
-      "flag": "Red",
-      "justification": [
+    {
+      "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
+      "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
+      "companyId": 1,
+      "projectId": 3,
+      "company": "Team International",
+      "project": "Project P2",
+      "audioName": "CallSample3",
+      "processDate": "2025-10-14T19:16:57.4277619Z",
+      "agentName": "Sean",
+      "scoreCard": 72,
+      "Flagged": true,
+      "dominantSentiment": "Positive",
+      "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]
-    }
-  },
-{
-    "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
-    "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
-    "companyId": 2,
-    "projectId": 3,
-	  "agentName": "Sean",
-    "audio": null,
-    "audioName": "CallSample4",
-    "audioSize": 2.67,
-    "fileExtension": ".mp3",
-    "transcription": {
-      "transcriptionText": "Thank you for calling our customer support line. My name is Annie. How may I assist you today? Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help. I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase? Yes, my order number is 123456789. Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop? The laptop shuts down unexpectedly after running for only a few minutes. It sounds frustrating. Let's troubleshoot this together. Have you tried restarting the laptop to see if the problem persists? Yes, I have, and the issue continued even after restarting. In that case, let's try a few more troubleshooting steps. First, could you please check if all the cables are properly connected? Sometimes a loose connection can cause unexpected shutdowns. I will make sure everything is properly connected. Okay, everything seems fine. Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers. This often resolves these types of problems. Can I guide you through the steps to update the software? Yes, please guide me. Great! Please go to the settings on your laptop and choose the update security option. From there, select check for updates and let me know if any updates are found. Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process. Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance. Okay, I'll do that. Thank you for your help. You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us. We are here 24-7 to support you. Thank you for choosing our company, and have a great day.",
-      "diarization": [
-        {
-          "turnIndex": 0,
-          "speaker": "Agent",
-          "text": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 1,
-          "speaker": "Customer",
-          "text": "Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 2,
-          "speaker": "Agent",
-          "text": "I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 3,
-          "speaker": "Customer",
-          "text": "Yes, my order number is 123456789.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 4,
-          "speaker": "Agent",
-          "text": "Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 5,
-          "speaker": "Customer",
-          "text": "The laptop shuts down unexpectedly after running for only a few minutes.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 6,
-          "speaker": "Agent",
-          "text": "It sounds frustrating. Let's troubleshoot this together. Have you tried restarting the laptop to see if the problem persists?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 7,
-          "speaker": "Customer",
-          "text": "Yes, I have, and the issue continued even after restarting.",
-          "sentiment": "Negative"
-        },
-        {
-          "turnIndex": 8,
-          "speaker": "Agent",
-          "text": "In that case, let's try a few more troubleshooting steps. First, could you please check if all the cables are properly connected? Sometimes a loose connection can cause unexpected shutdowns.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 9,
-          "speaker": "Customer",
-          "text": "I will make sure everything is properly connected. Okay, everything seems fine.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 10,
-          "speaker": "Agent",
-          "text": "Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers. This often resolves these types of problems. Can I guide you through the steps to update the software?",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 11,
-          "speaker": "Customer",
-          "text": "Yes, please guide me.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 12,
-          "speaker": "Agent",
-          "text": "Great! Please go to the settings on your laptop and choose the update security option. From there, select check for updates and let me know if any updates are found.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 13,
-          "speaker": "Customer",
-          "text": "Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process.",
-          "sentiment": "Neutral"
-        },
-        {
-          "turnIndex": 14,
-          "speaker": "Agent",
-          "text": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 15,
-          "speaker": "Customer",
-          "text": "Okay, I'll do that. Thank you for your help.",
-          "sentiment": "Positive"
-        },
-        {
-          "turnIndex": 16,
-          "speaker": "Agent",
-          "text": "You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us. We are here 24-7 to support you. Thank you for choosing our company, and have a great day.",
-          "sentiment": "Positive"
-        }
-      ]
-    },
-    "processState": "Sentiment generated",
-    "processDate": "2025-10-14T20:13:05.5459347Z",
-    "baseCallDetails": [
-      {
-        "name": "InteractionDate",
-        "value": null
-      },
-      {
-        "name": "TicketNumber",
-        "value": "123456789"
-      },
-      {
-        "name": "ClientName",
-        "value": null
-      },
-      {
-        "name": "MonitorDate",
-        "value": null
-      },
-      {
-        "name": "AgentName",
-        "value": "Sean"
-      },
-      {
-        "name": "ClientLocation",
-        "value": null
-      },
-      {
-        "name": "Language",
-        "value": "English"
-      },
-      {
-        "name": "TopContactDriver",
-        "value": "Laptop issues > Unexpected shutdown > Software update"
-      },
-      {
-        "name": "AverageHandlingTime",
-        "value": null
-      },
-      {
-        "name": "Resolution",
-        "value": "True"
-      },
-      {
-        "name": "Channel",
-        "value": "phone"
-      }
-    ],
-    "scoreCard": {
-      "groups": [
-        {
-          "groupId": 1,
-          "groupName": "Opening",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent mention the company name in a welcoming or professional manner?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?"
-                }
-              ],
-              "justification": "The agent did not mention the company name in their introduction or throughout the call opening.",
-              "tag": "Branded_Interaction",
-              "result": "Fail"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent introduce themselves with their name (if expert_name is provided, check for that specific name)?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 0,
-                  "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?"
-                }
-              ],
-              "justification": "The agent introduced themselves by name, \"Annie,\" as required.",
-              "tag": "Used_Name",
-              "result": "Pass"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent ask the caller's identity or account details or store number or store?",
-              "score": 10,
-              "maxPoint": 10,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "Could you please provide me with your order number or any relevant details about your purchase?"
-                }
-              ],
-              "justification": "The agent asked for the customer's order number to verify identity and access account details.",
-              "tag": "Verified_Authorization",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 2,
-          "groupName": "Paraphrasing_and_Assurance",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the expert provided an assurance of help statement after recap?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "I'm here to help you."
-                }
-              ],
-              "justification": "The Agent provided an assurance of help statement: 'I'm here to help you.'",
-              "tag": "Assurance_of_Help",
-              "result": "Pass"
-            },
-            {
-              "id": 2,
-              "text": "Did the Expert paraphrase the client’s concerns?",
-              "score": 14,
-              "maxPoint": 14,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 4,
-                  "quote": "Now, may I know the specific issue you are facing with your laptop?"
-                }
-              ],
-              "justification": "The Agent paraphrased the customer's concerns by clarifying the specific issue with the laptop: 'Now, may I know the specific issue you are facing with your laptop?'",
-              "tag": "Paraphrased_Client",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 3,
-          "groupName": "Solving_the_Issue",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask questions to clarify the issue?",
-              "score": 15,
-              "maxPoint": 15,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 2,
-                  "quote": "Could you please provide me with your order number or any relevant details about your purchase?"
-                },
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 4,
-                  "quote": "Now, may I know the specific issue you are facing with your laptop?"
-                },
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 6,
-                  "quote": "Have you tried restarting the laptop to see if the problem persists?"
-                },
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 8,
-                  "quote": "First, could you please check if all the cables are properly connected?"
-                }
-              ],
-              "justification": "The agent asked multiple questions to clarify and diagnose the issue: requested order details, inquired about the specific laptop issue, asked if the customer tried restarting the laptop, and whether the cables were checked.",
-              "tag": "Asked_5Ws",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 4,
-          "groupName": "Closing",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the agent ask if further assistance was needed?",
-              "score": 0,
-              "maxPoint": 10,
-              "evidences": [],
-              "justification": "The agent did not explicitly ask if further assistance was needed. No statements match the examples given.",
-              "tag": "Assistance",
-              "result": "Fail"
-            },
-            {
-              "id": 2,
-              "text": "Did the agent provide a ticket or reference number?",
-              "score": 0,
-              "maxPoint": 8,
-              "evidences": [],
-              "justification": "The agent did not provide a ticket or reference number at any point during the conversation.",
-              "tag": "Shared_Ticket_Number",
-              "result": "Fail"
-            },
-            {
-              "id": 3,
-              "text": "Did the agent recap the solution?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Agent",
-                  "turnIndex": 14,
-                  "quote": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again. This should help resolve the unexpected shutdown issue. If the problem persists after the updates, I recommend contacting our technical support team directly, who will be able to provide further assistance."
-                }
-              ],
-              "justification": "The agent recapped the solution by summarizing the troubleshooting steps and confirming the final action of updating the software to resolve the issue.",
-              "tag": "Recap",
-              "result": "Pass"
-            }
-          ]
-        },
-        {
-          "groupId": 5,
-          "groupName": "Interaction_Health",
-          "questions": [
-            {
-              "id": 1,
-              "text": "Did the interaction show no signs of a language barrier affecting communication?",
-              "score": 6,
-              "maxPoint": 6,
-              "evidences": [
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 3,
-                  "quote": "Yes, my order number is 123456789."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 11,
-                  "quote": "Yes, please guide me."
-                },
-                {
-                  "speaker": "Customer",
-                  "turnIndex": 15,
-                  "quote": "Okay, I'll do that. Thank you for your help."
-                }
-              ],
-              "justification": "The customer was able to understand and respond appropriately throughout the interaction without requesting clarification or repeating information, indicating no language barrier.",
-              "tag": "Language_Barrier",
-              "result": "Pass"
-            }
-          ]
-        }
-      ]
-    },
-    "sentimentAnalisys": {
-      "sentiment": [
-        {
-          "speaker": "Agent",
-          "averageScore": 5,
-          "trend": "stable",
-          "evidences": [
-            {
-              "turnIndex": 0,
-              "quote": "Thank you for calling our customer support line. My name is Annie. How may I assist you today?",
-              "score": 3,
-              "justification": "Neutral opening, no emotional tone yet."
-            },
-            {
-              "turnIndex": 2,
-              "quote": "I'm sorry to hear that you're facing issues with your new laptop. I understand how frustrating that can be, but don't worry, I'm here to help you. Could you please provide me with your order number or any relevant details about your purchase?",
-              "score": 5,
-              "justification": "Empathy and reassurance, clear willingness to help."
-            },
-            {
-              "turnIndex": 4,
-              "quote": "Thank you for providing that. Let me check the details of your order. Alright, I see that you purchased the laptop recently. First, I apologize for the inconvenience caused. Now, may I know the specific issue you are facing with your laptop?",
-              "score": 5,
-              "justification": "Polite, helpful, and showing empathy."
-            },
-            {
-              "turnIndex": 6,
-              "quote": "It sounds frustrating. Let's troubleshoot this together.",
-              "score": 5,
-              "justification": "Continued empathy and cooperation."
-            },
-            {
-              "turnIndex": 10,
-              "quote": "Thank you for checking that. Since the issue persists, the next step is to update the laptop's software and drivers.",
-              "score": 5,
-              "justification": "Consistently professional and helpful."
-            },
-            {
-              "turnIndex": 14,
-              "quote": "Fantastic! Let the updates install, and once they're completed, please restart your laptop again.",
-              "score": 5,
-              "justification": "Positive encouragement and clear resolution steps."
-            },
-            {
-              "turnIndex": 16,
-              "quote": "You're welcome. I'm glad I could assist you. If you have any other questions or concerns in the future, don't hesitate to contact us.",
-              "score": 5,
-              "justification": "Expressive gratitude and invitation to contact for future help."
-            }
-          ]
-        },
-        {
-          "speaker": "Customer",
-          "averageScore": 3.3,
-          "trend": "improving",
-          "evidences": [
-            {
-              "turnIndex": 1,
-              "quote": "Hi, Annie. I purchased a new laptop from your company last week, but it's not working properly. I'm frustrated and need immediate help.",
-              "score": 2,
-              "justification": "Clear expression of frustration and need for urgent help."
-            },
-            {
-              "turnIndex": 5,
-              "quote": "The laptop shuts down unexpectedly after running for only a few minutes.",
-              "score": 2,
-              "justification": "Continued description of problem with frustration."
-            },
-            {
-              "turnIndex": 7,
-              "quote": "Yes, I have, and the issue continued even after restarting.",
-              "score": 2,
-              "justification": "Persistent frustration as issue continues."
-            },
-            {
-              "turnIndex": 9,
-              "quote": "I will make sure everything is properly connected. Okay, everything seems fine.",
-              "score": 3,
-              "justification": "Neutral, following instructions."
-            },
-            {
-              "turnIndex": 13,
-              "quote": "Okay, I'm checking for updates. Oh, it seems like there are a few updates available. I'll start the installation process.",
-              "score": 3,
-              "justification": "Cooperative and receptive to instructions."
-            },
-            {
-              "turnIndex": 15,
-              "quote": "Okay, I'll do that. Thank you for your help.",
-              "score": 4,
-              "justification": "Showing appreciation and a calmer tone."
-            }
-          ]
-        }
       ],
-      "summary": "The interaction began with the customer expressing frustration and the need for immediate help due to their laptop issues. The agent consistently maintained a positive and empathetic tone, which contributed to an improving sentiment from the customer. The customer's sentiment saw a significant shift from initial frustration to appreciation and cooperation by the end of the call. This was largely due to the agent's effective communication and problem-solving approach."
+      "id": "9958"
     },
-    "anomaly": {
-      "flag": "Red",
-      "justification": [
+    {
+      "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
+      "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
+      "companyId": 2,
+      "projectId": 3,
+      "company": "Colo SAS",
+      "project": "Project P2",
+      "audioName": "CallSample4",
+      "processDate": "2025-10-14T20:13:05.5459347Z",
+      "agentName": "Sean",
+      "scoreCard": 72,
+      "Flagged": true,
+      "dominantSentiment": "Positive",
+      "Issues": [
         "<75% of total score points from 100%"
-      ]
+      ],
+      "id": "c539"
     }
-  }
-],
-
-
-"Companies":[
-  {
-    "id": 1,
-    "name": "Team International"
-  },
-  {
-    "id": 2,
-    "name": "Colo SAS"
-  },
-  {
-    "id": 3,
-    "name": "Aushaid Corp"
-  },
-  {
-    "id": 4,
-    "name": "MEGA Corp"
-  }
-],
-
-
-"Teams":[
-  {
-    "id": 1,
-    "name": "Team A"
-  },
-  {
-    "id": 1,
-    "name": "Team B"
-  },
-  {
-    "id": 3,
-    "name": "Team C"
-  }
-],
-
-
-
-"Projects":[
-  {
-    "id": 1,
-    "name": "Project BASE"
-  },
-  {
-    "id": 2,
-    "name": "Project ONE"
-  },
-  {
-    "id": 3,
-    "name": "Project P2"
-  }
-],
-
-
-"PermissionCategories": [
-  {
-    "id": 1,
-    "name": "Users & Roles",
-    "note": "Full access"
-  },
-  {
-    "id": 2,
-    "name": "Scorecards & Thresholds",
-    "note": "QA control only"
-  },
-  {
-    "id": 3,
-    "name": "Workflows",
-    "note": "Cannot delete flow"
-  },
-  {
-    "id": 4,
-    "name": "Data & Privacy Policies",
-    "note": "Read-only"
-  },
-  {
-    "id": 5,
-    "name": "Reports & Exports",
-    "note": "No PII export"
-  },
-  {
-    "id": 6,
-    "name": "API & Webhooks",
-    "note": "Hidden by default"
-  },
-  {
-    "id": 7,
-    "name": "Audit Logs",
-    "note": "Viewer only"
-  }
-],
-
-"Roles":[
-  {
-    "id": 1,
-    "code": "QC",
-    "name": "Quality Control auditor",
-    "usersAssigned": 12,
-    "editable": "yes",
-    "lastModified": "2025-09-09",
-    "permissions": [
-      "upload",
-      "reviewcalls",
-      "score",
-      "notes",
-      "coachingcalls"
-    ]
-  },
-  {
-    "id": 2,
-    "code": "TL",
-    "name": "Team Leader / Coach",
-    "usersAssigned": 5,
-    "editable": "yes",
-    "lastModified": "2025-09-07",
-    "permissions": [
-      "monitor",
-      "reports",
-      "teams"
-    ]
-  },
-  {
-    "id": 3,
-    "code": "SA",
-    "name": "Supervisor Admin",
-    "usersAssigned": 3,
-    "editable": "system",
-    "lastModified": "2025-09-01",
-    "permissions": [
-      "teams",
-      "companies",
-      "projects",
-      "roles",
-      "users"
-    ]
-  },
-  {
-    "id": 4,
-    "code": "DM",
-    "name": "Director Manager",
-    "usersAssigned": 2,
-    "editable": "system",
-    "lastModified": "2025-09-01",
-    "permissions": [
-      "monitor",
-      "reports",
-      "exportinfo",
-      "teams",
-      "companies"
-    ]
-  },
-  {
-    "id": 5,
-    "code": "CL",
-    "name": "Client (readonly)",
-    "usersAssigned": 7,
-    "editable": "limited",
-    "lastModified": "2025-09-10",
-    "permissions": [
-      "monitor",
-      "reports"
-    ]
-  },
-  {
-    "id": 6,
-    "code": "AG",
-    "name": "Call Center Operator",
-    "usersAssigned": 40,
-    "editable": "yes",
-    "lastModified": "2025-09-10",
-    "permissions": [
-      "reviewcalls",
-      "coachingcalls"
-    ]
-  }
-],
-
-"Users":[
-  {
-    "id": 1,
-    "name": "Demo 1",
-    "lastName": "Team",
-    "roleId" : 1
-  },
-  {
-    "id": 2,
-    "name": "Demo 2",
-    "lastName": "Team",
-    "roleId" : 3
-  },
-  {
-    "id": 3,
-    "name": "Demo 3",
-    "lastName": "Team",
-    "roleId" : 2
-  },
-  {
-    "id": 4,
-    "name": "Demo 4",
-    "lastName": "Team",
-    "roleId" : 3
-  }
-],
-
-"Agents":[
-  {
-    "id": 1,
-    "firstname": "Sean",
-    "lastname": "Cox",
-    "email": "sean.cox@demo.com",
-    "phone": "111333444",
-    "role" : "Customer Support Agent",
-    "company": "Team International",
-    "project": ["Project BASE","Project ONE"]
-  },
-  {
-    "id": 2,
-    "firstname": "Robert",
-    "lastname": "Ray",
-    "email": "Robert.Ray@demo.com",
-    "phone": "111333441",
-    "role" : "Customer Support Agent",
-    "company": "Team International",
-    "project": ["Project BASE","Project ONE"]
-  },
-  {
-    "id": 3,
-    "firstname": "Maria",
-    "lastname": "Castro",
-    "email": "Maria.Castro@demo.com",
-    "phone": "111333442",
-    "role" : "Customer Support Agent",
-    "company": "Team International",
-    "project": ["Project BASE","Project ONE"]
-  },
-  {
-    "id": 4,
-    "firstname": "Austin",
-    "lastname": "Beld",
-    "email": "Austin.Beld@demo.com",
-    "phone": "111333443",
-    "role" : "Customer Support Agent",
-    "company": "Team International",
-    "project": ["Project P2"]
-  }
-],
-
-"Configurations":[{}],
-
-"Profiles":[
-  {
-    "id": "qc",
-    "code": "QC",
-    "name": "Quality Control Auditor",
-    "color": "blue",
-    "permissions": ["upload", "reviewcalls", "score", "notes", "coachingcalls"]
-  },
-  {
-    "id": "tl",
-    "code": "TL",
-    "name": "Team Leader",
-    "color": "yellow",
-    "permissions": ["monitor", "reports", "teams", "reviewcalls"]
-  },
-  {
-    "id": "sa",
-    "code": "SA",
-    "name": "Supervisor Admin",
-    "color": "green",
-    "permissions": ["teams", "companies", "projects", "roles", "users", "monitor", "reports"]
-  },
-  {
-    "id": "dm",
-    "code": "DM",
-    "name": "Director Manager",
-    "color": "red",
-    "permissions": ["monitor", "reports", "exportinfo", "teams", "companies"]
-  },
-  {
-    "id": "cl",
-    "code": "CL",
-    "name": "Client",
-    "color": "gray",
-    "permissions": ["monitor", "reports"]
-  },
-  {
-    "id": "co",
-    "code": "CO",
-    "name": "Call Center Operator",
-    "color": "blue",
-    "permissions": ["reviewcalls", "coachingcalls"]
-  }
-],
-
-
-
-"Notifications":[
-  {
-    "id": 100,
-    "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
-    "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
-    "message" : "Call Processed"
-  },
-  {
-    "id": 125,
-    "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
-    "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
-    "message" : "Call Processed"
-  },
-  {
-    "id": 202,
-    "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
-    "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
-    "message" : "Call Processed"
-  },
-  {
-    "id": 203,
-    "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
-    "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
-    "message" : "Call Processed"
-  }  
-],
-
-"Audios":[
-  {
-    "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
-    "audio" : "Call Processed"
-  },
-  {
-    "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
-    "audio" : "Call Processed"
-  },
-  {
-    "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
-    "audio" : "Call Processed"
-  },
-  {
-    "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
-    "audio" : "Call Processed"
-  } 
-
-],
-
-"CallSummary":[
-{
-    "transactionId": "731e6393-1e79-4155-aae0-29d16836d8eb",
-    "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
-    "companyId": 1,
-    "projectId": 1,
-    "company": "Team International",
-    "project": "Project BASE",
-    "audioName": "CallSample1",
-    "processDate": "2025-10-14T19:03:44.0957133Z",
-    "agentName": "Robert",
-    "scoreCard": 31,
-    "Flagged": true,
-    "dominantSentiment": "Negative",
-    "Issues": [
-        "<75% of total score points from 100%",
-        "Agent did not verify the Account",
-        "Unresolved Issue"
-      ]
-},
-{
-    "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
-    "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
-    "companyId": 1,
-    "projectId": 2,
-    "company": "Team International",
-    "project": "Project ONE",
-    "audioName": "CallSample2",
-    "processDate": "2025-10-14T19:09:56.9028764Z",
-    "agentName": "Sean",
-    "scoreCard": 47,
-    "Flagged": true,
-    "dominantSentiment": "Neutral",
-    "Issues": [
-        "<75% of total score points from 100%",
-        "Agent did not verify the Account",
-        "Unresolved Issue"
-      ]
-},
-{
-    "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
-    "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
-    "companyId": 1,
-    "projectId": 3,
-    "company": "Team International",
-    "project": "Project P2",
-    "audioName": "CallSample3",
-    "processDate": "2025-10-14T19:16:57.4277619Z",
-    "agentName": "Sean",
-    "scoreCard": 72,
-    "Flagged": true,
-    "dominantSentiment": "Positive",
-    "Issues": [
-        "<75% of total score points from 100%",
-        "Agent did not verify the Account",
-        "Unresolved Issue"
-      ]
-},
-{
-    "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
-    "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
-    "companyId": 2,
-    "projectId": 3,
-    "company": "Colo SAS",
-    "project": "Project P2",
-    "audioName": "CallSample4",
-    "processDate": "2025-10-14T20:13:05.5459347Z",
-    "agentName": "Sean",
-    "scoreCard": 72,
-    "Flagged": true,
-    "dominantSentiment": "Positive",
-    "Issues": [
-        "<75% of total score points from 100%"
-      ]
-}
-]
-
+  ]
 }

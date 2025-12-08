@@ -540,15 +540,60 @@ export default function AnalyticsPage() {
   const [agentFilter, setAgentFilter] = useState<string>('')
   const [modelFilter, setModelFilter] = useState<string>('')
 
-  // Calculate derived data
-  const kpis = useMemo(() => calculateKPIs(calls), [calls])
-  const teamPerformance = useMemo(() => calculateTeamPerformance(calls), [calls])
+  // Apply filters to calls data
+  const filteredCalls = useMemo(() => {
+    return calls.filter((call) => {
+      // Agent filter
+      if (agentFilter && agentFilter !== 'all' && call.agentName !== agentFilter) {
+        return false
+      }
+
+      // Date filter
+      if (dateFilter) {
+        const callDate = new Date(call.processDate)
+        const now = new Date()
+
+        switch (dateFilter) {
+          case 'today':
+            if (callDate.toDateString() !== now.toDateString()) return false
+            break
+          case 'week': {
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+            if (callDate < weekAgo) return false
+            break
+          }
+          case 'month': {
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+            if (callDate < monthAgo) return false
+            break
+          }
+          case 'quarter': {
+            const quarterAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
+            if (callDate < quarterAgo) return false
+            break
+          }
+        }
+      }
+
+      // Reviewer filter (using agent as proxy since reviewer = agent in this context)
+      if (reviewerFilter && reviewerFilter !== 'all') {
+        const reviewerAgent = reviewerFilter.replace('Reviewer_', '')
+        if (call.agentName !== reviewerAgent) return false
+      }
+
+      return true
+    })
+  }, [calls, dateFilter, reviewerFilter, agentFilter])
+
+  // Calculate derived data from filtered calls
+  const kpis = useMemo(() => calculateKPIs(filteredCalls), [filteredCalls])
+  const teamPerformance = useMemo(() => calculateTeamPerformance(filteredCalls), [filteredCalls])
   const agentPerformance = useMemo(
-    () => calculateAgentPerformance(calls),
-    [calls]
+    () => calculateAgentPerformance(filteredCalls),
+    [filteredCalls]
   )
-  const alignmentData = useMemo(() => generateAlignmentData(calls), [calls])
-  const overrideData = useMemo(() => generateOverrideData(calls), [calls])
+  const alignmentData = useMemo(() => generateAlignmentData(filteredCalls), [filteredCalls])
+  const overrideData = useMemo(() => generateOverrideData(filteredCalls), [filteredCalls])
 
   // Get unique agents for filter
   const uniqueAgents = useMemo(() => {

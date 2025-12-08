@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Header, PageContainer } from '@/components/layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -36,6 +36,7 @@ import {
   Plus,
   ChevronLeft,
   ChevronRight,
+  Loader2,
 } from 'lucide-react'
 import { usersApi } from '@/services/api'
 import { cn } from '@/lib/utils'
@@ -49,10 +50,12 @@ interface CompanyDisplay {
   escalationContact: string
   projects: string[]
   agents: number
+  agentIds: number[]
 }
 
 export default function CompaniesPage() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [searchQuery, setSearchQuery] = useState('')
   const [projectFilter, setProjectFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -101,6 +104,17 @@ export default function CompaniesPage() {
     },
   })
 
+  // Create company mutation
+  const createCompanyMutation = useMutation({
+    mutationFn: async (companyData: { name: string }) => {
+      const response = await usersApi.createCompany(companyData)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
+    },
+  })
+
   const isLoading = isLoadingCompanies || isLoadingProjects || isLoadingAgents
 
   // Transform API companies to display format
@@ -136,6 +150,7 @@ export default function CompaniesPage() {
           ? Array.from(companyProjects)
           : apiProjects.map((p: Project) => p.name).slice(0, 2),
         agents: companyAgents.length,
+        agentIds: companyAgents.map((a: ApiAgent) => a.id),
       }
     })
   }, [apiCompanies, apiProjects, apiAgents])
@@ -143,16 +158,31 @@ export default function CompaniesPage() {
   // Filter companies
   const filteredCompanies = useMemo(() => {
     return companies.filter((company: CompanyDisplay) => {
+      // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase()
         if (!company.name.toLowerCase().includes(query)) return false
       }
+
+      // Status filter
       if (statusFilter !== 'all' && company.status.toLowerCase().replace(' ', '-') !== statusFilter) {
         return false
       }
+
+      // Project filter
+      if (projectFilter && projectFilter !== 'all') {
+        const selectedProject = apiProjects.find((p: Project) => String(p.id) === projectFilter)
+        if (selectedProject && !company.projects.includes(selectedProject.name)) return false
+      }
+
+      // Agent filter
+      if (agentFilter && agentFilter !== 'all') {
+        if (!company.agentIds.includes(Number(agentFilter))) return false
+      }
+
       return true
     })
-  }, [companies, searchQuery, statusFilter])
+  }, [companies, searchQuery, statusFilter, projectFilter, agentFilter, apiProjects])
 
   // Paginate
   const paginatedCompanies = useMemo(() => {
@@ -163,25 +193,32 @@ export default function CompaniesPage() {
   const totalPages = Math.ceil(filteredCompanies.length / itemsPerPage)
   const totalCompanies = companies.length
 
-  const handleCreateCompany = () => {
-    console.log('Creating company:', newCompany)
-    setCreatedCompany({
-      name: newCompany.name || 'ACME CORP',
-      address: newCompany.address || 'Bogotá, Colombia',
-    })
-    setShowAddModal(false)
-    setShowSuccessModal(true)
-    setNewCompany({
-      name: '',
-      address: '',
-      mainContactName: '',
-      mainContactEmail: '',
-      mainContactPhone: '',
-      escalationName: '',
-      escalationEmail: '',
-      escalationPhone: '',
-      timezone: '',
-    })
+  const handleCreateCompany = async () => {
+    try {
+      await createCompanyMutation.mutateAsync({
+        name: newCompany.name,
+      })
+
+      setCreatedCompany({
+        name: newCompany.name,
+        address: newCompany.address || 'Not specified',
+      })
+      setShowAddModal(false)
+      setShowSuccessModal(true)
+      setNewCompany({
+        name: '',
+        address: '',
+        mainContactName: '',
+        mainContactEmail: '',
+        mainContactPhone: '',
+        escalationName: '',
+        escalationEmail: '',
+        escalationPhone: '',
+        timezone: '',
+      })
+    } catch (error) {
+      console.error('Failed to create company:', error)
+    }
   }
 
   return (
@@ -485,8 +522,15 @@ export default function CompaniesPage() {
               <Button variant="outline" onClick={() => setShowAddModal(false)}>
                 Cancel
               </Button>
-              <Button onClick={handleCreateCompany}>
-                Add Company
+              <Button onClick={handleCreateCompany} disabled={createCompanyMutation.isPending || !newCompany.name}>
+                {createCompanyMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  'Add Company'
+                )}
               </Button>
             </div>
           </div>

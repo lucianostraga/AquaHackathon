@@ -9,10 +9,10 @@ export const apiClient = axios.create({
   },
 })
 
-// .NET API client for audio operations
+// .NET API client for audio operations (uses Vite proxy to avoid CORS)
 export const audioApiClient = axios.create({
-  baseURL: import.meta.env.VITE_AUDIO_API_URL || 'http://localhost:8080',
-  timeout: 30000,
+  baseURL: import.meta.env.VITE_AUDIO_API_URL || '/audio-api',
+  timeout: 60000, // Increased for large file uploads
 })
 
 // Request interceptor

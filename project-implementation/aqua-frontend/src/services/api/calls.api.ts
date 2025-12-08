@@ -27,7 +27,7 @@ export const callsApi = {
   // Upload audio file to .NET API
   uploadAudio: (file: File, onProgress?: (progress: number) => void) => {
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append('audioFiles', file)
 
     return audioApiClient.post('/IngestAudio', formData, {
       headers: {

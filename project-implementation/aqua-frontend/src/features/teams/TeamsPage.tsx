@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Header, PageContainer } from '@/components/layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -35,6 +35,7 @@ import {
   TrendingUp,
   TrendingDown,
   ArrowRight,
+  Loader2,
 } from 'lucide-react'
 import { usersApi, callsApi } from '@/services/api'
 import { cn } from '@/lib/utils'
@@ -49,10 +50,13 @@ interface AgentDisplay {
   timezoneLabel: string
   score: number
   trend: 'up' | 'down' | 'stable'
+  company: string
+  projects: string[]
 }
 
 export default function TeamsPage() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [searchQuery, setSearchQuery] = useState('')
   const [companyFilter, setCompanyFilter] = useState('all')
   const [projectFilter, setProjectFilter] = useState('all')
@@ -66,8 +70,8 @@ export default function TeamsPage() {
     lastName: '',
     role: '',
     timezone: '',
-    companies: '',
-    projects: '',
+    companyId: '',
+    projectId: '',
     email: '',
     phone: '',
   })
@@ -109,6 +113,25 @@ export default function TeamsPage() {
     },
   })
 
+  // Create agent mutation
+  const createAgentMutation = useMutation({
+    mutationFn: async (agentData: {
+      firstname: string
+      lastname: string
+      role: string
+      email: string
+      phone: string
+      company: string
+      project: string[]
+    }) => {
+      const response = await usersApi.createAgent(agentData)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agents'] })
+    },
+  })
+
   const isLoading = isLoadingAgents || isLoadingCalls
 
   // Transform API agents to display format with calculated scores
@@ -125,8 +148,9 @@ export default function TeamsPage() {
       // Determine trend based on recent calls (simplified)
       const trend: 'up' | 'down' | 'stable' = avgScore >= 75 ? 'up' : avgScore >= 50 ? 'stable' : 'down'
 
-      // Count projects
-      const projectCount = Array.isArray(agent.project) ? agent.project.length : 1
+      // Get projects as array
+      const agentProjects = Array.isArray(agent.project) ? agent.project : agent.project ? [agent.project] : []
+      const projectCount = agentProjects.length
 
       return {
         id: agent.id,
@@ -137,6 +161,8 @@ export default function TeamsPage() {
         timezoneLabel: 'Eastern Time',
         score: avgScore,
         trend,
+        company: agent.company || '',
+        projects: agentProjects,
       }
     })
   }, [apiAgents, callSummaries])
@@ -144,16 +170,32 @@ export default function TeamsPage() {
   // Filter agents
   const filteredAgents = useMemo(() => {
     return agents.filter((agent: AgentDisplay) => {
+      // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase()
         if (!agent.name.toLowerCase().includes(query)) return false
       }
+
+      // Company filter
+      if (companyFilter && companyFilter !== 'all') {
+        const selectedCompany = companies.find((c: { id: number; name: string }) => String(c.id) === companyFilter)
+        if (selectedCompany && agent.company !== selectedCompany.name) return false
+      }
+
+      // Project filter
+      if (projectFilter && projectFilter !== 'all') {
+        const selectedProject = projects.find((p: { id: number; name: string }) => String(p.id) === projectFilter)
+        if (selectedProject && !agent.projects.includes(selectedProject.name)) return false
+      }
+
+      // Score filter
       if (scoreFilter === 'high' && agent.score < 80) return false
       if (scoreFilter === 'medium' && (agent.score < 60 || agent.score >= 80)) return false
       if (scoreFilter === 'low' && agent.score >= 60) return false
+
       return true
     })
-  }, [agents, searchQuery, scoreFilter])
+  }, [agents, searchQuery, companyFilter, projectFilter, scoreFilter, companies, projects])
 
   // Paginate
   const paginatedAgents = useMemo(() => {
@@ -183,31 +225,48 @@ export default function TeamsPage() {
     }
   }
 
-  const handleCreateAgent = () => {
-    // Mock create agent
-    console.log('Creating agent:', newAgent)
+  const handleCreateAgent = async () => {
     const roleLabels: Record<string, string> = {
       'agent': 'Call Center Operator',
       'shift-lead': 'Shift Lead',
       'team-lead': 'Team Lead',
       'qc': 'QC Analyst',
     }
-    setCreatedAgent({
-      name: `${newAgent.firstName} ${newAgent.lastName}`.trim() || 'David Kim',
-      role: roleLabels[newAgent.role] || 'Call Center Operator',
-    })
-    setShowAddAgentModal(false)
-    setShowAgentSuccessModal(true)
-    setNewAgent({
-      firstName: '',
-      lastName: '',
-      role: '',
-      timezone: '',
-      companies: '',
-      projects: '',
-      email: '',
-      phone: '',
-    })
+
+    // Get company name from selected ID
+    const selectedCompany = companies.find((c: { id: number; name: string }) => String(c.id) === newAgent.companyId)
+    const selectedProject = projects.find((p: { id: number; name: string }) => String(p.id) === newAgent.projectId)
+
+    try {
+      await createAgentMutation.mutateAsync({
+        firstname: newAgent.firstName,
+        lastname: newAgent.lastName,
+        role: roleLabels[newAgent.role] || 'Agent',
+        email: newAgent.email,
+        phone: newAgent.phone,
+        company: selectedCompany?.name || '',
+        project: selectedProject ? [selectedProject.name] : [],
+      })
+
+      setCreatedAgent({
+        name: `${newAgent.firstName} ${newAgent.lastName}`.trim(),
+        role: roleLabels[newAgent.role] || 'Call Center Operator',
+      })
+      setShowAddAgentModal(false)
+      setShowAgentSuccessModal(true)
+      setNewAgent({
+        firstName: '',
+        lastName: '',
+        role: '',
+        timezone: '',
+        companyId: '',
+        projectId: '',
+        email: '',
+        phone: '',
+      })
+    } catch (error) {
+      console.error('Failed to create agent:', error)
+    }
   }
 
   return (
@@ -452,28 +511,40 @@ export default function TeamsPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Assigned Companies</label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  value={newAgent.companies}
-                  onChange={(e) => setNewAgent({ ...newAgent, companies: e.target.value })}
-                  placeholder="Search companies..."
-                  className="pl-10"
-                />
-              </div>
+              <label className="text-sm font-medium text-slate-700">Assigned Company</label>
+              <Select
+                value={newAgent.companyId}
+                onValueChange={(value) => setNewAgent({ ...newAgent, companyId: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Company..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {companies.map((company: { id: number; name: string }) => (
+                    <SelectItem key={company.id} value={String(company.id)}>
+                      {company.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Assigned Projects</label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  value={newAgent.projects}
-                  onChange={(e) => setNewAgent({ ...newAgent, projects: e.target.value })}
-                  placeholder="Search projects..."
-                  className="pl-10"
-                />
-              </div>
+              <label className="text-sm font-medium text-slate-700">Assigned Project</label>
+              <Select
+                value={newAgent.projectId}
+                onValueChange={(value) => setNewAgent({ ...newAgent, projectId: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Project..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {projects.map((project: { id: number; name: string }) => (
+                    <SelectItem key={project.id} value={String(project.id)}>
+                      {project.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">Email</label>
@@ -497,8 +568,15 @@ export default function TeamsPage() {
               <Button variant="outline" onClick={() => setShowAddAgentModal(false)}>
                 Cancel
               </Button>
-              <Button onClick={handleCreateAgent}>
-                Create Agent
+              <Button onClick={handleCreateAgent} disabled={createAgentMutation.isPending}>
+                {createAgentMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  'Create Agent'
+                )}
               </Button>
             </div>
           </div>

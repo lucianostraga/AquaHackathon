@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Header, PageContainer } from '@/components/layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +21,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 import {
   Search,
   Pencil,
@@ -54,12 +61,24 @@ interface TeamMemberCall {
 export default function TeamMemberPage() {
   const navigate = useNavigate()
   const { memberId } = useParams()
+  const queryClient = useQueryClient()
   const [searchQuery, setSearchQuery] = useState('')
   const [companyFilter, setCompanyFilter] = useState('all')
   const [projectFilter, setProjectFilter] = useState('all')
   const [scoreFilter, setScoreFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 6
+
+  // Edit modal state
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editForm, setEditForm] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    role: '',
+    company: '',
+  })
 
   // Fetch agent from API
   const { data: agent, isLoading: isLoadingAgent } = useQuery({
@@ -97,6 +116,32 @@ export default function TeamMemberPage() {
       return response.data
     },
   })
+
+  // Update agent mutation
+  const updateAgentMutation = useMutation({
+    mutationFn: async (data: typeof editForm) => {
+      const response = await usersApi.updateAgent(Number(memberId), data)
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agent', memberId] })
+      setShowEditModal(false)
+    },
+  })
+
+  // Populate form when agent data is loaded
+  useEffect(() => {
+    if (agent && showEditModal) {
+      setEditForm({
+        firstname: agent.firstname || '',
+        lastname: agent.lastname || '',
+        email: agent.email || '',
+        phone: agent.phone || '',
+        role: agent.role || '',
+        company: agent.company || '',
+      })
+    }
+  }, [agent, showEditModal])
 
   const isLoading = isLoadingAgent || isLoadingCalls
 
@@ -252,7 +297,7 @@ export default function TeamMemberPage() {
             <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
               Team member
             </h1>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setShowEditModal(true)}>
               <Pencil className="h-4 w-4 mr-2" />
               Edit Agent
             </Button>
@@ -516,6 +561,86 @@ export default function TeamMemberPage() {
           )}
         </div>
       </PageContainer>
+
+      {/* Edit Agent Modal */}
+      <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Agent</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="firstname">First Name</Label>
+                <Input
+                  id="firstname"
+                  value={editForm.firstname}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, firstname: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastname">Last Name</Label>
+                <Input
+                  id="lastname"
+                  value={editForm.lastname}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, lastname: e.target.value }))}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={editForm.email}
+                onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                id="phone"
+                value={editForm.phone}
+                onChange={(e) => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                value={editForm.role}
+                onChange={(e) => setEditForm(prev => ({ ...prev, role: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                value={editForm.company}
+                onChange={(e) => setEditForm(prev => ({ ...prev, company: e.target.value }))}
+              />
+            </div>
+            <div className="flex justify-end gap-3 pt-4">
+              <Button variant="outline" onClick={() => setShowEditModal(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => updateAgentMutation.mutate(editForm)}
+                disabled={updateAgentMutation.isPending}
+              >
+                {updateAgentMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
