@@ -209,48 +209,117 @@ AudioPlayer/
 
 ---
 
-## 8. BFF Layer Architecture
+## 8. BFF Layer Architecture - IMPLEMENTED
 
-### Decision: Express.js BFF (Node.js)
+### Decision: Express.js BFF (Node.js) - COMPLETE
+
+**Implementation Location:** `/project-implementation/aqua-bff/`
+
+**Status:** Fully implemented and operational on Port 4000
 
 ### Why BFF is Required
-1. **API Aggregation** - Combine JSON Server + .NET API
+1. **API Aggregation** - Combine JSON Server + .NET API via single entry point
 2. **Security** - RBAC enforcement, PII sanitization
 3. **Long-Polling** - NotificationService requirement
-4. **CORS** - Single origin for frontend
+4. **CORS** - Single origin for frontend (ports 5173, 5174)
 
-### BFF Endpoints
+### Technology Stack
 
-| Endpoint | Method | Source |
-|----------|--------|--------|
-| `/api/auth/login` | POST | JSON Server /Profiles |
-| `/api/calls` | GET | JSON Server /CallSummary |
-| `/api/calls/:id` | GET | JSON Server /Calls |
-| `/api/calls/:id/audio` | GET | .NET API (port 8080) |
-| `/api/upload` | POST | .NET API |
-| `/api/notifications/poll` | GET | JSON Server /Notifications |
-| `/api/users` | CRUD | JSON Server /Users |
-| `/api/companies` | GET | JSON Server /Companies |
-| `/api/projects` | GET | JSON Server /Projects |
-| `/api/roles` | GET | JSON Server /Roles |
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Express.js | 4.21.0 | HTTP server framework |
+| http-proxy-middleware | 3.0.0 | API request proxying |
+| cors | 2.8.5 | Cross-origin configuration |
+| TypeScript | 5.6.0 | Type safety |
+| tsx | 4.19.0 | Development server |
+
+### BFF Endpoints (Implemented)
+
+| Endpoint | Method | Target | Description |
+|----------|--------|--------|-------------|
+| `/health` | GET | BFF | Health check with upstream status |
+| `/api/*` | ALL | JSON Server (:3000) | Proxy all JSON Server requests |
+| `/audio-api/*` | ALL | .NET API (:8080) | Proxy all audio API requests |
+| `/aggregated/calls/:id` | GET | Both | Combined call data + audio analysis |
+| `/aggregated/analytics` | GET | JSON Server | Computed analytics metrics |
+| `/notifications/poll` | GET | BFF | Long-polling (30s timeout) |
+| `/notifications/push` | POST | BFF | Push notifications (demo/testing) |
+
+### RBAC Middleware Implementation
+
+```typescript
+const ROLE_PERMISSIONS: Record<string, string[]> = {
+  'admin': ['*'],
+  'team_lead': ['calls:read', 'calls:write', 'teams:read', 'analytics:read', 'overrides:write'],
+  'qc_analyst': ['calls:read', 'calls:write', 'overrides:write', 'analytics:read'],
+  'agent': ['calls:read:own', 'analytics:read:own']
+}
+
+function rbacMiddleware(requiredPermission: string) {
+  return (req, res, next) => {
+    const userRole = req.headers['x-user-role'] as string || 'agent'
+    const permissions = ROLE_PERMISSIONS[userRole] || []
+    if (permissions.includes('*') || permissions.includes(requiredPermission)) {
+      next()
+    } else {
+      res.status(403).json({ error: 'Forbidden', message: 'Insufficient permissions' })
+    }
+  }
+}
+```
+
+### PII Sanitization
+
+```typescript
+function sanitizePII(data: any): any {
+  const piiFields = ['ssn', 'socialSecurityNumber', 'creditCard', 'bankAccount', 'password']
+  // Recursively removes/redacts PII fields from API responses
+}
+```
 
 ### Long-Polling Implementation
 
 ```typescript
-router.get('/notifications/poll', async (req, res) => {
-  const lastId = req.query.lastId as string
-  const timeout = 30000
+app.get('/notifications/poll', async (req, res) => {
+  const userId = req.headers['x-user-id'] as string || 'anonymous'
+  const timeout = parseInt(req.query.timeout as string) || 30000
   const startTime = Date.now()
 
-  while (Date.now() - startTime < timeout) {
-    const notifications = await checkForNewNotifications(lastId)
+  const checkNotifications = () => {
+    const notifications = pendingNotifications.get(userId) || []
     if (notifications.length > 0) {
-      return res.json(notifications)
+      pendingNotifications.set(userId, [])
+      return res.json({ notifications })
     }
-    await sleep(2000)
+    if (Date.now() - startTime >= timeout) {
+      return res.json({ notifications: [] })
+    }
+    setTimeout(checkNotifications, 1000)
   }
-  res.json([])
+  checkNotifications()
 })
+```
+
+### Plug-and-Play Configuration
+
+The BFF is designed for easy environment switching:
+
+**Frontend (client.ts):**
+```typescript
+const BFF_URL = import.meta.env.VITE_BFF_URL || 'http://localhost:4000'
+export const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || `${BFF_URL}/api`,
+})
+export const audioApiClient = axios.create({
+  baseURL: import.meta.env.VITE_AUDIO_API_URL || `${BFF_URL}/audio-api`,
+})
+```
+
+**BFF (index.ts) - Upstream targets:**
+```typescript
+// Easily configurable proxy targets
+app.use('/api', createProxyMiddleware({ target: 'http://localhost:3000' }))
+app.use('/audio-api', createProxyMiddleware({ target: 'http://localhost:8080' }))
 ```
 
 ---
@@ -495,21 +564,56 @@ export type Permission =
 
 ## 14. Running All Services
 
-```bash
-# Terminal 1: JSON Server (port 3000)
-cd project-resources/JSON\ Server/json-server
-json-server --watch db.json
+### Service Architecture Flow
 
-# Terminal 2: .NET Mock API (port 8080)
+```
+Frontend (5173) → BFF (4000) → JSON Server (3000)
+                            → .NET API (8080)
+```
+
+### Startup Commands
+
+```bash
+# Terminal 1: JSON Server (port 3000) - Mock data API
+cd project-resources/JSON\ Server/json-server
+npx json-server db.json --port 3000
+
+# Terminal 2: .NET Mock API (port 8080) - Audio processing
 docker run -d -p 8080:8080 kevinricar24/api-core-ai:latest
 
-# Terminal 3: BFF (port 4000)
-cd bff
+# Terminal 3: BFF (port 4000) - API Aggregation Layer
+cd project-implementation/aqua-bff
+npm install    # First time only
 npm run dev
 
-# Terminal 4: Frontend (port 5173)
-cd aqua-frontend
+# Terminal 4: Frontend (port 5173) - React SPA
+cd project-implementation/aqua-frontend
 npm run dev
+```
+
+### Verifying BFF is Running
+
+```bash
+# Health check
+curl http://localhost:4000/health
+
+# Test API proxy
+curl http://localhost:4000/api/Calls
+
+# Test aggregated endpoint
+curl http://localhost:4000/aggregated/analytics
+```
+
+### Environment Variables (Optional)
+
+```bash
+# Frontend (.env)
+VITE_BFF_URL=http://localhost:4000
+VITE_API_URL=http://localhost:4000/api
+VITE_AUDIO_API_URL=http://localhost:4000/audio-api
+
+# BFF
+PORT=4000
 ```
 
 ---

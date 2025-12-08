@@ -335,7 +335,7 @@ Test Files:
 
 ## 3. System Architecture
 
-### 3.1 Three-Tier Architecture Overview
+### 3.1 Four-Tier Architecture Overview
 
 ```
 +------------------------------------------------------------------------+
@@ -376,6 +376,34 @@ Test Files:
                                   |
                                   v
 +------------------------------------------------------------------------+
+|                         BFF LAYER (Port 4000)                           |
+|               Backend For Frontend - API Aggregation Layer              |
++------------------------------------------------------------------------+
+|                                                                         |
+|  +------------------------+  +------------------------+                |
+|  |   API Aggregation      |  |   Security Layer       |                |
+|  |   - /api/* → :3000     |  |   - CORS Config        |                |
+|  |   - /audio-api/* →:8080|  |   - RBAC Middleware    |                |
+|  +------------------------+  +------------------------+                |
+|                                                                         |
+|  +------------------------+  +------------------------+                |
+|  |   Aggregated Endpoints |  |   Notification Service |                |
+|  |   - /aggregated/calls  |  |   - Long-Polling       |                |
+|  |   - /aggregated/analytics| |   - Push notifications |                |
+|  +------------------------+  +------------------------+                |
+|                                                                         |
+|  +------------------------+                                            |
+|  |   PII Sanitization     |                                            |
+|  |   - Removes sensitive  |                                            |
+|  |     data from responses|                                            |
+|  +------------------------+                                            |
+|                                                                         |
++------------------------------------------------------------------------+
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
++------------------------------------------------------------------------+
 |                           SERVER LAYER                                  |
 |                        (Backend Services)                               |
 +------------------------------------------------------------------------+
@@ -413,6 +441,55 @@ Test Files:
 - ES modules for fast browser loading
 
 **Production:** Static files served via `npm run preview` or any static host
+
+#### BFF Server (Port 4000)
+
+**Purpose:** Backend For Frontend - API Aggregation and Security Layer
+
+**Location:** `/project-implementation/aqua-bff/`
+
+**Technology:** Express.js with TypeScript
+- http-proxy-middleware for API proxying
+- CORS configuration for frontend origin
+- RBAC middleware for role-based access control
+
+**Key Features:**
+
+| Feature | Description |
+|---------|-------------|
+| **API Aggregation** | Single entry point routing to multiple backends |
+| **CORS Handling** | Configured for frontend origins (5173, 5174) |
+| **RBAC Middleware** | Permission-based endpoint protection |
+| **PII Sanitization** | Removes sensitive data from responses |
+| **Long-Polling** | Notification service with configurable timeout |
+| **Health Check** | `/health` endpoint for monitoring |
+
+**Endpoints:**
+
+| Endpoint | Method | Target | Description |
+|----------|--------|--------|-------------|
+| `/health` | GET | BFF | Health check with upstream status |
+| `/api/*` | ALL | JSON Server (:3000) | Proxy to mock data API |
+| `/audio-api/*` | ALL | .NET API (:8080) | Proxy to audio processing API |
+| `/aggregated/calls/:id` | GET | Both | Combined call + audio analysis |
+| `/aggregated/analytics` | GET | JSON Server | Computed analytics summary |
+| `/notifications/poll` | GET | BFF | Long-polling notifications |
+| `/notifications/push` | POST | BFF | Push notification (demo) |
+
+**Environment Variables:**
+```bash
+PORT=4000                    # BFF server port
+```
+
+**Plug-and-Play Configuration:**
+The frontend API client automatically routes through the BFF:
+```typescript
+// Frontend client.ts - Configurable via environment variables
+const BFF_URL = import.meta.env.VITE_BFF_URL || 'http://localhost:4000'
+export const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || `${BFF_URL}/api`,
+})
+```
 
 #### JSON Server (Port 3000)
 
