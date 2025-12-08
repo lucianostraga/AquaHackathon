@@ -36,7 +36,6 @@ import {
 import { cn } from '@/lib/utils'
 import type { CallSummary } from '@/types'
 import { FlagBadge } from './FlagBadge'
-import { StatusBadge } from './StatusBadge'
 import { ScoreIndicator } from './ScoreIndicator'
 
 interface CallsTableProps {
@@ -59,11 +58,11 @@ interface CallsTableProps {
 export function CallsTable({ data, isLoading, searchQuery = '' }: CallsTableProps) {
   const navigate = useNavigate()
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'date', desc: true },
+    { id: 'processDate', desc: true },
   ])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  // Define table columns
+  // Define table columns - using server field names
   const columns = useMemo<ColumnDef<CallSummary>[]>(
     () => [
       {
@@ -90,12 +89,12 @@ export function CallsTable({ data, isLoading, searchQuery = '' }: CallsTableProp
         ),
       },
       {
-        accessorKey: 'date',
+        accessorKey: 'processDate',
         header: ({ column }) => (
           <SortableHeader column={column} title="Date" />
         ),
         cell: ({ row }) => {
-          const date = row.getValue('date') as string
+          const date = row.getValue('processDate') as string
           return (
             <span className="text-slate-600 tabular-nums">
               {formatDate(date)}
@@ -104,52 +103,59 @@ export function CallsTable({ data, isLoading, searchQuery = '' }: CallsTableProp
         },
       },
       {
-        accessorKey: 'duration',
+        accessorKey: 'audioName',
         header: ({ column }) => (
-          <SortableHeader column={column} title="Duration" />
+          <SortableHeader column={column} title="Audio" />
         ),
         cell: ({ row }) => (
           <div className="flex items-center gap-1.5 text-slate-600">
             <FileAudio className="h-4 w-4 text-slate-400" />
-            <span className="tabular-nums">{row.getValue('duration')}</span>
+            <span className="text-sm">{row.getValue('audioName')}</span>
           </div>
         ),
       },
       {
-        accessorKey: 'overallScore',
+        accessorKey: 'scoreCard',
         header: ({ column }) => (
           <SortableHeader column={column} title="Score" />
         ),
         cell: ({ row }) => (
           <ScoreIndicator
-            score={row.getValue('overallScore')}
+            score={row.getValue('scoreCard')}
             size="sm"
             showBar={true}
           />
         ),
       },
       {
-        accessorKey: 'flag',
+        accessorKey: 'Flagged',
         header: ({ column }) => (
           <SortableHeader column={column} title="Flag" />
         ),
-        cell: ({ row }) => (
-          <FlagBadge flag={row.getValue('flag')} showLabel size="sm" />
-        ),
+        cell: ({ row }) => {
+          const isFlagged = row.getValue('Flagged') as boolean
+          // Convert boolean to flag type for display
+          const flagType = isFlagged ? 'Red' : 'Green'
+          return <FlagBadge flag={flagType} showLabel size="sm" />
+        },
         filterFn: (row, id, filterValue) => {
           if (filterValue === 'all') return true
-          return row.getValue(id) === filterValue
+          const isFlagged = row.getValue(id) as boolean
+          if (filterValue === 'Red') return isFlagged
+          if (filterValue === 'Green') return !isFlagged
+          return true
         },
       },
       {
-        accessorKey: 'status',
-        header: ({ column }) => (
-          <SortableHeader column={column} title="Status" />
-        ),
-        cell: ({ row }) => <StatusBadge status={row.getValue('status')} />,
-        filterFn: (row, id, filterValue) => {
-          if (filterValue === 'all') return true
-          return row.getValue(id) === filterValue
+        accessorKey: 'Issues',
+        header: () => <span>Issues</span>,
+        cell: ({ row }) => {
+          const issues = row.getValue('Issues') as string[]
+          return (
+            <span className="text-sm text-slate-600">
+              {issues?.length > 0 ? `${issues.length} issues` : 'None'}
+            </span>
+          )
         },
       },
     ],
@@ -165,7 +171,8 @@ export function CallsTable({ data, isLoading, searchQuery = '' }: CallsTableProp
       (call) =>
         call.callId.toLowerCase().includes(query) ||
         call.agentName.toLowerCase().includes(query) ||
-        call.transactionId.toLowerCase().includes(query)
+        call.transactionId.toLowerCase().includes(query) ||
+        call.audioName.toLowerCase().includes(query)
     )
   }, [data, searchQuery])
 
@@ -451,7 +458,7 @@ function CallsTableSkeleton() {
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50 hover:bg-slate-50">
-            {['Call ID', 'Agent', 'Date', 'Duration', 'Score', 'Flag', 'Status'].map(
+            {['Call ID', 'Agent', 'Date', 'Audio', 'Score', 'Flag', 'Issues'].map(
               (header) => (
                 <TableHead key={header} className="text-slate-600 font-semibold">
                   {header}
@@ -473,7 +480,7 @@ function CallsTableSkeleton() {
                 <Skeleton className="h-5 w-24" />
               </TableCell>
               <TableCell>
-                <Skeleton className="h-5 w-16" />
+                <Skeleton className="h-5 w-24" />
               </TableCell>
               <TableCell>
                 <Skeleton className="h-5 w-20" />

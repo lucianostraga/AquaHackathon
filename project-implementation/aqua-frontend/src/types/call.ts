@@ -73,17 +73,24 @@ export interface Anomaly {
   justification: string[]
 }
 
+/**
+ * CallSummary - matches server response from /CallSummary endpoint
+ */
 export interface CallSummary {
-  id: number
+  id: string
   transactionId: string
   callId: string
+  companyId: number
+  projectId: number
+  company: string // company name (denormalized for display)
+  project: string // project name (denormalized for display)
   agentName: string
   audioName: string
-  duration: string
-  date: string
-  overallScore: number
-  flag: 'Red' | 'Yellow' | 'Green'
-  status: 'Pending' | 'Reviewed' | 'Processing'
+  processDate: string
+  scoreCard: number // overall score percentage
+  Flagged: boolean
+  Issues: string[]
+  dominantSentiment?: 'Positive' | 'Neutral' | 'Negative' // derived from call sentiment analysis
 }
 
 export type SentimentType = 'Positive' | 'Neutral' | 'Negative'

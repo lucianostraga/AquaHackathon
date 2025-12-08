@@ -239,11 +239,10 @@ export function SimpleAudioPlayer({ audioUrl, className }: SimpleAudioPlayerProp
                 className="absolute inset-y-0 left-0 bg-blue-100"
                 style={{ width: `${progress}%` }}
               />
-              {/* Fake waveform bars */}
+              {/* Waveform bars */}
               <div className="absolute inset-0 flex items-center justify-around px-2">
-                {Array.from({ length: 50 }).map((_, i) => {
-                  const height = 30 + Math.sin(i * 0.5) * 20 + Math.random() * 20
-                  const isPast = (i / 50) * 100 < progress
+                {waveformData.map((height, i) => {
+                  const isPast = (i / waveformData.length) * 100 < progress
                   return (
                     <div
                       key={i}

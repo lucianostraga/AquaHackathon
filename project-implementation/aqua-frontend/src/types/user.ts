@@ -95,10 +95,11 @@ export interface Project {
 
 export interface Agent {
   id: number
-  name: string
+  firstname: string
+  lastname: string
   email: string
-  teamId: number
-  projectId: number
-  performance?: number
-  callsHandled?: number
+  phone: string
+  role: string
+  company: string
+  project: string | string[] // can be single project or array of projects
 }

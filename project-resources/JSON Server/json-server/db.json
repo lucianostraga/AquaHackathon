@@ -1838,58 +1838,124 @@
 ],
 
 
+"PermissionCategories": [
+  {
+    "id": 1,
+    "name": "Users & Roles",
+    "note": "Full access"
+  },
+  {
+    "id": 2,
+    "name": "Scorecards & Thresholds",
+    "note": "QA control only"
+  },
+  {
+    "id": 3,
+    "name": "Workflows",
+    "note": "Cannot delete flow"
+  },
+  {
+    "id": 4,
+    "name": "Data & Privacy Policies",
+    "note": "Read-only"
+  },
+  {
+    "id": 5,
+    "name": "Reports & Exports",
+    "note": "No PII export"
+  },
+  {
+    "id": 6,
+    "name": "API & Webhooks",
+    "note": "Hidden by default"
+  },
+  {
+    "id": 7,
+    "name": "Audit Logs",
+    "note": "Viewer only"
+  }
+],
+
 "Roles":[
   {
     "id": 1,
-    "name": "Entity Administrator",
+    "code": "QC",
+    "name": "Quality Control auditor",
+    "usersAssigned": 12,
+    "editable": "yes",
+    "lastModified": "2025-09-09",
     "permissions": [
-      "users",
-      "scorecard"
+      "upload",
+      "reviewcalls",
+      "score",
+      "notes",
+      "coachingcalls"
     ]
   },
   {
     "id": 2,
-    "name": "Super Admin",
+    "code": "TL",
+    "name": "Team Leader / Coach",
+    "usersAssigned": 5,
+    "editable": "yes",
+    "lastModified": "2025-09-07",
     "permissions": [
-      "teams",
-      "companies",
-      "projects",
-      "roles"
+      "monitor",
+      "reports",
+      "teams"
     ]
   },
   {
     "id": 3,
-    "name": "Client side Stakeholder",
+    "code": "SA",
+    "name": "Supervisor Admin",
+    "usersAssigned": 3,
+    "editable": "system",
+    "lastModified": "2025-09-01",
+    "permissions": [
+      "teams",
+      "companies",
+      "projects",
+      "roles",
+      "users"
+    ]
+  },
+  {
+    "id": 4,
+    "code": "DM",
+    "name": "Director Manager",
+    "usersAssigned": 2,
+    "editable": "system",
+    "lastModified": "2025-09-01",
+    "permissions": [
+      "monitor",
+      "reports",
+      "exportinfo",
+      "teams",
+      "companies"
+    ]
+  },
+  {
+    "id": 5,
+    "code": "CL",
+    "name": "Client (readonly)",
+    "usersAssigned": 7,
+    "editable": "limited",
+    "lastModified": "2025-09-10",
     "permissions": [
       "monitor",
       "reports"
     ]
   },
   {
-    "id": 4,
-    "name": "Customer Support Supervisor",
-    "permissions": [
-      "monitor",
-      "reports",
-      "exportinfo"
-    ]
-  },
-  {
-    "id": 5,
-    "name": "Customer Support Agent",
-    "permissions": [
-      "reviewcalls",
-      "coachingcalls"
-    ]
-  },
-  {
     "id": 6,
-    "name": "Quality Control Analyst",
+    "code": "AG",
+    "name": "Call Center Operator",
+    "usersAssigned": 40,
+    "editable": "yes",
+    "lastModified": "2025-09-10",
     "permissions": [
-      "upload",
       "reviewcalls",
-      "score",
-      "notes",
       "coachingcalls"
     ]
   }
@@ -1969,75 +2035,46 @@
 
 "Profiles":[
   {
-    "id": 1,
-    "idUser": 1,
-    "user": { "id": 1,
-              "name": "Demo 1",
-              "lastName": "Team",
-              "roleId" : 1
-            },
-    "role": { "id": 1,
-              "name": "Entity Administrator",
-              "permissions": [
-              "users",
-              "scorecard"]
-            }
+    "id": "qc",
+    "code": "QC",
+    "name": "Quality Control Auditor",
+    "color": "blue",
+    "permissions": ["upload", "reviewcalls", "score", "notes", "coachingcalls"]
   },
   {
-    "id": 2,
-    "idUser": 2,
-    "user": { 
-              "id": 2,
-              "name": "Demo 2",
-              "lastName": "Team",
-              "roleId" : 3
-            },
-    "role": { 
-              "id": 3,
-              "name": "Client side Stakeholder",
-              "permissions": [
-                "monitor",
-                "reports"
-              ]
-            }
+    "id": "tl",
+    "code": "TL",
+    "name": "Team Leader",
+    "color": "yellow",
+    "permissions": ["monitor", "reports", "teams", "reviewcalls"]
   },
   {
-    "id": 3,
-    "idUser": 3,
-    "user": { 
-              "id": 3,
-              "name": "Demo 3",
-              "lastName": "Team",
-              "roleId" : 2
-            },
-    "role": { 
-              "id": 2,
-              "name": "Super Admin",
-              "permissions": [
-                "teams",
-                "companies",
-                "projects",
-                "roles"
-              ]
-            }
+    "id": "sa",
+    "code": "SA",
+    "name": "Supervisor Admin",
+    "color": "green",
+    "permissions": ["teams", "companies", "projects", "roles", "users", "monitor", "reports"]
   },
   {
-    "id": 4,
-    "idUser": 4,
-    "user": { 
-              "id": 4,
-              "name": "Demo 4",
-              "lastName": "Team",
-              "roleId" : 3
-            },
-    "role": { 
-              "id": 3,
-              "name": "Client side Stakeholder",
-              "permissions": [
-                "monitor",
-                "reports"
-              ]
-            }
+    "id": "dm",
+    "code": "DM",
+    "name": "Director Manager",
+    "color": "red",
+    "permissions": ["monitor", "reports", "exportinfo", "teams", "companies"]
+  },
+  {
+    "id": "cl",
+    "code": "CL",
+    "name": "Client",
+    "color": "gray",
+    "permissions": ["monitor", "reports"]
+  },
+  {
+    "id": "co",
+    "code": "CO",
+    "name": "Call Center Operator",
+    "color": "blue",
+    "permissions": ["reviewcalls", "coachingcalls"]
   }
 ],
 
@@ -2096,60 +2133,72 @@
     "callId": "44505f02-745a-4ad4-9e4b-280ba43ed1ae",
     "companyId": 1,
     "projectId": 1,
+    "company": "Team International",
+    "project": "Project BASE",
     "audioName": "CallSample1",
     "processDate": "2025-10-14T19:03:44.0957133Z",
-	  "agentName": "Robert",
+    "agentName": "Robert",
     "scoreCard": 31,
-	  "Flagged": true,
-	  "Issues": [
+    "Flagged": true,
+    "dominantSentiment": "Negative",
+    "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]   
+      ]
 },
 {
     "transactionId": "0edfc0d3-b483-44d9-9606-6e7cd85400db",
     "callId": "b76a0f25-d3b0-46ab-b5a2-34ca68017a8e",
     "companyId": 1,
     "projectId": 2,
+    "company": "Team International",
+    "project": "Project ONE",
     "audioName": "CallSample2",
-    "processDate": "2025-10-14T19:09:56.9028764Z",    
-	  "agentName": "Sean",
+    "processDate": "2025-10-14T19:09:56.9028764Z",
+    "agentName": "Sean",
     "scoreCard": 47,
-	  "Flagged": true,
-	  "Issues": [
+    "Flagged": true,
+    "dominantSentiment": "Neutral",
+    "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]  
+      ]
 },
 {
     "transactionId": "32116406-c376-46f9-9584-dcddafea3b6b",
     "callId": "400ebcdd-9f08-40a4-aff4-3b7e816e88e7",
     "companyId": 1,
     "projectId": 3,
+    "company": "Team International",
+    "project": "Project P2",
     "audioName": "CallSample3",
-    "processDate": "2025-10-14T19:16:57.4277619Z",        
-	  "agentName": "Sean",
+    "processDate": "2025-10-14T19:16:57.4277619Z",
+    "agentName": "Sean",
     "scoreCard": 72,
-	  "Flagged": true,
-	  "Issues": [
+    "Flagged": true,
+    "dominantSentiment": "Positive",
+    "Issues": [
         "<75% of total score points from 100%",
         "Agent did not verify the Account",
         "Unresolved Issue"
-      ]  
+      ]
 },
 {
     "transactionId": "770e07be-6752-4a85-8633-66de0880b54c",
     "callId": "7a78711a-f4de-4090-a3aa-501e0e15dcc2",
     "companyId": 2,
     "projectId": 3,
-    "audioName": "CallSample4",    
-    "processDate": "2025-10-14T20:13:05.5459347Z",    
-	  "agentName": "Sean",
+    "company": "Colo SAS",
+    "project": "Project P2",
+    "audioName": "CallSample4",
+    "processDate": "2025-10-14T20:13:05.5459347Z",
+    "agentName": "Sean",
     "scoreCard": 72,
-	  "Flagged": true,
-	  "Issues": [
+    "Flagged": true,
+    "dominantSentiment": "Positive",
+    "Issues": [
         "<75% of total score points from 100%"
       ]
 }

@@ -14,7 +14,7 @@ import { FolderKanban } from 'lucide-react'
 import { usersApi } from '@/services/api'
 
 interface Project {
-  id: string
+  id: number
   name: string
   companyId: number
   description?: string

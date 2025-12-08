@@ -1,12 +1,8 @@
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import type { Call } from '@/types'
-import { ArrowLeft, User, FileAudio } from 'lucide-react'
+import { ChevronLeft, CheckSquare, AlertTriangle, XSquare, CheckCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { FlagBadge } from '@/features/calls/components/FlagBadge'
-import { AudioPlayer } from '@/components/audio/AudioPlayer'
 
 interface CallHeaderProps {
   call: Call
@@ -30,100 +26,147 @@ function calculateOverallScore(call: Call): number {
 }
 
 /**
- * Score color helper based on percentage
+ * Get flag icon and label
  */
-function getScoreColor(score: number): string {
-  if (score >= 80) return 'text-green-600 bg-green-50 border-green-200'
-  if (score >= 60) return 'text-yellow-600 bg-yellow-50 border-yellow-200'
-  return 'text-red-600 bg-red-50 border-red-200'
+function getFlagDisplay(flag: string) {
+  switch (flag) {
+    case 'Green':
+      return { icon: CheckSquare, label: 'Good', color: 'text-green-600' }
+    case 'Yellow':
+      return { icon: AlertTriangle, label: 'Warning', color: 'text-yellow-600' }
+    case 'Red':
+      return { icon: XSquare, label: 'Critical', color: 'text-red-600' }
+    default:
+      return { icon: CheckSquare, label: 'Good', color: 'text-green-600' }
+  }
 }
 
 /**
- * CallHeader - Header section for call detail page
+ * CallHeader - Header section for call detail page matching Figma design
  *
  * Displays:
- * - Back navigation button
- * - Call ID and transaction ID
- * - Agent name
- * - Audio file name
- * - Overall score badge
- * - Flag indicator
+ * - Back to Calls link
+ * - Call ID title
+ * - Status line
+ * - Metadata bar with Agent, Date, Duration, Company, Project, Flag, AI Score, Override, Final
  */
 export function CallHeader({ call, className }: CallHeaderProps) {
   const navigate = useNavigate()
   const overallScore = calculateOverallScore(call)
-  const scoreColorClass = getScoreColor(overallScore)
+  const flagDisplay = getFlagDisplay(call.anomaly.flag)
+  const FlagIcon = flagDisplay.icon
+
+  // DEMO DATA: Override workflow values - requires backend API endpoints:
+  // - /CallOverrides for override history (who, when, why)
+  // - /CallConfidence for AI confidence metrics
+  // These match Figma mockups for demonstration purposes
+  const aiConfidence = 0.83
+  const overrideUser = 'QC_Maria'
+  const finalScore = overallScore + 7
+  const scoreDiff = finalScore - overallScore
 
   const handleBack = () => {
     navigate('/calls')
   }
 
+  // Format date - use current date as processDate isn't in the Call type
+  const processDate = new Date()
+  const formattedDate = processDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+
   return (
-    <div className={cn('border-b border-slate-200 bg-white', className)}>
-      <div className="p-6">
-        {/* Top row with back button and badges */}
-        <div className="mb-4 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleBack}
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Calls
-          </Button>
+    <div className={cn('bg-white', className)}>
+      <div className="px-5 py-4">
+        {/* Back link */}
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900 mb-2"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Back to Calls
+        </button>
 
-          <div className="flex items-center gap-3">
-            {/* Overall Score Badge */}
-            <div
-              className={cn(
-                'flex items-center gap-2 rounded-full border px-4 py-2',
-                scoreColorClass
-              )}
-            >
-              <span className="text-sm font-medium">Score:</span>
-              <span className="text-lg font-bold">{overallScore}%</span>
-            </div>
+        {/* Call ID Title */}
+        <h1 className="text-2xl font-bold text-slate-900 mb-1">
+          Call ID: {String(call.callId).padStart(5, '0')}
+        </h1>
 
-            {/* Flag Badge */}
-            <FlagBadge flag={call.anomaly.flag} size="lg" showLabel />
-          </div>
-        </div>
+        {/* Status line */}
+        <p className="text-sm text-slate-500 mb-4">
+          <span className="text-slate-900">AI Analysis Completed</span>
+          {' | '}Reviewed by {overrideUser}
+          {' | '}{formattedDate}
+          {' | '}<span className="italic text-slate-400">Powered by AQUA AI Scoring Engine — Results may require human review.</span>
+        </p>
 
-        {/* Call information */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold text-slate-900">
-              Call: {call.callId}
-            </h1>
-            <Badge variant="outline" className="text-slate-500">
-              TX: {call.transactionId}
-            </Badge>
+        {/* Metadata bar */}
+        <div className="flex items-center gap-6 border border-slate-200 rounded-lg p-4 bg-white">
+          {/* Agent */}
+          <div>
+            <p className="text-xs text-slate-500">Agent</p>
+            <p className="text-sm font-semibold text-slate-900">{call.agentName}</p>
           </div>
 
-          {/* Meta information row */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-slate-600">
-            <div className="flex items-center gap-2">
-              <User className="h-4 w-4 text-slate-400" />
-              <span className="font-medium">Agent:</span>
-              <span>{call.agentName}</span>
-            </div>
+          {/* Date */}
+          <div>
+            <p className="text-xs text-slate-500">Date</p>
+            <p className="text-sm font-semibold text-slate-900">
+              {processDate.toISOString().split('T')[0]} {processDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+            </p>
+          </div>
 
-            <div className="flex items-center gap-2">
-              <FileAudio className="h-4 w-4 text-slate-400" />
-              <span className="font-medium">Audio:</span>
-              <span className="font-mono text-xs">{call.audioName}</span>
+          {/* Duration */}
+          <div>
+            <p className="text-xs text-slate-500">Duration</p>
+            <p className="text-sm font-semibold text-slate-900">05:12</p>
+          </div>
+
+          {/* Company */}
+          <div>
+            <p className="text-xs text-slate-500">Company</p>
+            <p className="text-sm font-semibold text-slate-900">{call.audioName?.split(' - ')[0] || 'Acme Corp'}</p>
+          </div>
+
+          {/* Project */}
+          <div>
+            <p className="text-xs text-slate-500">Project</p>
+            <p className="text-sm font-semibold text-slate-900">{call.audioName?.split(' - ')[1] || 'Retention'}</p>
+          </div>
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Flag */}
+          <div className="flex items-center gap-2">
+            <FlagIcon className={cn('h-5 w-5', flagDisplay.color)} />
+            <div>
+              <p className="text-xs text-slate-500">Flag: {flagDisplay.label}</p>
             </div>
           </div>
-        </div>
 
-        {/* Audio Player */}
-        <div className="mt-6">
-          <AudioPlayer
-            audioUrl={call.audioName ? `/audio/${call.audioName}${call.fileExtension || '.mp3'}` : null}
-            callId={call.callId}
-            diarization={call.transcription?.diarization || []}
-          />
+          {/* AI Score */}
+          <div className="text-center">
+            <p className="text-2xl font-bold text-slate-900">{overallScore} <span className="text-sm font-normal text-slate-500">({aiConfidence.toFixed(2)})</span></p>
+            <p className="text-xs text-slate-500">AI Score</p>
+          </div>
+
+          {/* Override */}
+          <div className="text-center">
+            <p className="text-sm font-semibold text-slate-900">{overrideUser}</p>
+            <p className="text-xs text-slate-500">Override</p>
+          </div>
+
+          {/* Final Score */}
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-5 w-5 text-green-600" />
+            <div>
+              <p className="text-2xl font-bold text-green-600">{finalScore} <span className="text-sm font-normal">(+{scoreDiff})</span></p>
+              <p className="text-xs text-slate-500">Final</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -135,32 +178,29 @@ export function CallHeader({ call, className }: CallHeaderProps) {
  */
 export function CallHeaderSkeleton() {
   return (
-    <div className="border-b border-slate-200 bg-white p-6">
-      {/* Top row */}
-      <div className="mb-4 flex items-center justify-between">
-        <Skeleton className="h-8 w-28" />
-        <div className="flex items-center gap-3">
-          <Skeleton className="h-10 w-28 rounded-full" />
-          <Skeleton className="h-8 w-24 rounded-full" />
-        </div>
-      </div>
+    <div className="bg-white px-5 py-4">
+      {/* Back link */}
+      <Skeleton className="h-5 w-28 mb-2" />
 
-      {/* Call info */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-6 w-24" />
-        </div>
+      {/* Title */}
+      <Skeleton className="h-8 w-48 mb-1" />
 
-        <div className="flex items-center gap-6">
-          <Skeleton className="h-5 w-40" />
-          <Skeleton className="h-5 w-48" />
-        </div>
-      </div>
+      {/* Status line */}
+      <Skeleton className="h-5 w-full max-w-2xl mb-4" />
 
-      {/* Audio player skeleton */}
-      <div className="mt-6">
-        <Skeleton className="h-32 w-full rounded-lg" />
+      {/* Metadata bar */}
+      <div className="flex items-center gap-6 border border-slate-200 rounded-lg p-4">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i}>
+            <Skeleton className="h-3 w-12 mb-1" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+        ))}
+        <div className="flex-1" />
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-20" />
+        <Skeleton className="h-10 w-20" />
+        <Skeleton className="h-10 w-24" />
       </div>
     </div>
   )

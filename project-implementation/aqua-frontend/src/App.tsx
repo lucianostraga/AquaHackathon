@@ -14,8 +14,12 @@ const DashboardPage = lazy(() => import('@/features/dashboard/DashboardPage'))
 const UploadPage = lazy(() => import('@/features/upload/UploadPage'))
 const AnalyticsPage = lazy(() => import('@/features/analytics/AnalyticsPage'))
 const TeamsPage = lazy(() => import('@/features/teams/TeamsPage'))
+const TeamMemberPage = lazy(() => import('@/features/teams/TeamMemberPage'))
 const CompaniesPage = lazy(() => import('@/features/companies/CompaniesPage'))
+const CompanyDetailPage = lazy(() => import('@/features/companies/CompanyDetailPage'))
+const ProjectDetailPage = lazy(() => import('@/features/projects/ProjectDetailPage'))
 const RolesPage = lazy(() => import('@/features/roles/RolesPage'))
+const EditRolePage = lazy(() => import('@/features/roles/EditRolePage'))
 const ProjectsPage = lazy(() => import('@/features/projects/ProjectsPage'))
 const SettingsPage = lazy(() => import('@/features/settings/SettingsPage'))
 
@@ -113,6 +117,14 @@ function App() {
                 }
               />
               <Route
+                path="/team/:memberId"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <TeamMemberPage />
+                  </Suspense>
+                }
+              />
+              <Route
                 path="/companies"
                 element={
                   <Suspense fallback={<PageLoader />}>
@@ -121,10 +133,42 @@ function App() {
                 }
               />
               <Route
+                path="/companies/:companyId"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <CompanyDetailPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/companies/:companyId/projects/:projectId"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <ProjectDetailPage />
+                  </Suspense>
+                }
+              />
+              <Route
                 path="/roles"
                 element={
                   <Suspense fallback={<PageLoader />}>
                     <RolesPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/roles/new"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <EditRolePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/roles/:roleId"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <EditRolePage />
                   </Suspense>
                 }
               />
