@@ -191,6 +191,20 @@ export function AudioPlayer({
           )}
         </div>
 
+        {/* Legend for speaker colors - positioned above waveform */}
+        {hasDiarization && duration > 0 && (
+          <div className="flex items-center justify-end gap-4 text-xs pb-2">
+            <div className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded bg-blue-500/30 border border-blue-500/60" />
+              <span className="text-slate-600 font-medium">Agent</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded bg-orange-500/30 border border-orange-500/60" />
+              <span className="text-slate-600 font-medium">Customer</span>
+            </div>
+          </div>
+        )}
+
         {/* Waveform visualization */}
         <div className="relative">
           <Waveform
@@ -206,20 +220,6 @@ export function AudioPlayer({
             onSeek={handleSeek}
             onFinish={handleFinish}
           />
-
-          {/* Legend for speaker colors */}
-          {hasDiarization && duration > 0 && (
-            <div className="absolute top-2 right-2 flex items-center gap-3 text-xs">
-              <div className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded bg-blue-500/30 border border-blue-500/60" />
-                <span className="text-slate-600">Agent</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded bg-orange-500/30 border border-orange-500/60" />
-                <span className="text-slate-600">Customer</span>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Controls row */}
