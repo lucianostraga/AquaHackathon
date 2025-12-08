@@ -110,7 +110,11 @@ export default function CompaniesPage() {
   // Create company mutation
   const createCompanyMutation = useMutation({
     mutationFn: async (companyData: { name: string }) => {
-      const response = await usersApi.createCompany(companyData)
+      const response = await usersApi.createCompany({
+        ...companyData,
+        projectCount: 0,
+        teamCount: 0,
+      })
       return response.data
     },
     onSuccess: () => {

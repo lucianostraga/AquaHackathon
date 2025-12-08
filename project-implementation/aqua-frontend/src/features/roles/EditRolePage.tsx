@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Plus, Loader2, ChevronLeft } from 'lucide-react'
+import { Loader2, ChevronLeft } from 'lucide-react'
 import { usersApi } from '@/services/api'
 import { apiClient } from '@/services/api'
 

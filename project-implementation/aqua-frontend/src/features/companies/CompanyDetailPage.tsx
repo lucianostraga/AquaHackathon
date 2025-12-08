@@ -162,7 +162,7 @@ export default function CompanyDetailPage() {
   // Update company mutation
   const updateCompanyMutation = useMutation({
     mutationFn: async (data: { name: string }) => {
-      const response = await usersApi.updateCompany(companyId!, data)
+      const response = await usersApi.updateCompany(Number(companyId), data)
       return response.data
     },
     onSuccess: () => {
@@ -175,7 +175,11 @@ export default function CompanyDetailPage() {
   // Create project mutation
   const createProjectMutation = useMutation({
     mutationFn: async (projectData: { name: string }) => {
-      const response = await usersApi.createProject(projectData)
+      const response = await usersApi.createProject({
+        ...projectData,
+        companyId: Number(companyId),
+        agentCount: 0,
+      })
       return response.data
     },
     onSuccess: () => {
