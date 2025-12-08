@@ -1,17 +1,24 @@
 import axios, { type AxiosError, type AxiosResponse } from 'axios'
 
-// Create axios instance
+// =============================================================================
+// BFF (Backend For Frontend) Configuration
+// =============================================================================
+// The BFF layer aggregates JSON Server + .NET API, handles CORS, RBAC, and PII sanitization
+// All frontend requests go through the BFF on port 4000
+const BFF_URL = import.meta.env.VITE_BFF_URL || 'http://localhost:4000'
+
+// Create axios instance - routes through BFF /api/* to JSON Server
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_URL || `${BFF_URL}/api`,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// .NET API client for audio operations (uses Vite proxy to avoid CORS)
+// .NET API client for audio operations - routes through BFF /audio-api/* to .NET API
 export const audioApiClient = axios.create({
-  baseURL: import.meta.env.VITE_AUDIO_API_URL || '/audio-api',
+  baseURL: import.meta.env.VITE_AUDIO_API_URL || `${BFF_URL}/audio-api`,
   timeout: 60000, // Increased for large file uploads
 })
 
