@@ -40,6 +40,7 @@ import {
 } from 'lucide-react'
 import { usersApi } from '@/services/api'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { Company as ApiCompany, Project, Agent as ApiAgent } from '@/types'
 
 interface CompanyDisplay {
@@ -56,6 +57,8 @@ interface CompanyDisplay {
 export default function CompaniesPage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [searchQuery, setSearchQuery] = useState('')
   const [projectFilter, setProjectFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -228,11 +231,14 @@ export default function CompaniesPage() {
         <div className="space-y-6">
           {/* Header with title and Add Company button */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
+            <h1 className={cn(
+              "text-3xl font-semibold tracking-tight",
+              isTeamMode ? "text-yellow-500" : "text-slate-900"
+            )}>
               Companies
             </h1>
             <Button
-              className="bg-slate-900 hover:bg-slate-800"
+              className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"}
               onClick={() => setShowAddModal(true)}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -252,7 +258,7 @@ export default function CompaniesPage() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Project</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Project</span>
               <Select value={projectFilter} onValueChange={setProjectFilter}>
                 <SelectTrigger className="w-40">
                   <SelectValue placeholder="Select Project..." />
@@ -268,7 +274,7 @@ export default function CompaniesPage() {
               </Select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Status</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Status</span>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32">
                   <SelectValue placeholder="All" />
@@ -282,7 +288,7 @@ export default function CompaniesPage() {
               </Select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Agent</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Agent</span>
               <Select value={agentFilter} onValueChange={setAgentFilter}>
                 <SelectTrigger className="w-36">
                   <SelectValue placeholder="All Agents" />
@@ -300,8 +306,8 @@ export default function CompaniesPage() {
           </div>
 
           {/* Record Count */}
-          <p className="text-sm text-slate-600">
-            Showing {filteredCompanies.length} of {totalCompanies} agents
+          <p className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>
+            Showing {filteredCompanies.length} of {totalCompanies} companies
           </p>
 
           {/* Companies Table - Figma exact styling */}
@@ -311,12 +317,15 @@ export default function CompaniesPage() {
             <div className="w-full">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-[#757575] hover:bg-transparent">
-                    <TableHead className="text-sm font-bold text-[#62748e]">Company</TableHead>
-                    <TableHead className="text-sm font-bold text-[#62748e]">Main Contact</TableHead>
-                    <TableHead className="text-sm font-bold text-[#62748e]">Escalation Contact</TableHead>
-                    <TableHead className="text-sm font-bold text-[#62748e]">Project</TableHead>
-                    <TableHead className="text-sm font-bold text-[#62748e]">Agents</TableHead>
+                  <TableRow className={cn(
+                    "border-b hover:bg-transparent",
+                    isTeamMode ? "border-gray-700" : "border-[#757575]"
+                  )}>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Company</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Main Contact</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Escalation Contact</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Project</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Agents</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -324,23 +333,31 @@ export default function CompaniesPage() {
                     return (
                       <TableRow
                         key={company.id}
-                        className="border-b border-[#e2e8f0] hover:bg-slate-50 cursor-pointer"
+                        className={cn(
+                          "border-b cursor-pointer",
+                          isTeamMode
+                            ? "border-gray-800 hover:bg-gray-800/50"
+                            : "border-[#e2e8f0] hover:bg-slate-50"
+                        )}
                         onClick={() => navigate(`/companies/${company.id}`)}
                       >
-                        <TableCell className="text-sm text-[#020618]">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-white" : "text-[#020618]")}>
                           {company.name}
                         </TableCell>
-                        <TableCell className="text-sm text-[#020618]">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-[#020618]")}>
                           {company.mainContact}
                         </TableCell>
-                        <TableCell className="text-sm text-[#020618]">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-[#020618]")}>
                           {company.escalationContact}
                         </TableCell>
                         <TableCell>
                           {company.projects.length > 1 ? (
                             <Popover>
-                              <PopoverTrigger className="text-sm text-[#020618] hover:text-slate-700">
-                                {company.projects[0]} <span className="text-[#020618]">(+{company.projects.length - 1})</span>
+                              <PopoverTrigger className={cn(
+                                "text-sm",
+                                isTeamMode ? "text-gray-300 hover:text-white" : "text-[#020618] hover:text-slate-700"
+                              )}>
+                                {company.projects[0]} <span className={isTeamMode ? "text-gray-400" : "text-[#020618]"}>(+{company.projects.length - 1})</span>
                               </PopoverTrigger>
                               <PopoverContent className="w-48 p-2">
                                 <ul className="text-sm space-y-1">
@@ -354,10 +371,10 @@ export default function CompaniesPage() {
                               </PopoverContent>
                             </Popover>
                           ) : (
-                            <span className="text-sm text-[#020618]">{company.projects[0]}</span>
+                            <span className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-[#020618]")}>{company.projects[0]}</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-sm text-[#020618]">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-[#020618]")}>
                           {company.agents}
                         </TableCell>
                       </TableRow>
@@ -365,7 +382,7 @@ export default function CompaniesPage() {
                   })}
                   {paginatedCompanies.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center text-slate-500 py-8">
+                      <TableCell colSpan={5} className={cn("text-center py-8", isTeamMode ? "text-gray-500" : "text-slate-500")}>
                         No companies found
                       </TableCell>
                     </TableRow>
@@ -380,7 +397,12 @@ export default function CompaniesPage() {
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="flex items-center gap-1 h-10 pl-2.5 pr-4 text-sm font-medium text-[#020618] hover:bg-slate-50 rounded-md disabled:opacity-50"
+              className={cn(
+                "flex items-center gap-1 h-10 pl-2.5 pr-4 text-sm font-medium rounded-md disabled:opacity-50",
+                isTeamMode
+                  ? "text-gray-400 hover:bg-gray-800 hover:text-white"
+                  : "text-[#020618] hover:bg-slate-50"
+              )}
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -392,8 +414,12 @@ export default function CompaniesPage() {
                 className={cn(
                   'w-10 h-10 rounded-md text-sm font-medium',
                   currentPage === page
-                    ? 'bg-white border border-[#e2e8f0] text-[#020618]'
-                    : 'text-[#020618] hover:bg-slate-50'
+                    ? isTeamMode
+                      ? 'bg-yellow-500 text-black'
+                      : 'bg-white border border-[#e2e8f0] text-[#020618]'
+                    : isTeamMode
+                      ? 'text-gray-400 hover:bg-gray-800'
+                      : 'text-[#020618] hover:bg-slate-50'
                 )}
               >
                 {page}
@@ -401,13 +427,18 @@ export default function CompaniesPage() {
             ))}
             {totalPages > 2 && (
               <div className="w-9 h-9 flex items-center justify-center">
-                <span className="text-[#020618]">...</span>
+                <span className={isTeamMode ? "text-gray-600" : "text-[#020618]"}>...</span>
               </div>
             )}
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="flex items-center gap-1 h-10 pl-4 pr-2.5 text-sm font-medium text-[#020618] hover:bg-slate-50 rounded-md disabled:opacity-50"
+              className={cn(
+                "flex items-center gap-1 h-10 pl-4 pr-2.5 text-sm font-medium rounded-md disabled:opacity-50",
+                isTeamMode
+                  ? "text-gray-400 hover:bg-gray-800 hover:text-white"
+                  : "text-[#020618] hover:bg-slate-50"
+              )}
             >
               Next
               <ChevronRight className="h-4 w-4" />

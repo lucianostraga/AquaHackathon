@@ -34,6 +34,7 @@ import {
 import { useCallSummariesQuery } from '@/hooks'
 import type { CallSummary } from '@/types'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 
 // ============================================================================
 // TYPES
@@ -525,6 +526,10 @@ function AlignmentTooltip({ active, payload, label }: AlignmentTooltipProps) {
  * 4. AI-HUMAN ALIGNMENT & REVIEWER OVERRIDES - Chart + table
  */
 export default function AnalyticsPage() {
+  // Theme state
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   // Fetch call data from server
   const {
     data: calls = [],
@@ -712,7 +717,10 @@ export default function AnalyticsPage() {
           {/* ================================================================
               PAGE HEADER WITH FILTERS - Figma exact styling
               ================================================================ */}
-          <h2 className="text-[30px] font-semibold text-slate-900 leading-9 tracking-[-0.225px]">Analytics</h2>
+          <h2 className={cn(
+            "text-[30px] font-semibold leading-9 tracking-[-0.225px]",
+            isTeamMode ? "text-yellow-500" : "text-slate-900"
+          )}>Analytics</h2>
 
           <div className="flex items-center gap-4">
             <FilterSelect
@@ -764,7 +772,10 @@ export default function AnalyticsPage() {
           {/* ================================================================
               SECTION 1: SUMMARY KPIs - Figma exact styling
               ================================================================ */}
-          <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
+          <div className={cn(
+            "border rounded-lg p-6 space-y-4",
+            isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "border-[#cccfd5]"
+          )}>
             <SectionHeader
               icon={<Users className="w-6 h-6 text-[#334155]" />}
               title="SUMMARY KPIs"
@@ -822,7 +833,10 @@ export default function AnalyticsPage() {
           {/* ================================================================
               SECTION 2: QA CATEGORIES & AGENT PERFORMANCE - Figma exact styling
               ================================================================ */}
-          <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
+          <div className={cn(
+            "border rounded-lg p-6 space-y-4",
+            isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "border-[#cccfd5]"
+          )}>
             <SectionHeader
               icon={<Users className="w-6 h-6 text-[#334155]" />}
               title="QA CATEGORIES & AGENT PERFORMANCE"
@@ -830,8 +844,14 @@ export default function AnalyticsPage() {
 
             <div className="grid grid-cols-2 gap-4">
               {/* Team Performance Table */}
-              <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
-                <h4 className="text-base font-semibold text-[#020618] leading-5">
+              <div className={cn(
+                "border rounded-lg p-6 space-y-4",
+                isTeamMode ? "bg-[#141414] border-gray-700" : "border-[#cccfd5]"
+              )}>
+                <h4 className={cn(
+                  "text-base font-semibold leading-5",
+                  isTeamMode ? "text-white" : "text-[#020618]"
+                )}>
                   Team Performance
                 </h4>
                 <Table>
@@ -877,8 +897,14 @@ export default function AnalyticsPage() {
               </div>
 
               {/* Agent Performance Table - placeholder for now */}
-              <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
-                <h4 className="text-base font-semibold text-[#020618] leading-5">
+              <div className={cn(
+                "border rounded-lg p-6 space-y-4",
+                isTeamMode ? "bg-[#141414] border-gray-700" : "border-[#cccfd5]"
+              )}>
+                <h4 className={cn(
+                  "text-base font-semibold leading-5",
+                  isTeamMode ? "text-white" : "text-[#020618]"
+                )}>
                   Agent Performance
                 </h4>
                 <Table>
@@ -924,7 +950,10 @@ export default function AnalyticsPage() {
           {/* ================================================================
               SECTION 3: AI-HUMAN ALIGNMENT & REVIEWER OVERRIDES - Figma exact styling
               ================================================================ */}
-          <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
+          <div className={cn(
+            "border rounded-lg p-6 space-y-4",
+            isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "border-[#cccfd5]"
+          )}>
             <SectionHeader
               icon={<Users className="w-6 h-6 text-[#334155]" />}
               title="AI-HUMAN ALIGNMENT & REVIEWER OVERRIDES"
@@ -932,8 +961,14 @@ export default function AnalyticsPage() {
 
             <div className="grid grid-cols-2 gap-4">
               {/* AI-Human Alignment Chart */}
-              <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
-                <h4 className="text-base font-semibold text-[#020618] leading-5">
+              <div className={cn(
+                "border rounded-lg p-6 space-y-4",
+                isTeamMode ? "bg-[#141414] border-gray-700" : "border-[#cccfd5]"
+              )}>
+                <h4 className={cn(
+                  "text-base font-semibold leading-5",
+                  isTeamMode ? "text-white" : "text-[#020618]"
+                )}>
                   AI-Human Alignment Over Time
                 </h4>
                 <ResponsiveContainer width="100%" height={214}>
@@ -990,8 +1025,14 @@ export default function AnalyticsPage() {
               </div>
 
               {/* Overrides by Reviewer Table */}
-              <div className="border border-[#cccfd5] rounded-lg p-6 space-y-4">
-                <h4 className="text-base font-semibold text-[#020618] leading-5">
+              <div className={cn(
+                "border rounded-lg p-6 space-y-4",
+                isTeamMode ? "bg-[#141414] border-gray-700" : "border-[#cccfd5]"
+              )}>
+                <h4 className={cn(
+                  "text-base font-semibold leading-5",
+                  isTeamMode ? "text-white" : "text-[#020618]"
+                )}>
                   Overrides by Reviewer
                 </h4>
                 <Table>

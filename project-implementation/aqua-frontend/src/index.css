@@ -1,5 +1,6 @@
-/* Inter font import - must be first */
+/* Font imports - must be first */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anybody:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -71,6 +72,43 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+
+  /* TEAM International Dark Mode - Yellow & Black */
+  .team-dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 92%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 92%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 92%;
+
+    --primary: 48 100% 50%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 92%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 55%;
+
+    --accent: 48 100% 50%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 48 100% 50%;
+
+    /* TEAM specific colors */
+    --team-yellow: 48 100% 50%;
+    --team-gold: 45 93% 47%;
+    --team-black: 0 0% 5%;
+    --team-dark-gray: 0 0% 12%;
+  }
 }
 
 @layer base {
@@ -81,6 +119,13 @@
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* TEAM mode uses Anybody font */
+  .team-dark body,
+  body.team-dark,
+  .team-dark {
+    font-family: 'Anybody', system-ui, -apple-system, sans-serif;
   }
 }
 
@@ -100,4 +145,18 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
+}
+
+/* Dark mode scrollbar */
+.team-dark ::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.team-dark ::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 9999px;
+}
+
+.team-dark ::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }

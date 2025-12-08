@@ -39,6 +39,7 @@ import {
 } from 'lucide-react'
 import { usersApi, callsApi } from '@/services/api'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { Agent as ApiAgent, CallSummary } from '@/types'
 
 interface AgentDisplay {
@@ -57,6 +58,8 @@ interface AgentDisplay {
 export default function TeamsPage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [searchQuery, setSearchQuery] = useState('')
   const [companyFilter, setCompanyFilter] = useState('all')
   const [projectFilter, setProjectFilter] = useState('all')
@@ -276,11 +279,14 @@ export default function TeamsPage() {
         <div className="space-y-6">
           {/* Header with title and Add Agent button */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
+            <h1 className={cn(
+              "text-3xl font-semibold tracking-tight",
+              isTeamMode ? "text-yellow-500" : "text-slate-900"
+            )}>
               Team
             </h1>
             <Button
-              className="bg-slate-900 hover:bg-slate-800"
+              className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"}
               onClick={() => setShowAddAgentModal(true)}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -300,7 +306,7 @@ export default function TeamsPage() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Company</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Company</span>
               <Select value={companyFilter} onValueChange={setCompanyFilter}>
                 <SelectTrigger className="w-40">
                   <SelectValue placeholder="Select Company..." />
@@ -316,7 +322,7 @@ export default function TeamsPage() {
               </Select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Project</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Project</span>
               <Select value={projectFilter} onValueChange={setProjectFilter}>
                 <SelectTrigger className="w-40">
                   <SelectValue placeholder="Select Project..." />
@@ -332,7 +338,7 @@ export default function TeamsPage() {
               </Select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-600">Score</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Score</span>
               <Select value={scoreFilter} onValueChange={setScoreFilter}>
                 <SelectTrigger className="w-36">
                   <SelectValue placeholder="Select Score..." />
@@ -348,7 +354,7 @@ export default function TeamsPage() {
           </div>
 
           {/* Record Count */}
-          <p className="text-sm text-slate-600">
+          <p className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>
             Showing {filteredAgents.length} of {totalAgents} agents
           </p>
 
@@ -359,34 +365,42 @@ export default function TeamsPage() {
             <div className="w-full">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-slate-300 hover:bg-transparent">
-                    <TableHead className="text-sm font-medium text-slate-500">Name</TableHead>
-                    <TableHead className="text-sm font-medium text-slate-500">Role</TableHead>
-                    <TableHead className="text-sm font-medium text-slate-500">Assignments</TableHead>
-                    <TableHead className="text-sm font-medium text-slate-500">Timezone</TableHead>
-                    <TableHead className="text-sm font-medium text-slate-500">Score</TableHead>
-                    <TableHead className="text-sm font-medium text-slate-500">Trend</TableHead>
+                  <TableRow className={cn(
+                    "border-b hover:bg-transparent",
+                    isTeamMode ? "border-gray-700" : "border-slate-300"
+                  )}>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Name</TableHead>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Role</TableHead>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Assignments</TableHead>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Timezone</TableHead>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Score</TableHead>
+                    <TableHead className={cn("text-sm font-medium", isTeamMode ? "text-gray-400" : "text-slate-500")}>Trend</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {paginatedAgents.map((agent: AgentDisplay) => (
                     <TableRow
                       key={agent.id}
-                      className="border-b border-slate-200 hover:bg-slate-50 cursor-pointer"
+                      className={cn(
+                        "border-b cursor-pointer",
+                        isTeamMode
+                          ? "border-gray-800 hover:bg-gray-800/50"
+                          : "border-slate-200 hover:bg-slate-50"
+                      )}
                       onClick={() => navigate(`/team/${agent.id}`)}
                     >
-                      <TableCell className="text-sm text-slate-900 font-medium">
+                      <TableCell className={cn("text-sm font-medium", isTeamMode ? "text-white" : "text-slate-900")}>
                         {agent.name}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-600")}>
                         {agent.role}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-600")}>
                         {agent.assignments}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-600")}>
                         <span>{agent.timezone}</span>
-                        <span className="italic text-slate-500 ml-1">— {agent.timezoneLabel}</span>
+                        <span className={cn("italic ml-1", isTeamMode ? "text-gray-500" : "text-slate-500")}>— {agent.timezoneLabel}</span>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-3">
@@ -394,7 +408,7 @@ export default function TeamsPage() {
                             value={agent.score}
                             className={cn('h-2 w-24', getScoreColor(agent.score))}
                           />
-                          <span className="text-sm font-medium text-slate-900">{agent.score}%</span>
+                          <span className={cn("text-sm font-medium", isTeamMode ? "text-white" : "text-slate-900")}>{agent.score}%</span>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -404,7 +418,7 @@ export default function TeamsPage() {
                   ))}
                   {paginatedAgents.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center text-slate-500 py-8">
+                      <TableCell colSpan={6} className={cn("text-center py-8", isTeamMode ? "text-gray-500" : "text-slate-500")}>
                         No agents found
                       </TableCell>
                     </TableRow>
@@ -420,7 +434,10 @@ export default function TeamsPage() {
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-1 text-sm text-slate-600 hover:text-slate-900 disabled:opacity-50"
+                className={cn(
+                  "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
+                  isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+                )}
               >
                 <ChevronLeft className="h-4 w-4" />
                 Previous
@@ -432,18 +449,21 @@ export default function TeamsPage() {
                   className={cn(
                     'w-8 h-8 rounded text-sm',
                     currentPage === page
-                      ? 'bg-slate-900 text-white'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? isTeamMode ? 'bg-yellow-500 text-black' : 'bg-slate-900 text-white'
+                      : isTeamMode ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'
                   )}
                 >
                   {page}
                 </button>
               ))}
-              {totalPages > 3 && <span className="text-slate-400">...</span>}
+              {totalPages > 3 && <span className={isTeamMode ? "text-gray-600" : "text-slate-400"}>...</span>}
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-1 text-sm text-slate-600 hover:text-slate-900 disabled:opacity-50"
+                className={cn(
+                  "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
+                  isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+                )}
               >
                 Next
                 <ChevronRight className="h-4 w-4" />

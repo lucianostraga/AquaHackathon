@@ -45,6 +45,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Volume2,
+  VolumeX,
+  SkipBack,
+  SkipForward,
   FileText,
   Pencil,
   X,
@@ -57,6 +60,7 @@ import {
 } from 'lucide-react'
 import { useCallSummariesQuery, useUploadMultipleAudiosMutation } from '@/hooks'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { CallSummary } from '@/types'
 
 /**
@@ -70,6 +74,8 @@ import type { CallSummary } from '@/types'
  */
 export default function CallsPage() {
   const navigate = useNavigate()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [searchQuery, setSearchQuery] = useState('')
   const [dateFilter, setDateFilter] = useState('today')
   const [flagFilter, setFlagFilter] = useState('all')
@@ -77,8 +83,11 @@ export default function CallsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCall, setSelectedCall] = useState<CallSummary | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(45) // mock: 45 seconds
-  const [duration] = useState(312) // mock: 5:12 total
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [isMuted, setIsMuted] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const [showSearchDropdown, setShowSearchDropdown] = useState(false)
   const [showDateRangeModal, setShowDateRangeModal] = useState(false)
   const [showScoreFilterModal, setShowScoreFilterModal] = useState(false)
@@ -127,22 +136,123 @@ export default function CallsPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Audio player event handlers
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration)
+    }
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(audio.currentTime)
+    }
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+      setCurrentTime(0)
+    }
+
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
+    audio.addEventListener('timeupdate', handleTimeUpdate)
+    audio.addEventListener('ended', handleEnded)
+
+    return () => {
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      audio.removeEventListener('timeupdate', handleTimeUpdate)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [selectedCall])
+
+  // Reset audio when call changes
+  useEffect(() => {
+    if (selectedCall && audioRef.current) {
+      audioRef.current.load()
+      setCurrentTime(0)
+      setDuration(0)
+    }
+  }, [selectedCall?.transactionId])
+
   // Handle play button click
   const handlePlayCall = (call: CallSummary, e: React.MouseEvent) => {
     e.stopPropagation()
     if (selectedCall?.transactionId === call.transactionId) {
+      // Toggle play/pause for the same call
+      if (isPlaying) {
+        audioRef.current?.pause()
+      } else {
+        audioRef.current?.play()
+      }
       setIsPlaying(!isPlaying)
     } else {
+      // Select new call and play
       setSelectedCall(call)
       setIsPlaying(true)
-      setCurrentTime(45)
+      // Audio will be loaded by useEffect, then we need to play
+      setTimeout(() => {
+        audioRef.current?.play()
+      }, 100)
     }
+  }
+
+  // Toggle play/pause from footer
+  const handleTogglePlay = () => {
+    if (isPlaying) {
+      audioRef.current?.pause()
+    } else {
+      audioRef.current?.play()
+    }
+    setIsPlaying(!isPlaying)
+  }
+
+  // Handle seek
+  const handleSeek = (value: number[]) => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.currentTime = value[0]
+    setCurrentTime(value[0])
+  }
+
+  // Handle volume change
+  const handleVolumeChange = (value: number[]) => {
+    const audio = audioRef.current
+    if (!audio) return
+    const newVolume = value[0]
+    audio.volume = newVolume
+    setVolume(newVolume)
+    if (newVolume > 0) setIsMuted(false)
+  }
+
+  // Toggle mute
+  const toggleMute = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.muted = !isMuted
+    setIsMuted(!isMuted)
+  }
+
+  // Skip back 10 seconds
+  const handleSkipBack = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.currentTime = Math.max(0, audio.currentTime - 10)
+  }
+
+  // Skip forward 10 seconds
+  const handleSkipForward = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.currentTime = Math.min(duration, audio.currentTime + 10)
   }
 
   // Close audio player
   const handleClosePlayer = () => {
+    audioRef.current?.pause()
     setSelectedCall(null)
     setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
   }
 
   // Handle file selection
@@ -313,11 +423,14 @@ export default function CallsPage() {
         <div className="space-y-6">
           {/* Header with title and upload button */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">
+            <h1 className={cn(
+              "text-3xl font-semibold tracking-tight",
+              isTeamMode ? "text-yellow-500" : "text-slate-900"
+            )}>
               Call Library
             </h1>
             <Button
-              className="bg-slate-900 hover:bg-slate-800"
+              className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"}
               onClick={() => setShowUploadModal(true)}
             >
               <Upload className="h-4 w-4 mr-2" />
@@ -328,42 +441,51 @@ export default function CallsPage() {
           {/* Stats Cards */}
           <div className="grid grid-cols-3 gap-4">
             {/* Total Calls */}
-            <div className="border border-slate-200 rounded-lg p-6 bg-white">
+            <div className={cn(
+              "border rounded-lg p-6",
+              isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "bg-white border-slate-200"
+            )}>
               <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-slate-500" />
-                <span className="text-slate-600">Total calls</span>
-                <span className="text-3xl font-bold text-slate-900 ml-auto">
+                <Phone className={isTeamMode ? "h-5 w-5 text-gray-400" : "h-5 w-5 text-slate-500"} />
+                <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Total calls</span>
+                <span className={cn("text-3xl font-bold ml-auto", isTeamMode ? "text-white" : "text-slate-900")}>
                   {isLoading ? <Skeleton className="h-9 w-16" /> : stats.totalCalls}
                 </span>
               </div>
             </div>
 
             {/* Flags Breakdown */}
-            <div className="border border-slate-200 rounded-lg p-6 bg-white">
+            <div className={cn(
+              "border rounded-lg p-6",
+              isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "bg-white border-slate-200"
+            )}>
               <div className="flex items-center gap-4">
-                <span className="text-slate-600">Flags</span>
+                <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Flags</span>
                 <div className="flex items-center gap-4 ml-auto">
                   <div className="flex items-center gap-1">
                     <CheckSquare className="h-4 w-4 text-green-500" />
-                    <span className="font-bold">{stats.greenFlags}</span>
+                    <span className={cn("font-bold", isTeamMode ? "text-white" : "")}>{stats.greenFlags}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                    <span className="font-bold">{stats.yellowFlags}</span>
+                    <span className={cn("font-bold", isTeamMode ? "text-white" : "")}>{stats.yellowFlags}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <XSquare className="h-4 w-4 text-red-500" />
-                    <span className="font-bold">{stats.redFlags}</span>
+                    <span className={cn("font-bold", isTeamMode ? "text-white" : "")}>{stats.redFlags}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Average Score */}
-            <div className="border border-slate-200 rounded-lg p-6 bg-white">
+            <div className={cn(
+              "border rounded-lg p-6",
+              isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "bg-white border-slate-200"
+            )}>
               <div className="flex items-center gap-3">
-                <span className="text-slate-600">Average Score</span>
-                <span className="text-3xl font-bold text-slate-900 ml-auto">
+                <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Average Score</span>
+                <span className={cn("text-3xl font-bold ml-auto", isTeamMode ? "text-white" : "text-slate-900")}>
                   {isLoading ? <Skeleton className="h-9 w-20" /> : `${stats.avgScore}/100`}
                 </span>
               </div>
@@ -492,7 +614,7 @@ export default function CallsPage() {
           </div>
 
           {/* Record Count */}
-          <p className="text-sm text-slate-600">
+          <p className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>
             Showing {filteredCalls.length} records
           </p>
 
@@ -503,16 +625,19 @@ export default function CallsPage() {
             <div className="w-full">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-slate-300 hover:bg-transparent">
-                    <TableHead className="text-sm font-bold text-slate-500">Call ID</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Date / Time</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Agent</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Company - Project</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">AI Score</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Flag</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Sentiment</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Final Score</TableHead>
-                    <TableHead className="text-sm font-bold text-slate-500">Actions</TableHead>
+                  <TableRow className={cn(
+                    "border-b hover:bg-transparent",
+                    isTeamMode ? "border-gray-700" : "border-slate-300"
+                  )}>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Call ID</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Date / Time</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Agent</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Company - Project</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>AI Score</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Flag</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Sentiment</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Final Score</TableHead>
+                    <TableHead className={cn("text-sm font-bold", isTeamMode ? "text-gray-400" : "text-slate-500")}>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -523,15 +648,21 @@ export default function CallsPage() {
                       <TableRow
                         key={call.transactionId}
                         className={cn(
-                          'border-b border-slate-200 hover:bg-slate-50 cursor-pointer',
-                          isSelected && 'bg-slate-100'
+                          'border-b cursor-pointer',
+                          isTeamMode
+                            ? isSelected
+                              ? 'border-gray-800 bg-gray-800'
+                              : 'border-gray-800 hover:bg-gray-800/50'
+                            : isSelected
+                              ? 'border-slate-200 bg-slate-100'
+                              : 'border-slate-200 hover:bg-slate-50'
                         )}
                         onClick={() => navigate(`/calls/${call.transactionId}`)}
                       >
-                        <TableCell className="text-sm text-slate-900 font-medium">
+                        <TableCell className={cn("text-sm font-medium", isTeamMode ? "text-white" : "text-slate-900")}>
                           {String(call.id || index + 1).padStart(5, '0')}
                         </TableCell>
-                        <TableCell className="text-sm text-slate-900">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                           {new Date(call.processDate).toLocaleString('en-US', {
                             year: 'numeric',
                             month: '2-digit',
@@ -540,13 +671,13 @@ export default function CallsPage() {
                             minute: '2-digit',
                           })}
                         </TableCell>
-                        <TableCell className="text-sm text-slate-900">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                           {call.agentName}
                         </TableCell>
-                        <TableCell className="text-sm text-slate-900">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                           {call.audioName}
                         </TableCell>
-                        <TableCell className="text-sm text-slate-900">
+                        <TableCell className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-900")}>
                           {call.scoreCard || '-'}
                         </TableCell>
                         <TableCell>{getFlagDisplay(call)}</TableCell>
@@ -564,8 +695,11 @@ export default function CallsPage() {
                           {/* Final Score with Tooltip */}
                           <Popover>
                             <PopoverTrigger asChild>
-                              <button className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded -ml-2">
-                                <span className="text-sm font-medium">{call.scoreCard || '-'}</span>
+                              <button className={cn(
+                                "flex items-center gap-2 px-2 py-1 rounded -ml-2",
+                                isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-100"
+                              )}>
+                                <span className={cn("text-sm font-medium", isTeamMode ? "text-white" : "")}>{call.scoreCard || '-'}</span>
                                 {!call.Flagged && call.scoreCard >= 75 && (
                                   <CheckSquare className="h-4 w-4 text-green-500" />
                                 )}
@@ -603,13 +737,16 @@ export default function CallsPage() {
                         </TableCell>
                         <TableCell>
                           <button
-                            className="p-1 hover:bg-slate-200 rounded"
+                            className={cn(
+                              "p-1 rounded",
+                              isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-200"
+                            )}
                             onClick={(e) => handlePlayCall(call, e)}
                           >
                             {isSelected && isPlaying ? (
-                              <Pause className="h-5 w-5 text-slate-600" />
+                              <Pause className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} />
                             ) : (
-                              <Play className="h-5 w-5 text-slate-600" />
+                              <Play className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} />
                             )}
                           </button>
                         </TableCell>
@@ -618,7 +755,7 @@ export default function CallsPage() {
                   })}
                   {paginatedCalls.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={9} className="text-center text-slate-500 py-8">
+                      <TableCell colSpan={9} className={cn("text-center py-8", isTeamMode ? "text-gray-500" : "text-slate-500")}>
                         No calls found
                       </TableCell>
                     </TableRow>
@@ -634,7 +771,10 @@ export default function CallsPage() {
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-1 text-sm text-slate-600 hover:text-slate-900 disabled:opacity-50"
+                className={cn(
+                  "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
+                  isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+                )}
               >
                 <ChevronLeft className="h-4 w-4" />
                 Previous
@@ -646,18 +786,21 @@ export default function CallsPage() {
                   className={cn(
                     'w-8 h-8 rounded text-sm',
                     currentPage === page
-                      ? 'bg-slate-900 text-white'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? isTeamMode ? 'bg-yellow-500 text-black' : 'bg-slate-900 text-white'
+                      : isTeamMode ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'
                   )}
                 >
                   {page}
                 </button>
               ))}
-              {totalPages > 3 && <span className="text-slate-400">...</span>}
+              {totalPages > 3 && <span className={isTeamMode ? "text-gray-600" : "text-slate-400"}>...</span>}
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-1 text-sm text-slate-600 hover:text-slate-900 disabled:opacity-50"
+                className={cn(
+                  "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
+                  isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+                )}
               >
                 Next
                 <ChevronRight className="h-4 w-4" />
@@ -672,68 +815,135 @@ export default function CallsPage() {
 
       {/* Audio Player Footer */}
       {selectedCall && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-4 z-50">
-          <div className="flex items-center gap-6">
+        <div className={cn(
+          "fixed bottom-0 left-0 right-0 border-t px-6 py-3 z-50",
+          isTeamMode ? "bg-[#1a1a1a] border-gray-800" : "bg-white border-slate-200"
+        )}>
+          {/* Hidden audio element */}
+          <audio
+            ref={audioRef}
+            src={`/audio/${selectedCall.audioName || 'sample'}.mp3`}
+            preload="metadata"
+          />
+
+          <div className="flex items-center gap-4">
             {/* Call Info */}
-            <p className="text-sm text-slate-900 whitespace-nowrap">
-              {String(selectedCall.id || 1).padStart(5, '0')} | {selectedCall.audioName} | {selectedCall.agentName} | {new Date(selectedCall.processDate).toLocaleDateString('en-CA')} {new Date(selectedCall.processDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
-            </p>
+            <div className={cn("text-sm whitespace-nowrap min-w-[200px]", isTeamMode ? "text-gray-300" : "text-slate-900")}>
+              <span className="font-medium">{String(selectedCall.id || 1).padStart(5, '0')}</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}> | </span>
+              <span>{selectedCall.agentName}</span>
+            </div>
 
-            {/* Play/Pause Button */}
-            <button
-              className="p-2 hover:bg-slate-100 rounded-full"
-              onClick={() => setIsPlaying(!isPlaying)}
-            >
-              {isPlaying ? (
-                <Pause className="h-6 w-6 text-slate-900" />
-              ) : (
-                <Play className="h-6 w-6 text-slate-900" />
-              )}
-            </button>
+            {/* Playback Controls */}
+            <div className="flex items-center gap-1">
+              {/* Skip Back */}
+              <button
+                className={cn("p-1.5 rounded", isTeamMode ? "hover:bg-gray-800" : "hover:bg-slate-100")}
+                onClick={handleSkipBack}
+                title="Skip back 10s"
+              >
+                <SkipBack className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-600")} />
+              </button>
 
-            {/* Volume Icon */}
-            <Volume2 className="h-6 w-6 text-slate-600" />
+              {/* Play/Pause Button */}
+              <button
+                className={cn(
+                  "p-2 rounded-full",
+                  isTeamMode ? "bg-yellow-500 hover:bg-yellow-400" : "bg-slate-900 hover:bg-slate-800"
+                )}
+                onClick={handleTogglePlay}
+              >
+                {isPlaying ? (
+                  <Pause className={cn("h-5 w-5", isTeamMode ? "text-black" : "text-white")} />
+                ) : (
+                  <Play className={cn("h-5 w-5 ml-0.5", isTeamMode ? "text-black" : "text-white")} />
+                )}
+              </button>
+
+              {/* Skip Forward */}
+              <button
+                className={cn("p-1.5 rounded", isTeamMode ? "hover:bg-gray-800" : "hover:bg-slate-100")}
+                onClick={handleSkipForward}
+                title="Skip forward 10s"
+              >
+                <SkipForward className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-600")} />
+              </button>
+            </div>
+
+            {/* Time Display */}
+            <span className={cn("text-xs font-mono whitespace-nowrap min-w-[70px]", isTeamMode ? "text-gray-400" : "text-slate-600")}>
+              {formatTime(Math.floor(currentTime))}
+            </span>
 
             {/* Progress Slider */}
-            <div className="flex-1 max-w-md">
+            <div className="flex-1 max-w-lg">
               <Slider
                 value={[currentTime]}
-                max={duration}
-                step={1}
-                onValueChange={(value) => setCurrentTime(value[0])}
+                max={duration || 100}
+                step={0.1}
+                onValueChange={handleSeek}
                 className="cursor-pointer"
               />
             </div>
 
-            {/* Time Display */}
-            <span className="text-sm text-slate-900 whitespace-nowrap">
-              {formatTime(currentTime)} / {formatTime(duration)}
+            {/* Duration Display */}
+            <span className={cn("text-xs font-mono whitespace-nowrap min-w-[70px]", isTeamMode ? "text-gray-400" : "text-slate-600")}>
+              {formatTime(Math.floor(duration))}
             </span>
+
+            {/* Volume Control */}
+            <div className="flex items-center gap-1">
+              <button
+                className={cn("p-1.5 rounded", isTeamMode ? "hover:bg-gray-800" : "hover:bg-slate-100")}
+                onClick={toggleMute}
+              >
+                {isMuted || volume === 0 ? (
+                  <VolumeX className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-600")} />
+                ) : (
+                  <Volume2 className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-600")} />
+                )}
+              </button>
+              <Slider
+                value={[isMuted ? 0 : volume]}
+                max={1}
+                step={0.01}
+                onValueChange={handleVolumeChange}
+                className="w-20 cursor-pointer"
+              />
+            </div>
+
+            <div className={cn("h-6 w-px", isTeamMode ? "bg-gray-700" : "bg-slate-200")} />
 
             {/* Transcript Button */}
             <button
-              className="flex items-center gap-2 px-3 py-1 hover:bg-slate-100 rounded text-sm text-slate-900"
+              className={cn(
+                "flex items-center gap-1.5 px-2 py-1 rounded text-sm",
+                isTeamMode ? "hover:bg-gray-800 text-gray-300" : "hover:bg-slate-100 text-slate-700"
+              )}
               onClick={() => navigate(`/calls/${selectedCall.transactionId}`)}
             >
-              <FileText className="h-5 w-5" />
-              Transcript
+              <FileText className="h-4 w-4" />
+              <span className="hidden lg:inline">Transcript</span>
             </button>
 
             {/* Notes Button */}
             <button
-              className="flex items-center gap-2 px-3 py-1 hover:bg-slate-100 rounded text-sm text-slate-900"
+              className={cn(
+                "flex items-center gap-1.5 px-2 py-1 rounded text-sm",
+                isTeamMode ? "hover:bg-gray-800 text-gray-300" : "hover:bg-slate-100 text-slate-700"
+              )}
               onClick={() => navigate(`/calls/${selectedCall.transactionId}?tab=overrides`)}
             >
-              <Pencil className="h-5 w-5" />
-              Notes
+              <Pencil className="h-4 w-4" />
+              <span className="hidden lg:inline">Notes</span>
             </button>
 
             {/* Close Button */}
             <button
-              className="p-1 hover:bg-slate-100 rounded"
+              className={cn("p-1 rounded", isTeamMode ? "hover:bg-gray-800" : "hover:bg-slate-100")}
               onClick={handleClosePlayer}
             >
-              <X className="h-5 w-5 text-slate-500" />
+              <X className={cn("h-5 w-5", isTeamMode ? "text-gray-400" : "text-slate-500")} />
             </button>
           </div>
         </div>

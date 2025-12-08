@@ -1,7 +1,9 @@
-import { Bell, Search } from 'lucide-react'
+import { Bell, Search, Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useAppStore } from '@/stores'
+import { useAppStore, useThemeStore } from '@/stores'
 
 interface HeaderProps {
   title?: string
@@ -18,16 +20,15 @@ interface HeaderProps {
   onSearch?: (query: string) => void
 }
 
-export function Header({ title, showSearch = false, onSearch }: HeaderProps) {
+export function Header({ showSearch = false, onSearch }: HeaderProps) {
   const unreadNotificationCount = useAppStore(s => s.unreadNotificationCount)
+  const { theme, toggleTheme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
-      {/* Left side - Title or Search */}
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background px-6">
+      {/* Left side - Search */}
       <div className="flex items-center gap-4">
-        {title && (
-          <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
-        )}
         {showSearch && (
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -41,12 +42,32 @@ export function Header({ title, showSearch = false, onSearch }: HeaderProps) {
         )}
       </div>
 
-      {/* Right side - Notifications */}
-      <div className="flex items-center gap-2">
+      {/* Right side - Theme Toggle & Notifications */}
+      <div className="flex items-center gap-4">
+        {/* TEAM Mode Toggle */}
+        <div className="flex items-center gap-2">
+          <Sun className="h-4 w-4 text-muted-foreground" />
+          <Switch
+            id="team-mode"
+            checked={isTeamMode}
+            onCheckedChange={toggleTheme}
+            className="data-[state=checked]:bg-yellow-500"
+          />
+          <Label
+            htmlFor="team-mode"
+            className="text-sm font-medium text-muted-foreground cursor-pointer select-none"
+          >
+            TEAM mode
+          </Label>
+          <Moon className="h-4 w-4 text-muted-foreground" />
+        </div>
+
+        <div className="h-6 w-px bg-border" />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5 text-slate-600" />
+              <Bell className="h-5 w-5 text-muted-foreground" />
               {unreadNotificationCount > 0 && (
                 <Badge
                   variant="destructive"

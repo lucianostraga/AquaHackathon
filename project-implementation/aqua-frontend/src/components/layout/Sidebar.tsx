@@ -12,7 +12,7 @@ import {
   Settings,
   LogOut,
 } from 'lucide-react'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useThemeStore } from '@/stores'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import type { Permission } from '@/types'
@@ -81,6 +81,8 @@ const adminNavItems: NavItem[] = [
 export function Sidebar() {
   const location = useLocation()
   const { user, role, hasPermission, logout } = useAuthStore()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
 
   const renderNavItem = (item: NavItem) => {
     // Check permission if required
@@ -98,8 +100,12 @@ export function Sidebar() {
         className={cn(
           'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
           isActive
-            ? 'bg-slate-100 text-slate-900'
-            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+            ? isTeamMode
+              ? 'bg-yellow-500/20 text-yellow-500'
+              : 'bg-slate-100 text-slate-900'
+            : isTeamMode
+              ? 'text-gray-300 hover:bg-yellow-500/10 hover:text-yellow-500'
+              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
         )}
       >
         <Icon className="h-5 w-5" />
@@ -116,13 +122,27 @@ export function Sidebar() {
   )
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-slate-200 bg-white">
+    <aside className={cn(
+      "fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r",
+      isTeamMode
+        ? "border-gray-800 bg-[#0d0d0d]"
+        : "border-slate-200 bg-white"
+    )}>
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-slate-200 px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white font-bold">
+      <div className={cn(
+        "flex h-16 items-center gap-2 border-b px-6",
+        isTeamMode ? "border-gray-800" : "border-slate-200"
+      )}>
+        <div className={cn(
+          "flex h-8 w-8 items-center justify-center rounded-lg font-bold",
+          isTeamMode ? "bg-yellow-500 text-black" : "bg-slate-900 text-white"
+        )}>
           A
         </div>
-        <span className="text-xl font-semibold text-slate-900">AQUA</span>
+        <span className={cn(
+          "text-xl font-semibold",
+          isTeamMode ? "text-yellow-500" : "text-slate-900"
+        )}>AQUA</span>
       </div>
 
       {/* Navigation */}
@@ -133,8 +153,11 @@ export function Sidebar() {
 
         {filteredAdminNav.length > 0 && (
           <>
-            <Separator className="my-4" />
-            <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <Separator className={cn("my-4", isTeamMode && "bg-gray-800")} />
+            <p className={cn(
+              "mb-2 px-3 text-xs font-semibold uppercase tracking-wider",
+              isTeamMode ? "text-gray-500" : "text-slate-400"
+            )}>
               Administration
             </p>
             <div className="space-y-1">
@@ -145,16 +168,28 @@ export function Sidebar() {
       </nav>
 
       {/* User section */}
-      <div className="border-t border-slate-200 p-4">
+      <div className={cn(
+        "border-t p-4",
+        isTeamMode ? "border-gray-800" : "border-slate-200"
+      )}>
         <div className="mb-3 flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-medium text-slate-600">
+          <div className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium",
+            isTeamMode ? "bg-yellow-500/20 text-yellow-500" : "bg-slate-100 text-slate-600"
+          )}>
             {user?.name?.charAt(0) || 'U'}
           </div>
           <div className="flex-1 overflow-hidden">
-            <p className="truncate text-sm font-medium text-slate-900">
+            <p className={cn(
+              "truncate text-sm font-medium",
+              isTeamMode ? "text-white" : "text-slate-900"
+            )}>
               {user?.name || 'User'}
             </p>
-            <p className="truncate text-xs text-slate-500">
+            <p className={cn(
+              "truncate text-xs",
+              isTeamMode ? "text-gray-500" : "text-slate-500"
+            )}>
               {role?.name || 'Role'}
             </p>
           </div>
@@ -163,7 +198,10 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="sm"
-            className="flex-1 justify-start text-slate-600"
+            className={cn(
+              "flex-1 justify-start",
+              isTeamMode ? "text-gray-300 hover:text-yellow-500 hover:bg-yellow-500/10" : "text-slate-600"
+            )}
             asChild
           >
             <Link to="/settings">
@@ -174,7 +212,9 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-600 hover:text-red-600"
+            className={cn(
+              isTeamMode ? "text-gray-300 hover:text-red-500" : "text-slate-600 hover:text-red-600"
+            )}
             onClick={logout}
             aria-label="Log out"
           >
