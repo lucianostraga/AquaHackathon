@@ -3,7 +3,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import type { Call } from '@/types'
+import { useThemeStore } from '@/stores'
+import type { Call, BaseCallDetail } from '@/types'
 import { Bot, Smile, Frown, Settings, TrendingUp, CheckCircle, ExternalLink } from 'lucide-react'
 
 interface SummaryTabProps {
@@ -114,12 +115,15 @@ function getAgentToneDescription(avgScore: number): string {
  * Extract call summary details from baseCallDetails
  */
 function extractCallDetails(call: Call) {
-  const details = (call as any).baseCallDetails || []
-  const getDetail = (name: string) => details.find((d: any) => d.name === name)?.value
+  const details: BaseCallDetail[] = call.baseCallDetails || []
+  const getDetail = (name: string): string | boolean | undefined =>
+    details.find((d: BaseCallDetail) => d.name === name)?.value
 
-  const topicDriver = getDetail('TopContactDriver') || 'General inquiry'
+  const topicDriverRaw = getDetail('TopContactDriver')
+  const topicDriver = typeof topicDriverRaw === 'string' ? topicDriverRaw : 'General inquiry'
   const resolution = getDetail('Resolution')
-  const language = getDetail('Language') || 'English'
+  const languageRaw = getDetail('Language')
+  const language = typeof languageRaw === 'string' ? languageRaw : 'English'
 
   // Parse topic from TopContactDriver (format: "Issue > Category > Resolution")
   const topicParts = topicDriver.split(' > ')
@@ -137,6 +141,8 @@ function extractCallDetails(call: Call) {
  * AI Summary Card - Shows call summary and key details
  */
 function AISummaryCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { topic, resolution } = extractCallDetails(call)
   const sentimentSummary = call.sentimentAnalisys.summary
 
@@ -154,46 +160,49 @@ function AISummaryCard({ call }: { call: Call }) {
   const durationImpact = resolution ? 'Normal' : 'Extended due to unresolved issues'
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Bot className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode ? "text-white" : ""
+        )}>
+          <Bot className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           AI Summary
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-sm text-slate-700 leading-relaxed">
+        <p className={cn("text-sm leading-relaxed", isTeamMode ? "text-gray-300" : "text-slate-700")}>
           {sentimentSummary}
         </p>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-slate-900">Immediate Summarization:</p>
-          <ul className="space-y-1.5 text-sm text-slate-700">
+          <p className={cn("text-sm font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Immediate Summarization:</p>
+          <ul className={cn("space-y-1.5 text-sm", isTeamMode ? "text-gray-300" : "text-slate-700")}>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
               <span><span className="font-medium">Topic:</span> {topic}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
               <span>
                 <span className="font-medium">Resolution:</span>{' '}
                 {resolution ? (
-                  <span className="text-green-600">✓ Completed</span>
+                  <span className="text-green-500">✓ Completed</span>
                 ) : (
-                  <span className="text-red-600">✗ Not resolved</span>
+                  <span className="text-red-500">✗ Not resolved</span>
                 )}
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
               <span><span className="font-medium">Tone:</span> {tone}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
               <span><span className="font-medium">Escalation:</span> {hasEscalation ? 'Yes' : 'No'}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
               <span><span className="font-medium">Duration impact:</span> {durationImpact}</span>
             </li>
           </ul>
@@ -207,15 +216,20 @@ function AISummaryCard({ call }: { call: Call }) {
  * Customer Sentiment Overview Card - Shows sentiment distribution and analysis
  */
 function CustomerSentimentCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const sentiment = calculateSentimentDistribution(call)
   const trendArrow = sentiment.trend === 'Increasing' ? '→' : sentiment.trend === 'Stable' ? '→' : '→'
   const trendLabel = sentiment.trend === 'Increasing' ? 'Recovered' : sentiment.trend === 'Stable' ? 'Stable' : 'Declined'
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Smile className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode ? "text-white" : ""
+        )}>
+          <Smile className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Customer Sentiment Overview
         </CardTitle>
       </CardHeader>
@@ -225,7 +239,7 @@ function CustomerSentimentCard({ call }: { call: Call }) {
           <Frown className="h-5 w-5 text-red-400" />
           <div className="flex-1 flex justify-between px-4">
             {[0, 2, 4, 6, 8, 10, 12].map((num) => (
-              <span key={num} className="text-xs text-slate-400">{num}</span>
+              <span key={num} className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-400")}>{num}</span>
             ))}
           </div>
           <Smile className="h-5 w-5 text-green-500" />
@@ -264,32 +278,32 @@ function CustomerSentimentCard({ call }: { call: Call }) {
         <div className="flex flex-wrap gap-4 text-xs">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500" />
-            <span className="text-slate-600">Sad {sentiment.sadPercent}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Sad {sentiment.sadPercent}%</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-orange-400" />
-            <span className="text-slate-600">Upset {sentiment.upsetPercent}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Upset {sentiment.upsetPercent}%</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-yellow-400" />
-            <span className="text-slate-600">Calm {sentiment.calmPercent}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Calm {sentiment.calmPercent}%</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-green-400" />
-            <span className="text-slate-600">Happy {sentiment.happyPercent}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Happy {sentiment.happyPercent}%</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-green-600" />
-            <span className="text-slate-600">{sentiment.veryHappyPercent}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>{sentiment.veryHappyPercent}%</span>
           </div>
         </div>
 
         {/* Summary text */}
         <div className="space-y-1 text-sm">
-          <p><span className="font-medium text-slate-900">Overall:</span> <span className="text-slate-700">{sentiment.overall}</span></p>
-          <p><span className="font-medium text-slate-900">Trend:</span> <span className="text-slate-700">Neutral {trendArrow} {sentiment.overall} ({trendLabel})</span></p>
-          <p><span className="font-medium text-slate-900">Customer emotion:</span> <span className="text-slate-700">{sentiment.customerEmotion}</span></p>
-          <p><span className="font-medium text-slate-900">Agent tone:</span> <span className="text-slate-700">{sentiment.agentTone}</span></p>
+          <p><span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Overall:</span> <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{sentiment.overall}</span></p>
+          <p><span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Trend:</span> <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>Neutral {trendArrow} {sentiment.overall} ({trendLabel})</span></p>
+          <p><span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Customer emotion:</span> <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{sentiment.customerEmotion}</span></p>
+          <p><span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Agent tone:</span> <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{sentiment.agentTone}</span></p>
         </div>
       </CardContent>
     </Card>
@@ -300,6 +314,8 @@ function CustomerSentimentCard({ call }: { call: Call }) {
  * AI Scoring Breakdown Card - Shows scoring table with progress bars
  */
 function AIScoringBreakdownCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { groupScores, overallPercentage } = calculateScores(call)
 
   // Calculate confidence (average of non-zero scores)
@@ -313,10 +329,13 @@ function AIScoringBreakdownCard({ call }: { call: Call }) {
   const scoreDiff = finalScore - overallPercentage
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Settings className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode ? "text-white" : ""
+        )}>
+          <Settings className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           AI Scoring Breakdown
         </CardTitle>
       </CardHeader>
@@ -325,22 +344,22 @@ function AIScoringBreakdownCard({ call }: { call: Call }) {
         <div className="overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-200">
-                <th className="text-left font-medium text-slate-600 py-2">Group</th>
-                <th className="text-center font-medium text-slate-600 py-2 w-16">AI</th>
-                <th className="text-center font-medium text-slate-600 py-2 w-16">Weight</th>
-                <th className="text-right font-medium text-slate-600 py-2 w-24">Final (%)</th>
+              <tr className={cn("border-b", isTeamMode ? "border-gray-700" : "border-slate-200")}>
+                <th className={cn("text-left font-medium py-2", isTeamMode ? "text-gray-400" : "text-slate-600")}>Group</th>
+                <th className={cn("text-center font-medium py-2 w-16", isTeamMode ? "text-gray-400" : "text-slate-600")}>AI</th>
+                <th className={cn("text-center font-medium py-2 w-16", isTeamMode ? "text-gray-400" : "text-slate-600")}>Weight</th>
+                <th className={cn("text-right font-medium py-2 w-24", isTeamMode ? "text-gray-400" : "text-slate-600")}>Final (%)</th>
               </tr>
             </thead>
             <tbody>
               {groupScores.map((group, index) => (
-                <tr key={index} className="border-b border-slate-100">
-                  <td className="py-2 text-slate-700">{group.name}</td>
-                  <td className="py-2 text-center text-slate-900 font-medium">{group.aiScore}</td>
-                  <td className="py-2 text-center text-slate-600">{group.weight}%</td>
+                <tr key={index} className={cn("border-b", isTeamMode ? "border-gray-800" : "border-slate-100")}>
+                  <td className={cn("py-2", isTeamMode ? "text-gray-300" : "text-slate-700")}>{group.name}</td>
+                  <td className={cn("py-2 text-center font-medium", isTeamMode ? "text-white" : "text-slate-900")}>{group.aiScore}</td>
+                  <td className={cn("py-2 text-center", isTeamMode ? "text-gray-400" : "text-slate-600")}>{group.weight}%</td>
                   <td className="py-2">
                     <div className="flex items-center gap-2 justify-end">
-                      <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
+                      <div className={cn("w-16 h-2 rounded-full overflow-hidden", isTeamMode ? "bg-gray-700" : "bg-slate-200")}>
                         <div
                           className={cn(
                             'h-full rounded-full',
@@ -350,7 +369,7 @@ function AIScoringBreakdownCard({ call }: { call: Call }) {
                           style={{ width: `${group.finalScore}%` }}
                         />
                       </div>
-                      <span className="text-slate-900 font-medium w-8 text-right">{group.finalScore}</span>
+                      <span className={cn("font-medium w-8 text-right", isTeamMode ? "text-white" : "text-slate-900")}>{group.finalScore}</span>
                     </div>
                   </td>
                 </tr>
@@ -360,19 +379,19 @@ function AIScoringBreakdownCard({ call }: { call: Call }) {
         </div>
 
         {/* Summary stats */}
-        <div className="space-y-1 pt-2 border-t border-slate-200 text-sm">
+        <div className={cn("space-y-1 pt-2 border-t text-sm", isTeamMode ? "border-gray-700" : "border-slate-200")}>
           <p>
-            <span className="text-slate-600">Overall AI Score:</span>{' '}
-            <span className="font-semibold text-slate-900">{overallPercentage}</span>{' '}
-            <span className="text-slate-600">Final Score:</span>{' '}
-            <span className="font-semibold text-green-600">{finalScore}</span>{' '}
-            <CheckCircle className="inline h-4 w-4 text-green-600" />
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Overall AI Score:</span>{' '}
+            <span className={cn("font-semibold", isTeamMode ? "text-white" : "text-slate-900")}>{overallPercentage}</span>{' '}
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Final Score:</span>{' '}
+            <span className="font-semibold text-green-500">{finalScore}</span>{' '}
+            <CheckCircle className="inline h-4 w-4 text-green-500" />
           </p>
-          <p className="text-slate-600">
-            AI Confidence Average: <span className="font-medium text-slate-900">{confidence}</span>
+          <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
+            AI Confidence Average: <span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>{confidence}</span>
           </p>
-          <p className="text-slate-600">
-            Agent's empathy <span className="font-medium text-green-600">+{scoreDiff}%</span> above team average
+          <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
+            Agent's empathy <span className="font-medium text-green-500">+{scoreDiff}%</span> above team average
           </p>
         </div>
       </CardContent>
@@ -384,6 +403,8 @@ function AIScoringBreakdownCard({ call }: { call: Call }) {
  * Detected Anomalies Card - Shows list of detected issues
  */
 function DetectedAnomaliesCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { flag, justification } = call.anomaly
 
   // Parse anomalies - try to extract turn numbers from text or assign sequentially
@@ -401,35 +422,39 @@ function DetectedAnomaliesCard({ call }: { call: Call }) {
 
   if (anomalies.length === 0) {
     return (
-      <Card>
+      <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold">Detected Anomalies</CardTitle>
+          <CardTitle className={cn("text-base font-semibold", isTeamMode && "text-white")}>Detected Anomalies</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-green-600">No anomalies detected. This call meets quality standards.</p>
+          <p className="text-sm text-green-500">No anomalies detected. This call meets quality standards.</p>
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold">Detected Anomalies</CardTitle>
+        <CardTitle className={cn("text-base font-semibold", isTeamMode && "text-white")}>Detected Anomalies</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
           {anomalies.map((anomaly, index) => (
             <li key={index} className="flex items-center gap-2 text-sm">
-              <span className="text-slate-400">•</span>
-              <span className="text-slate-700">Turn {anomaly.turn} - {anomaly.text}</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
+              <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>Turn {anomaly.turn} - {anomaly.text}</span>
               <Badge
                 variant="outline"
                 className={cn(
                   'text-xs',
                   anomaly.severity === 'Critical'
-                    ? 'border-red-300 bg-red-50 text-red-700'
-                    : 'border-yellow-300 bg-yellow-50 text-yellow-700'
+                    ? isTeamMode
+                      ? 'border-red-700 bg-red-950 text-red-400'
+                      : 'border-red-300 bg-red-50 text-red-700'
+                    : isTeamMode
+                      ? 'border-yellow-700 bg-yellow-950 text-yellow-400'
+                      : 'border-yellow-300 bg-yellow-50 text-yellow-700'
                 )}
               >
                 {anomaly.severity}
@@ -446,6 +471,8 @@ function DetectedAnomaliesCard({ call }: { call: Call }) {
  * Related Context Card - Shows agent stats and context
  */
 function RelatedContextCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { overallPercentage } = calculateScores(call)
 
   // DEMO DATA: Comparative/aggregate statistics - requires backend API endpoints:
@@ -466,41 +493,51 @@ function RelatedContextCard({ call }: { call: Call }) {
     : 0
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3 flex flex-row items-center justify-between">
-        <CardTitle className="text-base font-semibold">Related Context</CardTitle>
-        <Button variant="outline" size="sm" className="text-xs">
+        <CardTitle className={cn("text-base font-semibold", isTeamMode && "text-white")}>Related Context</CardTitle>
+        <Button
+          variant="outline"
+          size="sm"
+          className={cn(
+            "text-xs",
+            isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-yellow-500"
+          )}
+        >
           View Agent Scorecard
           <ExternalLink className="ml-1 h-3 w-3" />
         </Button>
       </CardHeader>
       <CardContent className="space-y-3">
-        <ul className="space-y-1.5 text-sm text-slate-700">
+        <ul className={cn("space-y-1.5 text-sm", isTeamMode ? "text-gray-300" : "text-slate-700")}>
           <li className="flex items-start gap-2">
-            <span className="text-slate-400">•</span>
+            <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
             <span><span className="font-medium">Agent's average final score this week:</span> {agentAvgScore.toFixed(1)}</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-slate-400">•</span>
+            <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
             <span><span className="font-medium">Team average:</span> {teamAvg}</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-slate-400">•</span>
+            <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
             <span><span className="font-medium">Category at risk:</span> {categoryAtRisk} ({riskDiff}% vs avg)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-slate-400">•</span>
+            <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
             <span>{similarFlagged} similar calls flagged this week.</span>
           </li>
         </ul>
 
-        <div className="flex items-center gap-2 pt-2 border-t border-slate-200 text-sm">
-          <span className="font-medium text-slate-900">Agent Trend (last 7 days):</span>
-          <span className="text-slate-700">
+        <div className={cn(
+          "flex items-center gap-2 pt-2 border-t text-sm",
+          isTeamMode ? "border-gray-700" : "border-slate-200"
+        )}>
+          <span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Agent Trend (last 7 days):</span>
+          <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>
             {prevScores.join(' → ')}
           </span>
           <TrendingUp className={cn('h-4 w-4', trendPercent >= 0 ? 'text-green-500' : 'text-red-500')} />
-          <span className={cn('font-medium', trendPercent >= 0 ? 'text-green-600' : 'text-red-600')}>
+          <span className={cn('font-medium', trendPercent >= 0 ? 'text-green-500' : 'text-red-500')}>
             {trendPercent >= 0 ? '+' : ''}{trendPercent}%
           </span>
         </div>

@@ -3,6 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useCallQuery } from '@/hooks'
+import { useThemeStore } from '@/stores'
+import { cn } from '@/lib/utils'
 import { FileText, MessageSquare, Edit3, AlertCircle } from 'lucide-react'
 import {
   CallHeader,
@@ -18,8 +20,11 @@ import { AudioPlayer } from '@/components/audio'
  * Loading skeleton for the entire page
  */
 function CallDetailPageSkeleton() {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className={cn("min-h-screen", isTeamMode ? "bg-[#0d0d0d]" : "bg-slate-50")}>
       <CallHeaderSkeleton />
       <div className="p-6">
         {/* Tab skeleton */}
@@ -41,15 +46,29 @@ function CallDetailError({
   transactionId?: string
 }) {
   const navigate = useNavigate()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
-      <div className="max-w-md rounded-lg border border-red-200 bg-red-50 p-8 text-center">
+    <div className={cn(
+      "flex min-h-screen items-center justify-center p-6",
+      isTeamMode ? "bg-[#0d0d0d]" : "bg-slate-50"
+    )}>
+      <div className={cn(
+        "max-w-md rounded-lg border p-8 text-center",
+        isTeamMode ? "border-red-800 bg-red-950" : "border-red-200 bg-red-50"
+      )}>
         <AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
-        <h2 className="mb-2 text-xl font-semibold text-red-700">
+        <h2 className={cn(
+          "mb-2 text-xl font-semibold",
+          isTeamMode ? "text-red-400" : "text-red-700"
+        )}>
           Failed to Load Call Details
         </h2>
-        <p className="mb-4 text-sm text-red-600">
+        <p className={cn(
+          "mb-4 text-sm",
+          isTeamMode ? "text-red-300" : "text-red-600"
+        )}>
           {error.message ||
             `Unable to load call data for transaction: ${transactionId}`}
         </p>
@@ -79,6 +98,8 @@ function CallDetailError({
  */
 export default function CallDetailPage() {
   const { transactionId } = useParams<{ transactionId: string }>()
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
 
   // Fetch call data from server
   const { data: call, isLoading, error } = useCallQuery(transactionId || '')
@@ -96,7 +117,7 @@ export default function CallDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className={cn("min-h-screen", isTeamMode ? "bg-[#0d0d0d]" : "bg-slate-50")}>
       {/* Call Header with back button and info */}
       <CallHeader call={call} />
 
@@ -106,7 +127,10 @@ export default function CallDetailPage() {
           audioUrl={`/audio/${call.audioName || 'sample'}.mp3`}
           callId={call.callId}
           diarization={call.transcription.diarization}
-          className="shadow-lg border border-slate-200"
+          className={cn(
+            "shadow-lg border",
+            isTeamMode ? "border-gray-700" : "border-slate-200"
+          )}
         />
       </div>
 
@@ -114,16 +138,36 @@ export default function CallDetailPage() {
       <div className="p-6">
         <Tabs defaultValue="summary" className="space-y-6">
           {/* Tab navigation */}
-          <TabsList className="bg-white">
-            <TabsTrigger value="summary" className="flex items-center gap-2">
+          <TabsList className={cn(
+            isTeamMode ? "bg-[#1a1a1a] border border-gray-700" : "bg-white"
+          )}>
+            <TabsTrigger
+              value="summary"
+              className={cn(
+                "flex items-center gap-2",
+                isTeamMode && "data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-500 text-gray-400"
+              )}
+            >
               <FileText className="h-4 w-4" />
               Summary
             </TabsTrigger>
-            <TabsTrigger value="transcript" className="flex items-center gap-2">
+            <TabsTrigger
+              value="transcript"
+              className={cn(
+                "flex items-center gap-2",
+                isTeamMode && "data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-500 text-gray-400"
+              )}
+            >
               <MessageSquare className="h-4 w-4" />
               Transcript
             </TabsTrigger>
-            <TabsTrigger value="overrides" className="flex items-center gap-2">
+            <TabsTrigger
+              value="overrides"
+              className={cn(
+                "flex items-center gap-2",
+                isTeamMode && "data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-500 text-gray-400"
+              )}
+            >
               <Edit3 className="h-4 w-4" />
               Overrides
             </TabsTrigger>

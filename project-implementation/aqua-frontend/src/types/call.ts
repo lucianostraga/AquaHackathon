@@ -1,3 +1,8 @@
+export interface BaseCallDetail {
+  name: string
+  value: string | boolean
+}
+
 export interface Call {
   transactionId: string
   callId: string
@@ -11,6 +16,7 @@ export interface Call {
   scoreCard: ScoreCard
   sentimentAnalisys: SentimentAnalysis
   anomaly: Anomaly
+  baseCallDetails?: BaseCallDetail[]
 }
 
 export interface Transcription {

@@ -107,8 +107,10 @@ export function Sidebar() {
               ? 'text-gray-300 hover:bg-yellow-500/10 hover:text-yellow-500'
               : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
         )}
+        aria-label={`Navigate to ${item.title}`}
+        aria-current={isActive ? 'page' : undefined}
       >
-        <Icon className="h-5 w-5" />
+        <Icon className="h-5 w-5" aria-hidden="true" />
         {item.title}
       </Link>
     )
@@ -122,12 +124,16 @@ export function Sidebar() {
   )
 
   return (
-    <aside className={cn(
-      "fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r",
-      isTeamMode
-        ? "border-gray-800 bg-[#0d0d0d]"
-        : "border-slate-200 bg-white"
-    )}>
+    <aside
+      className={cn(
+        "fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r",
+        isTeamMode
+          ? "border-gray-800 bg-[#0d0d0d]"
+          : "border-slate-200 bg-white"
+      )}
+      role="navigation"
+      aria-label="Main navigation"
+    >
       {/* Logo */}
       <div className={cn(
         "flex h-16 items-center gap-2 border-b px-6",

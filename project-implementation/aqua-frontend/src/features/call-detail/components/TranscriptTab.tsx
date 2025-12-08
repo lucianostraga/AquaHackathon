@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { Call } from '@/types'
 import {
   AudioLines,
@@ -53,6 +54,8 @@ function getSentimentDisplay(sentiment: string, text: string) {
  * Diarization Table - Shows transcript with sentiment indicators
  */
 function DiarizationTable({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { diarization } = call.transcription
 
   const handleDownloadJson = () => {
@@ -85,19 +88,32 @@ function DiarizationTable({ call }: { call: Call }) {
   }
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold">
-            <AudioLines className="h-5 w-5 text-slate-600" />
+          <CardTitle className={cn(
+            "flex items-center gap-2 text-base font-semibold",
+            isTeamMode && "text-white"
+          )}>
+            <AudioLines className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
             Diarization
           </CardTitle>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleDownloadJson}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadJson}
+              className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-yellow-500")}
+            >
               <Download className="mr-1 h-3 w-3" />
               Download .json
             </Button>
-            <Button variant="outline" size="sm" onClick={handleExportCsv}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCsv}
+              className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-yellow-500")}
+            >
               <FileText className="mr-1 h-3 w-3" />
               Export to CSV
             </Button>
@@ -105,31 +121,36 @@ function DiarizationTable({ call }: { call: Call }) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="overflow-hidden rounded-lg border border-slate-200">
+        <div className={cn(
+          "overflow-hidden rounded-lg border",
+          isTeamMode ? "border-gray-700" : "border-slate-200"
+        )}>
           <table className="w-full text-sm">
-            <thead className="bg-slate-50">
+            <thead className={isTeamMode ? "bg-gray-800" : "bg-slate-50"}>
               <tr>
-                <th className="px-4 py-3 text-left font-medium text-slate-600 w-16">Turn</th>
-                <th className="px-4 py-3 text-left font-medium text-slate-600 w-24">Speaker</th>
-                <th className="px-4 py-3 text-left font-medium text-slate-600">Text</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-600 w-28">Sentiment</th>
+                <th className={cn("px-4 py-3 text-left font-medium w-16", isTeamMode ? "text-gray-400" : "text-slate-600")}>Turn</th>
+                <th className={cn("px-4 py-3 text-left font-medium w-24", isTeamMode ? "text-gray-400" : "text-slate-600")}>Speaker</th>
+                <th className={cn("px-4 py-3 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Text</th>
+                <th className={cn("px-4 py-3 text-right font-medium w-28", isTeamMode ? "text-gray-400" : "text-slate-600")}>Sentiment</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className={cn("divide-y", isTeamMode ? "divide-gray-800" : "divide-slate-100")}>
               {diarization.map((entry) => {
                 const sentimentDisplay = getSentimentDisplay(entry.sentiment, entry.text)
                 return (
-                  <tr key={entry.turnIndex} className="hover:bg-slate-50">
-                    <td className="px-4 py-3 text-slate-600">{entry.turnIndex}</td>
+                  <tr key={entry.turnIndex} className={isTeamMode ? "hover:bg-gray-800" : "hover:bg-slate-50"}>
+                    <td className={cn("px-4 py-3", isTeamMode ? "text-gray-400" : "text-slate-600")}>{entry.turnIndex}</td>
                     <td className="px-4 py-3">
                       <span className={cn(
                         'font-medium',
-                        entry.speaker === 'Agent' ? 'text-blue-600' : 'text-purple-600'
+                        entry.speaker === 'Agent'
+                          ? isTeamMode ? 'text-blue-400' : 'text-blue-600'
+                          : isTeamMode ? 'text-purple-400' : 'text-purple-600'
                       )}>
                         {entry.speaker}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-slate-700">{entry.text}</td>
+                    <td className={cn("px-4 py-3", isTeamMode ? "text-gray-300" : "text-slate-700")}>{entry.text}</td>
                     <td className="px-4 py-3 text-right">
                       <span className={cn('inline-flex items-center gap-1', sentimentDisplay.color)}>
                         <span>{sentimentDisplay.emoji}</span>
@@ -151,17 +172,26 @@ function DiarizationTable({ call }: { call: Call }) {
  * Conversation Notes - Placeholder for adding notes to specific turns
  */
 function ConversationNotes() {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [notes] = useState<Array<{ turn: number; note: string; author: string; tag: string }>>([])
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold">
-            <FileIcon className="h-5 w-5 text-slate-600" />
+          <CardTitle className={cn(
+            "flex items-center gap-2 text-base font-semibold",
+            isTeamMode && "text-white"
+          )}>
+            <FileIcon className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
             Conversation Notes
           </CardTitle>
-          <Button variant="outline" size="sm">
+          <Button
+            variant="outline"
+            size="sm"
+            className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-yellow-500")}
+          >
             <Plus className="mr-1 h-3 w-3" />
             Add Note
           </Button>
@@ -170,33 +200,37 @@ function ConversationNotes() {
       <CardContent>
         {notes.length === 0 ? (
           <div className="text-center py-8">
-            <FileIcon className="mx-auto h-8 w-8 text-slate-300 mb-2" />
-            <p className="text-sm font-medium text-slate-600">No notes yet</p>
-            <p className="text-xs text-slate-500 mb-4">
+            <FileIcon className={cn("mx-auto h-8 w-8 mb-2", isTeamMode ? "text-gray-600" : "text-slate-300")} />
+            <p className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-600")}>No notes yet</p>
+            <p className={cn("text-xs mb-4", isTeamMode ? "text-gray-500" : "text-slate-500")}>
               Start capturing key observations from the call.
             </p>
-            <Button variant="outline" size="sm">
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-yellow-500")}
+            >
               <Plus className="mr-1 h-3 w-3" />
               Add your first note
             </Button>
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-slate-50">
+            <thead className={isTeamMode ? "bg-gray-800" : "bg-slate-50"}>
               <tr>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Turn</th>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Note</th>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Author</th>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Tag</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Turn</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Note</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Author</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Tag</th>
               </tr>
             </thead>
             <tbody>
               {notes.map((note, i) => (
                 <tr key={i}>
-                  <td className="px-3 py-2">{note.turn}</td>
-                  <td className="px-3 py-2">{note.note}</td>
-                  <td className="px-3 py-2">{note.author}</td>
-                  <td className="px-3 py-2">{note.tag}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{note.turn}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{note.note}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{note.author}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{note.tag}</td>
                 </tr>
               ))}
             </tbody>
@@ -211,12 +245,32 @@ function ConversationNotes() {
  * Flags Card - Shows flag status and justifications
  */
 function FlagsCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { flag, justification } = call.anomaly
 
   const flagConfig = {
-    Red: { label: 'Critical', sublabel: 'Action Required', color: 'text-red-600', bgColor: 'bg-red-50', borderColor: 'border-red-200' },
-    Yellow: { label: 'Warning', sublabel: 'Review Recommended', color: 'text-yellow-600', bgColor: 'bg-yellow-50', borderColor: 'border-yellow-200' },
-    Green: { label: 'Good', sublabel: 'No Action Required', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
+    Red: {
+      label: 'Critical',
+      sublabel: 'Action Required',
+      color: 'text-red-500',
+      bgColor: isTeamMode ? 'bg-red-950' : 'bg-red-50',
+      borderColor: isTeamMode ? 'border-red-800' : 'border-red-200'
+    },
+    Yellow: {
+      label: 'Warning',
+      sublabel: 'Review Recommended',
+      color: isTeamMode ? 'text-yellow-400' : 'text-yellow-600',
+      bgColor: isTeamMode ? 'bg-yellow-950' : 'bg-yellow-50',
+      borderColor: isTeamMode ? 'border-yellow-800' : 'border-yellow-200'
+    },
+    Green: {
+      label: 'Good',
+      sublabel: 'No Action Required',
+      color: 'text-green-500',
+      bgColor: isTeamMode ? 'bg-green-950' : 'bg-green-50',
+      borderColor: isTeamMode ? 'border-green-800' : 'border-green-200'
+    },
   }
 
   const config = flagConfig[flag]
@@ -230,10 +284,13 @@ function FlagsCard({ call }: { call: Call }) {
     : ['No compliance issues detected.']
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Flag className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <Flag className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Flags
         </CardTitle>
       </CardHeader>
@@ -241,29 +298,29 @@ function FlagsCard({ call }: { call: Call }) {
         <div className={cn('flex items-center gap-2 px-3 py-2 rounded-md border', config.bgColor, config.borderColor)}>
           <AlertCircle className={cn('h-4 w-4', config.color)} />
           <span className={cn('font-medium', config.color)}>{config.label}</span>
-          <span className="text-slate-500">- {config.sublabel}</span>
+          <span className={isTeamMode ? "text-gray-400" : "text-slate-500"}>- {config.sublabel}</span>
         </div>
 
         {justification.length > 0 && (
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-xs font-medium text-slate-500 mb-2">Justifications</p>
+              <p className={cn("text-xs font-medium mb-2", isTeamMode ? "text-gray-500" : "text-slate-500")}>Justifications</p>
               <ul className="space-y-1 text-sm">
                 {justification.map((j, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-slate-400">•</span>
-                    <span className="text-slate-700">{j}</span>
+                    <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
+                    <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{j}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-xs font-medium text-slate-500 mb-2">Insight</p>
+              <p className={cn("text-xs font-medium mb-2", isTeamMode ? "text-gray-500" : "text-slate-500")}>Insight</p>
               <ul className="space-y-1 text-sm">
                 {insights.map((insight, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-slate-400">•</span>
-                    <span className="text-slate-700">{insight}</span>
+                    <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
+                    <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{insight}</span>
                   </li>
                 ))}
               </ul>
@@ -272,14 +329,14 @@ function FlagsCard({ call }: { call: Call }) {
         )}
 
         {flag === 'Red' && (
-          <div className="pt-2 border-t border-slate-200">
-            <p className="text-sm text-slate-600">
+          <div className={cn("pt-2 border-t", isTeamMode ? "border-gray-700" : "border-slate-200")}>
+            <p className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>
               Suggested Next Step:{' '}
-              <Button variant="link" className="p-0 h-auto text-blue-600">
+              <Button variant="link" className={cn("p-0 h-auto", isTeamMode ? "text-yellow-500" : "text-blue-600")}>
                 Open QA Review
               </Button>
               {' → '}
-              <Button variant="link" className="p-0 h-auto text-blue-600">
+              <Button variant="link" className={cn("p-0 h-auto", isTeamMode ? "text-yellow-500" : "text-blue-600")}>
                 Assign Reviewer
               </Button>
             </p>
@@ -294,6 +351,8 @@ function FlagsCard({ call }: { call: Call }) {
  * Detected Anomalies Card - Shows anomalies in table format
  */
 function DetectedAnomaliesCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   // Generate anomalies from call data
   const { diarization } = call.transcription
   const { justification } = call.anomaly
@@ -326,46 +385,56 @@ function DetectedAnomaliesCard({ call }: { call: Call }) {
   }
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <AlertCircle className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <AlertCircle className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Detected Anomalies
         </CardTitle>
       </CardHeader>
       <CardContent>
         {anomalies.length === 0 ? (
-          <p className="text-sm text-green-600">No anomalies detected in this call.</p>
+          <p className="text-sm text-green-500">No anomalies detected in this call.</p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-slate-200">
+          <div className={cn(
+            "overflow-hidden rounded-lg border",
+            isTeamMode ? "border-gray-700" : "border-slate-200"
+          )}>
             <table className="w-full text-sm">
-              <thead className="bg-slate-50">
+              <thead className={isTeamMode ? "bg-gray-800" : "bg-slate-50"}>
                 <tr>
-                  <th className="px-3 py-2 text-left font-medium text-slate-600 w-16">Turn</th>
-                  <th className="px-3 py-2 text-left font-medium text-slate-600">Note</th>
-                  <th className="px-3 py-2 text-center font-medium text-slate-600 w-24">Severity</th>
-                  <th className="px-3 py-2 text-right font-medium text-slate-600 w-24">Confidence</th>
+                  <th className={cn("px-3 py-2 text-left font-medium w-16", isTeamMode ? "text-gray-400" : "text-slate-600")}>Turn</th>
+                  <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Note</th>
+                  <th className={cn("px-3 py-2 text-center font-medium w-24", isTeamMode ? "text-gray-400" : "text-slate-600")}>Severity</th>
+                  <th className={cn("px-3 py-2 text-right font-medium w-24", isTeamMode ? "text-gray-400" : "text-slate-600")}>Confidence</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className={cn("divide-y", isTeamMode ? "divide-gray-800" : "divide-slate-100")}>
                 {anomalies.map((anomaly, i) => (
                   <tr key={i}>
-                    <td className="px-3 py-2 text-slate-600">{anomaly.turn}</td>
-                    <td className="px-3 py-2 text-slate-700">{anomaly.note}</td>
+                    <td className={cn("px-3 py-2", isTeamMode ? "text-gray-400" : "text-slate-600")}>{anomaly.turn}</td>
+                    <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "text-slate-700")}>{anomaly.note}</td>
                     <td className="px-3 py-2 text-center">
                       <Badge
                         variant="outline"
                         className={cn(
                           'text-xs',
                           anomaly.severity === 'Critical'
-                            ? 'border-red-300 bg-red-50 text-red-700'
-                            : 'border-yellow-300 bg-yellow-50 text-yellow-700'
+                            ? isTeamMode
+                              ? 'border-red-700 bg-red-950 text-red-400'
+                              : 'border-red-300 bg-red-50 text-red-700'
+                            : isTeamMode
+                              ? 'border-yellow-700 bg-yellow-950 text-yellow-400'
+                              : 'border-yellow-300 bg-yellow-50 text-yellow-700'
                         )}
                       >
                         {anomaly.severity}
                       </Badge>
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-600">{anomaly.confidence}</td>
+                    <td className={cn("px-3 py-2 text-right", isTeamMode ? "text-gray-400" : "text-slate-600")}>{anomaly.confidence}</td>
                   </tr>
                 ))}
               </tbody>
@@ -381,6 +450,8 @@ function DetectedAnomaliesCard({ call }: { call: Call }) {
  * AI Insights Card - Shows AI analysis insights
  */
 function AIInsightsCard({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const { diarization } = call.transcription
   const { sentiment: sentimentData } = call.sentimentAnalisys
 
@@ -427,10 +498,13 @@ function AIInsightsCard({ call }: { call: Call }) {
   const alignmentScore = call.anomaly.flag === 'Green' ? 95 : call.anomaly.flag === 'Yellow' ? 85 : 72
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Lightbulb className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <Lightbulb className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           AI Insights
         </CardTitle>
       </CardHeader>
@@ -438,21 +512,21 @@ function AIInsightsCard({ call }: { call: Call }) {
         <ul className="space-y-2 text-sm">
           {insights.map((insight, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
-              <span className="text-slate-700">{insight}</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
+              <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{insight}</span>
             </li>
           ))}
           {insights.length === 0 && (
-            <li className="text-slate-500">No significant insights detected for this call.</li>
+            <li className={isTeamMode ? "text-gray-500" : "text-slate-500"}>No significant insights detected for this call.</li>
           )}
         </ul>
 
-        <div className="pt-2 border-t border-slate-200">
+        <div className={cn("pt-2 border-t", isTeamMode ? "border-gray-700" : "border-slate-200")}>
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="text-slate-600">AI-Human Alignment:</span>
-            <span className="font-semibold text-slate-900">{alignmentScore}%</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>AI-Human Alignment:</span>
+            <span className={cn("font-semibold", isTeamMode ? "text-white" : "text-slate-900")}>{alignmentScore}%</span>
           </div>
-          <Progress value={alignmentScore} className="h-2" />
+          <Progress value={alignmentScore} className={cn("h-2", isTeamMode && "[&>div]:bg-yellow-500")} />
         </div>
       </CardContent>
     </Card>

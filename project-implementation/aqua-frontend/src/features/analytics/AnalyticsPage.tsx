@@ -301,16 +301,25 @@ function FilterSelect({
   value,
   onChange,
 }: FilterSelectProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   return (
     <div className="flex flex-col gap-1 w-[170px]">
-      <label className="text-sm font-medium text-[#334155] leading-5">{label}</label>
+      <label className={cn(
+        "text-sm font-medium leading-5",
+        isTeamMode ? "text-gray-300" : "text-[#334155]"
+      )}>{label}</label>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="h-10 bg-white border-[#99a0aa] rounded-md">
-          <SelectValue placeholder={placeholder} className="text-[#62748e]" />
+        <SelectTrigger className={cn(
+          "h-10 rounded-md",
+          isTeamMode ? "bg-gray-800 border-gray-600 text-white" : "bg-white border-[#99a0aa]"
+        )}>
+          <SelectValue placeholder={placeholder} className={isTeamMode ? "text-gray-400" : "text-[#62748e]"} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className={isTeamMode ? "bg-gray-800 border-gray-700" : ""}>
           {options.map((opt) => (
-            <SelectItem key={opt.value} value={opt.value}>
+            <SelectItem key={opt.value} value={opt.value} className={isTeamMode ? "text-gray-200 focus:bg-gray-700" : ""}>
               {opt.label}
             </SelectItem>
           ))}
@@ -329,10 +338,16 @@ interface SectionHeaderProps {
 }
 
 function SectionHeader({ icon, title }: SectionHeaderProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   return (
     <div className="flex items-center gap-2 mb-4">
-      {icon}
-      <h3 className="text-xl font-semibold text-[#334155] leading-7 tracking-[-0.1px]">
+      <span className={isTeamMode ? "text-yellow-500" : "text-[#334155]"}>{icon}</span>
+      <h3 className={cn(
+        "text-xl font-semibold leading-7 tracking-[-0.1px]",
+        isTeamMode ? "text-yellow-500" : "text-[#334155]"
+      )}>
         {title}
       </h3>
     </div>
@@ -357,6 +372,8 @@ function SummaryKPICard({
   changeLabel,
   isNegativeGood = false,
 }: SummaryKPICardProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const hasNumericChange = typeof change === 'number'
   const isPositive = hasNumericChange
     ? isNegativeGood
@@ -365,9 +382,18 @@ function SummaryKPICard({
     : false
 
   return (
-    <div className="border border-[#cccfd5] rounded-lg p-4 flex items-center gap-2">
-      <p className="text-sm font-bold text-[#020618] leading-5">{label}</p>
-      <span className="text-xl font-semibold text-[#334155] leading-7 tracking-[-0.1px]">{value}</span>
+    <div className={cn(
+      "border rounded-lg p-4 flex items-center gap-2",
+      isTeamMode ? "border-gray-700 bg-[#141414]" : "border-[#cccfd5]"
+    )}>
+      <p className={cn(
+        "text-sm font-bold leading-5",
+        isTeamMode ? "text-gray-300" : "text-[#020618]"
+      )}>{label}</p>
+      <span className={cn(
+        "text-xl font-semibold leading-7 tracking-[-0.1px]",
+        isTeamMode ? "text-white" : "text-[#334155]"
+      )}>{value}</span>
       {change !== undefined && (
         <span
           className={cn(
@@ -376,7 +402,7 @@ function SummaryKPICard({
               ? isPositive
                 ? 'text-[#009951]'
                 : 'text-[#ec221f]'
-              : 'text-[#334155] font-medium'
+              : isTeamMode ? 'text-gray-400 font-medium' : 'text-[#334155] font-medium'
           )}
         >
           {hasNumericChange && (
@@ -405,10 +431,15 @@ interface ProgressBarProps {
 }
 
 function ProgressBar({ value, max = 100 }: ProgressBarProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const percentage = Math.min(100, (value / max) * 100)
   return (
     <div className="flex items-center gap-3">
-      <div className="flex-1 h-4 bg-[#cccfd5] rounded-full overflow-hidden">
+      <div className={cn(
+        "flex-1 h-4 rounded-full overflow-hidden",
+        isTeamMode ? "bg-gray-700" : "bg-[#cccfd5]"
+      )}>
         <div
           className={cn(
             'h-full transition-all',
@@ -419,7 +450,10 @@ function ProgressBar({ value, max = 100 }: ProgressBarProps) {
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className="text-sm font-medium text-[#71717a] w-10">
+      <span className={cn(
+        "text-sm font-medium w-10",
+        isTeamMode ? "text-gray-300" : "text-[#71717a]"
+      )}>
         {value}
       </span>
     </div>
@@ -458,10 +492,22 @@ interface InsightsPanelProps {
 }
 
 function InsightsPanel({ title, items }: InsightsPanelProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   return (
-    <div className="border border-[#cccfd5] rounded-lg p-6 h-full">
-      <h4 className="text-base font-semibold text-[#020618] leading-5 mb-2">{title}</h4>
-      <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+    <div className={cn(
+      "border rounded-lg p-6 h-full",
+      isTeamMode ? "border-gray-700 bg-[#141414]" : "border-[#cccfd5]"
+    )}>
+      <h4 className={cn(
+        "text-base font-semibold leading-5 mb-2",
+        isTeamMode ? "text-white" : "text-[#020618]"
+      )}>{title}</h4>
+      <ul className={cn(
+        "list-disc pl-6 space-y-0 text-base leading-7",
+        isTeamMode ? "text-gray-300" : "text-[#334155]"
+      )}>
         {items.map((item, idx) => (
           <li key={idx}>{item}</li>
         ))}
@@ -478,9 +524,18 @@ interface HighlightBoxProps {
 }
 
 function HighlightBox({ items }: HighlightBoxProps) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
+
   return (
-    <div className="bg-[#f2f3f5] rounded-lg px-3 py-2 mt-4">
-      <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+    <div className={cn(
+      "rounded-lg px-3 py-2 mt-4",
+      isTeamMode ? "bg-gray-800" : "bg-[#f2f3f5]"
+    )}>
+      <ul className={cn(
+        "list-disc pl-6 space-y-0 text-base leading-7",
+        isTeamMode ? "text-gray-300" : "text-[#334155]"
+      )}>
         {items.map((item, idx) => (
           <li key={idx}>{item}</li>
         ))}
@@ -856,31 +911,31 @@ export default function AnalyticsPage() {
                 </h4>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-[#757575] hover:bg-transparent">
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">
+                    <TableRow className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-600" : "border-[#757575]")}>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>
                         Group
                       </TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>
                         AI
                       </TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>
                         Weight
                       </TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>
                         Final (%)
                       </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {teamPerformance.map((row) => (
-                      <TableRow key={row.group} className="border-b border-[#e2e8f0] hover:bg-transparent">
-                        <TableCell className="text-sm text-[#334155] leading-5">
+                      <TableRow key={row.group} className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-700" : "border-[#e2e8f0]")}>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-gray-300" : "text-[#334155]")}>
                           {row.group}
                         </TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5">
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-white" : "text-[#020618]")}>
                           {row.aiScore}
                         </TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5">
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-white" : "text-[#020618]")}>
                           {row.weight}%
                         </TableCell>
                         <TableCell>
@@ -890,7 +945,7 @@ export default function AnalyticsPage() {
                     ))}
                   </TableBody>
                 </Table>
-                <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+                <ul className={cn("list-disc pl-6 space-y-0 text-base leading-7", isTeamMode ? "text-gray-300" : "text-[#334155]")}>
                   <li>Avg Score: <span className="font-bold">{teamAvgScore}%</span>   |   Trend: <span className="font-bold">▲ +2% vs Jan</span></li>
                   <li>Weakest Area: <span className="font-bold">{weakestArea} (51%)</span></li>
                 </ul>
@@ -909,28 +964,28 @@ export default function AnalyticsPage() {
                 </h4>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-[#757575] hover:bg-transparent">
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">Agent</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">QA Score</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">AHTs</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">Resolution</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">Sentiment</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5 text-right">Overrides</TableHead>
+                    <TableRow className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-600" : "border-[#757575]")}>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Agent</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>QA Score</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>AHTs</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Resolution</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Sentiment</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5 text-right", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Overrides</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {agentPerformance.map((row) => (
-                      <TableRow key={row.name} className="border-b border-[#e2e8f0] hover:bg-transparent">
-                        <TableCell className="text-sm text-[#334155] leading-5">{row.name}</TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5">{row.qaScore}</TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5">{row.aht}</TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5">{row.resolution}</TableCell>
+                      <TableRow key={row.name} className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-700" : "border-[#e2e8f0]")}>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-gray-300" : "text-[#334155]")}>{row.name}</TableCell>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-white" : "text-[#020618]")}>{row.qaScore}</TableCell>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-white" : "text-[#020618]")}>{row.aht}</TableCell>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-white" : "text-[#020618]")}>{row.resolution}</TableCell>
                         <TableCell className="flex items-center gap-1.5">
                           <SentimentIcon sentiment={row.sentiment} />
-                          <span className="text-sm text-[#020618]">{row.sentiment}</span>
+                          <span className={cn("text-sm", isTeamMode ? "text-white" : "text-[#020618]")}>{row.sentiment}</span>
                         </TableCell>
                         <TableCell className="text-right">
-                          <span className="text-sm text-slate-700">{row.overrides}</span>
+                          <span className={cn("text-sm", isTeamMode ? "text-gray-300" : "text-slate-700")}>{row.overrides}</span>
                           <span className={cn('text-sm ml-1', row.overrides > 2 ? 'text-[#ec221f]' : 'text-[#009951]')}>
                             {row.overrides > 2 ? '▼ -' : '▲ +'}{Math.abs(row.overrides - 2)}%
                           </span>
@@ -939,7 +994,7 @@ export default function AnalyticsPage() {
                     ))}
                   </TableBody>
                 </Table>
-                <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+                <ul className={cn("list-disc pl-6 space-y-0 text-base leading-7", isTeamMode ? "text-gray-300" : "text-[#334155]")}>
                   <li>Avg QA Score: <span className="font-bold">{avgAgentQA}%</span></li>
                   <li>Avg AHT: <span className="font-bold">201s</span></li>
                 </ul>
@@ -978,18 +1033,18 @@ export default function AnalyticsPage() {
                   >
                     <CartesianGrid
                       strokeDasharray="0"
-                      stroke="#cccfd5"
+                      stroke={isTeamMode ? '#374151' : '#cccfd5'}
                       vertical={false}
                     />
                     <XAxis
                       dataKey="month"
-                      tick={{ fontSize: 12, fill: '#334155' }}
+                      tick={{ fontSize: 12, fill: isTeamMode ? '#9ca3af' : '#334155' }}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       domain={[60, 100]}
-                      tick={{ fontSize: 12, fill: '#334155' }}
+                      tick={{ fontSize: 12, fill: isTeamMode ? '#9ca3af' : '#334155' }}
                       tickLine={false}
                       axisLine={false}
                       tickFormatter={(value) => `${value}%`}
@@ -998,23 +1053,23 @@ export default function AnalyticsPage() {
                     <Line
                       type="monotone"
                       dataKey="value"
-                      stroke="#f54a00"
+                      stroke={isTeamMode ? '#eab308' : '#f54a00'}
                       strokeWidth={2}
                       dot={{
                         r: 4,
-                        fill: '#f54a00',
+                        fill: isTeamMode ? '#eab308' : '#f54a00',
                         strokeWidth: 0,
                       }}
                       activeDot={{
                         r: 6,
-                        fill: '#f54a00',
+                        fill: isTeamMode ? '#eab308' : '#f54a00',
                         strokeWidth: 2,
-                        stroke: '#fff',
+                        stroke: isTeamMode ? '#1a1a1a' : '#fff',
                       }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
-                <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+                <ul className={cn("list-disc pl-6 space-y-0 text-base leading-7", isTeamMode ? "text-gray-300" : "text-[#334155]")}>
                   <li>Period: <span className="font-bold">Jan → Feb → Mar</span></li>
                   <li>Avg Alignment: <span className="font-bold">{avgAlignment}%</span>  |  Trend: <span className="font-bold">▲ +4% vs Jan</span></li>
                 </ul>
@@ -1037,23 +1092,23 @@ export default function AnalyticsPage() {
                 </h4>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-[#757575] hover:bg-transparent">
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">Reviewer</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5">Type</TableHead>
-                      <TableHead className="text-sm font-bold text-[#62748e] leading-5 text-right">Count</TableHead>
+                    <TableRow className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-600" : "border-[#757575]")}>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Reviewer</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Type</TableHead>
+                      <TableHead className={cn("text-sm font-bold leading-5 text-right", isTeamMode ? "text-gray-400" : "text-[#62748e]")}>Count</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {overrideData.map((row) => (
-                      <TableRow key={`${row.reviewer}-${row.type}`} className="border-b border-[#e2e8f0] hover:bg-transparent">
-                        <TableCell className="text-sm text-[#334155] leading-5">{row.reviewer}</TableCell>
-                        <TableCell className="text-sm text-[#334155] leading-5">{row.type}</TableCell>
-                        <TableCell className="text-sm text-[#020618] leading-5 text-right">{row.count}</TableCell>
+                      <TableRow key={`${row.reviewer}-${row.type}`} className={cn("border-b hover:bg-transparent", isTeamMode ? "border-gray-700" : "border-[#e2e8f0]")}>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-gray-300" : "text-[#334155]")}>{row.reviewer}</TableCell>
+                        <TableCell className={cn("text-sm leading-5", isTeamMode ? "text-gray-300" : "text-[#334155]")}>{row.type}</TableCell>
+                        <TableCell className={cn("text-sm leading-5 text-right", isTeamMode ? "text-white" : "text-[#020618]")}>{row.count}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-                <ul className="list-disc pl-6 space-y-0 text-base text-[#334155] leading-7">
+                <ul className={cn("list-disc pl-6 space-y-0 text-base leading-7", isTeamMode ? "text-gray-300" : "text-[#334155]")}>
                   <li>Total Overrides: <span className="font-bold">{totalOverrides}</span></li>
                   <li>Highest Reviewer: <span className="font-bold">{highestReviewer}</span></li>
                 </ul>

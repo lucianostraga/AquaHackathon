@@ -509,13 +509,18 @@ export default function CallsPage() {
               />
               {/* Autocomplete Dropdown */}
               {showSearchDropdown && agentSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-50">
+                <div className={cn(
+                  "absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg z-50 border",
+                  isTeamMode ? "bg-gray-800 border-gray-700" : "bg-white border-slate-200"
+                )}>
                   {agentSuggestions.map((name, i) => (
                     <button
                       key={name}
                       className={cn(
-                        'w-full px-3 py-2 text-left text-sm hover:bg-blue-50',
-                        i === 1 && 'bg-blue-100'
+                        'w-full px-3 py-2 text-left text-sm',
+                        isTeamMode
+                          ? i === 1 ? 'bg-gray-700 text-white' : 'text-gray-200 hover:bg-gray-700'
+                          : i === 1 ? 'bg-blue-100' : 'hover:bg-blue-50'
                       )}
                       onClick={() => {
                         setSearchQuery(name)
@@ -707,28 +712,28 @@ export default function CallsPage() {
                                   <XSquare className="h-4 w-4 text-red-500" />
                                 )}
                                 {/* Override indicator */}
-                                {call.scoreCard >= 80 && <Copy className="h-3 w-3 text-slate-400" />}
+                                {call.scoreCard >= 80 && <Copy className={cn("h-3 w-3", isTeamMode ? "text-gray-500" : "text-slate-400")} />}
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-72 p-3" align="start">
+                            <PopoverContent className={cn("w-72 p-3", isTeamMode && "bg-gray-800 border-gray-700")} align="start">
                               <div className="space-y-2 text-sm">
-                                <p className="font-medium">
+                                <p className={cn("font-medium", isTeamMode ? "text-white" : "")}>
                                   Final Score: <span className="text-green-600">{call.scoreCard}</span>
-                                  <span className="text-slate-500 ml-1">(Overridden)</span>
+                                  <span className={cn("ml-1", isTeamMode ? "text-gray-500" : "text-slate-500")}>(Overridden)</span>
                                 </p>
-                                <p className="text-slate-600">
+                                <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
                                   AI Score: {Math.round((call.scoreCard || 70) * 0.95)} | Confidence: 0.86
                                 </p>
-                                <p className="flex items-center gap-2 text-slate-600">
+                                <p className={cn("flex items-center gap-2", isTeamMode ? "text-gray-400" : "text-slate-600")}>
                                   Flag: <CheckSquare className="h-3 w-3 text-green-500" /> Good
                                 </p>
-                                <p className="text-slate-600">
-                                  Overridden by: <span className="font-medium">QC_Maria</span> ({new Date(call.processDate).toISOString().split('T')[0]})
+                                <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
+                                  Overridden by: <span className={cn("font-medium", isTeamMode && "text-white")}>QC_Maria</span> ({new Date(call.processDate).toISOString().split('T')[0]})
                                 </p>
-                                <p className="text-slate-600">
+                                <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
                                   Reason: <span className="italic">"AI missed ID verification"</span>
                                 </p>
-                                <p className="text-slate-600">
+                                <p className={isTeamMode ? "text-gray-400" : "text-slate-600"}>
                                   Notes: 2 feedback comments
                                 </p>
                               </div>
@@ -742,11 +747,12 @@ export default function CallsPage() {
                               isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-200"
                             )}
                             onClick={(e) => handlePlayCall(call, e)}
+                            aria-label={isSelected && isPlaying ? `Pause call ${call.id}` : `Play call ${call.id}`}
                           >
                             {isSelected && isPlaying ? (
-                              <Pause className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} />
+                              <Pause className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} aria-hidden="true" />
                             ) : (
-                              <Play className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} />
+                              <Play className={cn("h-5 w-5", isTeamMode ? "text-gray-300" : "text-slate-600")} aria-hidden="true" />
                             )}
                           </button>
                         </TableCell>
@@ -767,7 +773,7 @@ export default function CallsPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2">
+            <nav className="flex items-center justify-center gap-2" aria-label="Pagination">
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
@@ -775,8 +781,9 @@ export default function CallsPage() {
                   "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
                   isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
                 )}
+                aria-label="Go to previous page"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                 Previous
               </button>
               {Array.from({ length: Math.min(totalPages, 3) }, (_, i) => i + 1).map(page => (
@@ -789,11 +796,13 @@ export default function CallsPage() {
                       ? isTeamMode ? 'bg-yellow-500 text-black' : 'bg-slate-900 text-white'
                       : isTeamMode ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'
                   )}
+                  aria-label={`Go to page ${page}`}
+                  aria-current={currentPage === page ? 'page' : undefined}
                 >
                   {page}
                 </button>
               ))}
-              {totalPages > 3 && <span className={isTeamMode ? "text-gray-600" : "text-slate-400"}>...</span>}
+              {totalPages > 3 && <span className={isTeamMode ? "text-gray-600" : "text-slate-400"} aria-hidden="true">...</span>}
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
@@ -801,11 +810,12 @@ export default function CallsPage() {
                   "flex items-center gap-1 px-3 py-1 text-sm disabled:opacity-50",
                   isTeamMode ? "text-gray-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
                 )}
+                aria-label="Go to next page"
               >
                 Next
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </button>
-            </div>
+            </nav>
           )}
 
           {/* Add padding at bottom when player is visible */}
@@ -951,13 +961,13 @@ export default function CallsPage() {
 
       {/* Date Range Modal */}
       <Dialog open={showDateRangeModal} onOpenChange={setShowDateRangeModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className={cn("max-w-md", isTeamMode && "bg-[#1a1a1a] border-gray-800")}>
           <DialogHeader>
-            <DialogTitle>Select Date Range</DialogTitle>
+            <DialogTitle className={isTeamMode ? "text-white" : ""}>Select Date Range</DialogTitle>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Data Range</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Data Range</label>
               <div className="grid grid-cols-2 gap-4">
                 <Select value={dateRangeFrom} onValueChange={setDateRangeFrom}>
                   <SelectTrigger>
@@ -983,24 +993,24 @@ export default function CallsPage() {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-slate-700">Include</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Include</label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600">Call creation date</span>
+                  <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Call creation date</span>
                   <Switch
                     checked={includeCreationDate}
                     onCheckedChange={setIncludeCreationDate}
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600">AI analysis date</span>
+                  <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>AI analysis date</span>
                   <Switch
                     checked={includeAIAnalysisDate}
                     onCheckedChange={setIncludeAIAnalysisDate}
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600">Manual review date</span>
+                  <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Manual review date</span>
                   <Switch
                     checked={includeManualReviewDate}
                     onCheckedChange={setIncludeManualReviewDate}
@@ -1013,7 +1023,7 @@ export default function CallsPage() {
               <Button variant="outline" onClick={() => setShowDateRangeModal(false)}>
                 Cancel
               </Button>
-              <Button onClick={() => setShowDateRangeModal(false)}>
+              <Button className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : ""} onClick={() => setShowDateRangeModal(false)}>
                 Apply
               </Button>
             </div>
@@ -1023,34 +1033,34 @@ export default function CallsPage() {
 
       {/* Score Filter Modal */}
       <Dialog open={showScoreFilterModal} onOpenChange={setShowScoreFilterModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className={cn("max-w-md", isTeamMode && "bg-[#1a1a1a] border-gray-800")}>
           <DialogHeader>
-            <DialogTitle>Filter by Score</DialogTitle>
+            <DialogTitle className={isTeamMode ? "text-white" : ""}>Filter by Score</DialogTitle>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="space-y-3">
-              <label className="text-sm font-medium text-slate-700">Score Type</label>
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Score Type</label>
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                   <Switch
                     checked={scoreType === 'final'}
                     onCheckedChange={(checked) => setScoreType(checked ? 'final' : 'ai')}
                   />
-                  <span className="text-sm text-slate-600">Final Score</span>
+                  <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Final Score</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Switch
                     checked={scoreType === 'ai'}
                     onCheckedChange={(checked) => setScoreType(checked ? 'ai' : 'final')}
                   />
-                  <span className="text-sm text-slate-600">AI Score</span>
+                  <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>AI Score</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-slate-700">Score Range</label>
-              <div className="flex items-center justify-between text-sm text-slate-600">
+              <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Score Range</label>
+              <div className={cn("flex items-center justify-between text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>
                 <span>{scoreRangeMin}</span>
                 <span>{scoreRangeMax}</span>
               </div>
@@ -1067,23 +1077,23 @@ export default function CallsPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <span className="text-xs text-slate-500">Presets:</span>
+              <span className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Presets:</span>
               <button
-                className="text-xs text-blue-600 hover:underline"
+                className={cn("text-xs hover:underline", isTeamMode ? "text-yellow-500" : "text-blue-600")}
                 onClick={() => { setScoreRangeMin(0); setScoreRangeMax(59) }}
               >
                 &lt;60 Critical
               </button>
-              <span className="text-slate-300">|</span>
+              <span className={isTeamMode ? "text-gray-600" : "text-slate-300"}>|</span>
               <button
-                className="text-xs text-blue-600 hover:underline"
+                className={cn("text-xs hover:underline", isTeamMode ? "text-yellow-500" : "text-blue-600")}
                 onClick={() => { setScoreRangeMin(60); setScoreRangeMax(79) }}
               >
                 60 - 79 Warning
               </button>
-              <span className="text-slate-300">|</span>
+              <span className={isTeamMode ? "text-gray-600" : "text-slate-300"}>|</span>
               <button
-                className="text-xs text-blue-600 hover:underline"
+                className={cn("text-xs hover:underline", isTeamMode ? "text-yellow-500" : "text-blue-600")}
                 onClick={() => { setScoreRangeMin(80); setScoreRangeMax(100) }}
               >
                 80 - 100 Good
@@ -1094,7 +1104,7 @@ export default function CallsPage() {
               <Button variant="outline" onClick={() => setShowScoreFilterModal(false)}>
                 Cancel
               </Button>
-              <Button onClick={() => {
+              <Button className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : ""} onClick={() => {
                 setScoreFilter('custom')
                 setShowScoreFilterModal(false)
               }}>
@@ -1107,14 +1117,19 @@ export default function CallsPage() {
 
       {/* Upload Audio Files Modal */}
       <Dialog open={showUploadModal} onOpenChange={setShowUploadModal}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className={cn("max-w-2xl", isTeamMode && "bg-[#1a1a1a] border-gray-800")}>
           <DialogHeader>
-            <DialogTitle>Upload Audio Files</DialogTitle>
+            <DialogTitle className={isTeamMode ? "text-white" : ""}>Upload Audio Files</DialogTitle>
           </DialogHeader>
           <div className="space-y-6 py-4">
             {/* Drop Zone */}
             <div
-              className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center cursor-pointer hover:border-slate-400 hover:bg-slate-50 transition-colors"
+              className={cn(
+                "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+                isTeamMode
+                  ? "border-gray-600 hover:border-gray-500 hover:bg-gray-800"
+                  : "border-slate-200 hover:border-slate-400 hover:bg-slate-50"
+              )}
               onClick={() => fileInputRef.current?.click()}
             >
               <input
@@ -1125,33 +1140,33 @@ export default function CallsPage() {
                 onChange={handleFileSelect}
                 className="hidden"
               />
-              <Upload className="mx-auto h-10 w-10 text-slate-400 mb-3" />
-              <p className="font-medium text-slate-900">Upload Files</p>
-              <p className="text-sm text-slate-500">Drag and Drop or click to upload</p>
+              <Upload className={cn("mx-auto h-10 w-10 mb-3", isTeamMode ? "text-gray-500" : "text-slate-400")} />
+              <p className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Upload Files</p>
+              <p className={cn("text-sm", isTeamMode ? "text-gray-500" : "text-slate-500")}>Drag and Drop or click to upload</p>
             </div>
 
             {/* Files Selected */}
             {uploadFiles.length > 0 && (
               <div className="space-y-3">
-                <p className="font-medium text-slate-900">Files Selected:</p>
-                <div className="border rounded-lg overflow-hidden">
+                <p className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>Files Selected:</p>
+                <div className={cn("border rounded-lg overflow-hidden", isTeamMode ? "border-gray-700" : "")}>
                   <table className="w-full text-sm">
-                    <thead className="bg-slate-50 border-b">
+                    <thead className={cn("border-b", isTeamMode ? "bg-gray-800 border-gray-700" : "bg-slate-50")}>
                       <tr>
-                        <th className="px-3 py-2 text-left text-slate-600">#</th>
-                        <th className="px-3 py-2 text-left text-slate-600">File Name</th>
-                        <th className="px-3 py-2 text-left text-slate-600">Duration</th>
-                        <th className="px-3 py-2 text-left text-slate-600">Status</th>
-                        <th className="px-3 py-2 text-left text-slate-600">Progress</th>
-                        <th className="px-3 py-2 text-left text-slate-600">Actions</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>#</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>File Name</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>Duration</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>Status</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>Progress</th>
+                        <th className={cn("px-3 py-2 text-left", isTeamMode ? "text-gray-400" : "text-slate-600")}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {uploadFiles.map((file, i) => (
-                        <tr key={file.id} className="border-b last:border-0">
-                          <td className="px-3 py-2">{i + 1}</td>
-                          <td className="px-3 py-2 text-blue-600">{file.name}</td>
-                          <td className="px-3 py-2">{file.duration || '-'}</td>
+                        <tr key={file.id} className={cn("border-b last:border-0", isTeamMode ? "border-gray-700" : "")}>
+                          <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{i + 1}</td>
+                          <td className={cn("px-3 py-2", isTeamMode ? "text-yellow-500" : "text-blue-600")}>{file.name}</td>
+                          <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "")}>{file.duration || '-'}</td>
                           <td className="px-3 py-2">
                             <span className={cn(
                               'flex items-center gap-1.5',
@@ -1171,19 +1186,19 @@ export default function CallsPage() {
                             {file.progress > 0 && (
                               <div className="flex items-center gap-2">
                                 <Progress value={file.progress} className="h-2 w-16" />
-                                <span className="text-xs">{file.progress}%</span>
+                                <span className={cn("text-xs", isTeamMode ? "text-gray-400" : "")}>{file.progress}%</span>
                               </div>
                             )}
                           </td>
                           <td className="px-3 py-2">
                             <div className="flex items-center gap-1">
                               {file.status === 'failed' && (
-                                <button className="p-1 hover:bg-slate-100 rounded">
-                                  <RotateCcw className="h-4 w-4 text-slate-500" />
+                                <button className={cn("p-1 rounded", isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-100")}>
+                                  <RotateCcw className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-500")} />
                                 </button>
                               )}
-                              <button className="p-1 hover:bg-slate-100 rounded">
-                                <Trash2 className="h-4 w-4 text-slate-500" />
+                              <button className={cn("p-1 rounded", isTeamMode ? "hover:bg-gray-700" : "hover:bg-slate-100")}>
+                                <Trash2 className={cn("h-4 w-4", isTeamMode ? "text-gray-400" : "text-slate-500")} />
                               </button>
                             </div>
                           </td>
@@ -1201,13 +1216,13 @@ export default function CallsPage() {
                 checked={applyMetadataToAll}
                 onCheckedChange={setApplyMetadataToAll}
               />
-              <span className="text-sm text-slate-600">Apply Metadata to all files</span>
+              <span className={cn("text-sm", isTeamMode ? "text-gray-400" : "text-slate-600")}>Apply Metadata to all files</span>
             </div>
 
             {/* Metadata Fields */}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700">Company</label>
+                <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Company</label>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Company..." />
@@ -1220,7 +1235,7 @@ export default function CallsPage() {
                 </Select>
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700">Project</label>
+                <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Project</label>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Project..." />
@@ -1233,7 +1248,7 @@ export default function CallsPage() {
                 </Select>
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700">Agent</label>
+                <label className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-700")}>Agent</label>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Agent..." />
@@ -1247,11 +1262,11 @@ export default function CallsPage() {
               </div>
             </div>
 
-            <p className="text-xs text-slate-500">
-              <strong>Individual Metadata Overrides:</strong> (click ✏️ to edit per file)
+            <p className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>
+              <strong>Individual Metadata Overrides:</strong> (click pencil to edit per file)
             </p>
 
-            <p className="text-xs text-slate-500">
+            <p className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>
               <strong>Limits:</strong> Max 5 files / 25 min per call. Unsupported formats (.zip, .ogg) blocked.
             </p>
 
@@ -1263,6 +1278,7 @@ export default function CallsPage() {
                 Cancel
               </Button>
               <Button
+                className={isTeamMode ? "bg-yellow-500 text-black hover:bg-yellow-400" : ""}
                 disabled={uploadFiles.length === 0 || uploadMutation.isPending}
                 onClick={handleUpload}
               >

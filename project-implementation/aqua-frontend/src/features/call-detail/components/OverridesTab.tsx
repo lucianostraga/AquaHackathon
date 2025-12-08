@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
+import { useThemeStore } from '@/stores'
 import type { Call } from '@/types'
 import {
   Settings,
@@ -74,69 +75,77 @@ function calculateGroupScores(call: Call) {
  * AI vs Human Scoring Table
  */
 function AIScoringTable({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const groupScores = calculateGroupScores(call)
   const totalAI = Math.round(groupScores.reduce((sum, g) => sum + g.aiScore, 0) / groupScores.length)
   const totalFinal = Math.round(groupScores.reduce((sum, g) => sum + g.finalScore, 0) / groupScores.length)
   const diff = totalFinal - totalAI
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Settings className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <Settings className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           AI vs Human Scoring
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="overflow-hidden rounded-lg border border-slate-200">
+        <div className={cn(
+          "overflow-hidden rounded-lg border",
+          isTeamMode ? "border-gray-700" : "border-slate-200"
+        )}>
           <table className="w-full text-sm">
-            <thead className="bg-slate-50">
+            <thead className={isTeamMode ? "bg-gray-800" : "bg-slate-50"}>
               <tr>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Group</th>
-                <th className="px-3 py-2 text-center font-medium text-slate-600">AI → Final</th>
-                <th className="px-3 py-2 text-center font-medium text-slate-600">Max</th>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Adjusted by</th>
-                <th className="px-3 py-2 text-left font-medium text-slate-600">Date</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Group</th>
+                <th className={cn("px-3 py-2 text-center font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>AI → Final</th>
+                <th className={cn("px-3 py-2 text-center font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Max</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Adjusted by</th>
+                <th className={cn("px-3 py-2 text-left font-medium", isTeamMode ? "text-gray-400" : "text-slate-600")}>Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className={cn("divide-y", isTeamMode ? "divide-gray-800" : "divide-slate-100")}>
               {groupScores.map((group, i) => (
                 <tr key={i}>
-                  <td className="px-3 py-2 text-slate-700">{group.name}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-300" : "text-slate-700")}>{group.name}</td>
                   <td className="px-3 py-2 text-center">
-                    <span className="text-slate-600">{group.aiScore}</span>
-                    <span className="mx-1 text-slate-400">→</span>
+                    <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>{group.aiScore}</span>
+                    <span className={cn("mx-1", isTeamMode ? "text-gray-600" : "text-slate-400")}>→</span>
                     <span className={cn(
                       'font-medium',
-                      group.isPositive && 'text-green-600',
-                      group.isNegative && 'text-red-600',
-                      !group.isPositive && !group.isNegative && 'text-slate-900'
+                      group.isPositive && 'text-green-500',
+                      group.isNegative && 'text-red-500',
+                      !group.isPositive && !group.isNegative && (isTeamMode ? 'text-white' : 'text-slate-900')
                     )}>
                       {group.finalScore}
                     </span>
                   </td>
-                  <td className="px-3 py-2 text-center text-slate-600">{group.maxScore}</td>
+                  <td className={cn("px-3 py-2 text-center", isTeamMode ? "text-gray-400" : "text-slate-600")}>{group.maxScore}</td>
                   <td className="px-3 py-2">
                     {group.adjustedBy === 'AI' ? (
-                      <span className="text-slate-500">AI</span>
+                      <span className={isTeamMode ? "text-gray-500" : "text-slate-500"}>AI</span>
                     ) : (
                       <span className="inline-flex items-center gap-1.5">
                         <span className={cn(
                           'h-2.5 w-2.5 rounded-sm',
                           group.adjustedBy === 'QC_Maria' ? 'bg-blue-500' : 'bg-yellow-500'
                         )} />
-                        <span className="text-slate-700">{group.adjustedBy}</span>
-                        <span className="text-slate-400">|</span>
+                        <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{group.adjustedBy}</span>
+                        <span className={isTeamMode ? "text-gray-600" : "text-slate-400"}>|</span>
                         <span className={cn(
                           'text-xs',
-                          group.isPositive ? 'text-green-600' : 'text-red-600'
+                          group.isPositive ? 'text-green-500' : 'text-red-500'
                         )}>
                           {group.isPositive ? '▲' : '▼'} {group.isPositive ? '+' : ''}{group.adjustment}
                         </span>
                       </span>
                     )}
                   </td>
-                  <td className="px-3 py-2 text-slate-500">{group.date}</td>
+                  <td className={cn("px-3 py-2", isTeamMode ? "text-gray-500" : "text-slate-500")}>{group.date}</td>
                 </tr>
               ))}
             </tbody>
@@ -145,15 +154,15 @@ function AIScoringTable({ call }: { call: Call }) {
 
         <div className="text-sm space-y-1">
           <p>
-            <span className="text-slate-600">AI Score: </span>
-            <span className="font-semibold text-slate-900">{totalAI}</span>
-            <span className="mx-2">|</span>
-            <span className="text-slate-600">Final Score: </span>
-            <span className="font-semibold text-green-600">{totalFinal}</span>
-            <CheckCircle className="inline h-4 w-4 text-green-600 ml-1" />
-            <span className="text-green-600 ml-1">(+{diff})</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>AI Score: </span>
+            <span className={cn("font-semibold", isTeamMode ? "text-white" : "text-slate-900")}>{totalAI}</span>
+            <span className={cn("mx-2", isTeamMode ? "text-gray-600" : "")}>|</span>
+            <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Final Score: </span>
+            <span className="font-semibold text-green-500">{totalFinal}</span>
+            <CheckCircle className="inline h-4 w-4 text-green-500 ml-1" />
+            <span className="text-green-500 ml-1">(+{diff})</span>
           </p>
-          <p className="text-slate-500">AI Confidence Average: 0.83</p>
+          <p className={isTeamMode ? "text-gray-500" : "text-slate-500"}>AI Confidence Average: 0.83</p>
         </div>
       </CardContent>
     </Card>
@@ -164,6 +173,8 @@ function AIScoringTable({ call }: { call: Call }) {
  * Override Justification Form
  */
 function OverrideJustificationForm({ call }: { call: Call }) {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [group, setGroup] = useState('')
   const [overrideType, setOverrideType] = useState('')
   const [newScore, setNewScore] = useState('')
@@ -179,48 +190,51 @@ function OverrideJustificationForm({ call }: { call: Call }) {
   }
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <Settings className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <Settings className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Override Justification
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label className="text-xs text-slate-500">Group to adjust</Label>
+            <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Group to adjust</Label>
             <Select value={group} onValueChange={setGroup}>
-              <SelectTrigger>
+              <SelectTrigger className={cn(isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}>
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className={cn(isTeamMode && "bg-gray-800 border-gray-700")}>
                 {groups.map(g => (
-                  <SelectItem key={g} value={g}>{g}</SelectItem>
+                  <SelectItem key={g} value={g} className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>{g}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs text-slate-500">Override Type</Label>
+            <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Override Type</Label>
             <Select value={overrideType} onValueChange={setOverrideType}>
-              <SelectTrigger>
+              <SelectTrigger className={cn(isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}>
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="misclassification">Misclassification</SelectItem>
-                <SelectItem value="context-missing">Context Missing</SelectItem>
-                <SelectItem value="partial-detection">Partial Detection</SelectItem>
-                <SelectItem value="false-positive">False Positive</SelectItem>
-                <SelectItem value="false-negative">False Negative</SelectItem>
-                <SelectItem value="ambiguous">Ambiguous Case</SelectItem>
-                <SelectItem value="policy-update">Policy Update / Rule Change</SelectItem>
-                <SelectItem value="human-error">Human Error Correction</SelectItem>
+              <SelectContent className={cn(isTeamMode && "bg-gray-800 border-gray-700")}>
+                <SelectItem value="misclassification" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Misclassification</SelectItem>
+                <SelectItem value="context-missing" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Context Missing</SelectItem>
+                <SelectItem value="partial-detection" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Partial Detection</SelectItem>
+                <SelectItem value="false-positive" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>False Positive</SelectItem>
+                <SelectItem value="false-negative" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>False Negative</SelectItem>
+                <SelectItem value="ambiguous" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Ambiguous Case</SelectItem>
+                <SelectItem value="policy-update" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Policy Update / Rule Change</SelectItem>
+                <SelectItem value="human-error" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Human Error Correction</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs text-slate-500">New Score (max 15)</Label>
+            <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>New Score (max 15)</Label>
             <Input
               type="number"
               min={0}
@@ -228,30 +242,39 @@ function OverrideJustificationForm({ call }: { call: Call }) {
               value={newScore}
               onChange={e => setNewScore(e.target.value)}
               placeholder=""
+              className={cn(isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs text-slate-500">Reason for Override</Label>
+          <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Reason for Override</Label>
           <Textarea
             placeholder="Explain why the AI score was adjusted..."
             value={reason}
             onChange={e => setReason(e.target.value)}
-            className="min-h-[80px]"
+            className={cn("min-h-[80px]", isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}
           />
         </div>
 
         {/* Status message - shown after save */}
-        <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-600">
+        <div className={cn(
+          "p-3 rounded-lg border text-sm",
+          isTeamMode ? "bg-gray-800 border-gray-700 text-gray-400" : "bg-slate-50 border-slate-200 text-slate-600"
+        )}>
           Override justification saved — awaiting Team Lead review.
         </div>
 
         <div className="flex justify-end gap-2">
-          <Button variant="outline" size="sm" onClick={handleReset}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleReset}
+            className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800")}
+          >
             Reset Form
           </Button>
-          <Button size="sm">
+          <Button size="sm" className={cn(isTeamMode && "bg-yellow-500 text-black hover:bg-yellow-600")}>
             Save Override
           </Button>
         </div>
@@ -264,6 +287,8 @@ function OverrideJustificationForm({ call }: { call: Call }) {
  * Coaching Feedback Summary
  */
 function CoachingFeedbackSummary() {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const feedbackItems = [
     'Great empathy and resolution handling.',
     'Missing compliance step now corrected.',
@@ -271,20 +296,23 @@ function CoachingFeedbackSummary() {
   ]
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <MessageSquare className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <MessageSquare className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Coaching Feedback Summary
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-xs text-slate-500 italic">Auto-generated summary (editable)</p>
+        <p className={cn("text-xs italic", isTeamMode ? "text-gray-500" : "text-slate-500")}>Auto-generated summary (editable)</p>
         <ul className="space-y-2 text-sm">
           {feedbackItems.map((item, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
-              <span className="text-slate-700">{item}</span>
+              <span className={isTeamMode ? "text-gray-500" : "text-slate-400"}>•</span>
+              <span className={isTeamMode ? "text-gray-300" : "text-slate-700"}>{item}</span>
             </li>
           ))}
         </ul>
@@ -297,6 +325,8 @@ function CoachingFeedbackSummary() {
  * Feedback & Coaching Card
  */
 function FeedbackCoachingCard() {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [feedback, setFeedback] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>(['Coaching'])
   const [linkUrl, setLinkUrl] = useState('')
@@ -325,26 +355,29 @@ function FeedbackCoachingCard() {
   ]
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <MessageSquare className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <MessageSquare className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Feedback & Coaching
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-xs text-slate-500">Write your feedback for this call</Label>
+          <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Write your feedback for this call</Label>
           <Textarea
             placeholder="Describe the agent's strengths, areas for improvement, or coaching notes..."
             value={feedback}
             onChange={e => setFeedback(e.target.value)}
-            className="min-h-[80px]"
+            className={cn("min-h-[80px]", isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}
           />
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs text-slate-500">Tags</Label>
+          <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Tags</Label>
           <div className="flex flex-wrap gap-2">
             {availableTags.map(tag => (
               <Badge
@@ -353,8 +386,8 @@ function FeedbackCoachingCard() {
                 className={cn(
                   'cursor-pointer',
                   selectedTags.includes(tag)
-                    ? 'bg-blue-600 hover:bg-blue-700'
-                    : 'hover:bg-slate-100'
+                    ? isTeamMode ? 'bg-yellow-500 text-black hover:bg-yellow-600' : 'bg-blue-600 hover:bg-blue-700'
+                    : isTeamMode ? 'hover:bg-gray-800 border-gray-600 text-gray-300' : 'hover:bg-slate-100'
                 )}
                 onClick={() => toggleTag(tag)}
               >
@@ -363,7 +396,10 @@ function FeedbackCoachingCard() {
             ))}
             <Badge
               variant="outline"
-              className="cursor-pointer hover:bg-slate-100"
+              className={cn(
+                "cursor-pointer",
+                isTeamMode ? "hover:bg-gray-800 border-gray-600 text-gray-300" : "hover:bg-slate-100"
+              )}
               onClick={() => setShowCustomTagInput(true)}
             >
               + Add Custom Tag
@@ -375,29 +411,33 @@ function FeedbackCoachingCard() {
                 placeholder="Text"
                 value={customTag}
                 onChange={e => setCustomTag(e.target.value)}
-                className="flex-1"
+                className={cn("flex-1", isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}
                 onKeyDown={e => e.key === 'Enter' && addCustomTag()}
               />
-              <Button size="sm" onClick={addCustomTag}>Add Tag</Button>
+              <Button size="sm" onClick={addCustomTag} className={cn(isTeamMode && "bg-yellow-500 text-black hover:bg-yellow-600")}>Add Tag</Button>
             </div>
           )}
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs text-slate-500">Attachments</Label>
-          <div className="border-2 border-dashed border-slate-200 rounded-lg p-6 text-center">
-            <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-            <p className="text-sm font-medium text-slate-600">Upload Files</p>
-            <p className="text-xs text-slate-500">Drag and Drop or click to upload</p>
+          <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Attachments</Label>
+          <div className={cn(
+            "border-2 border-dashed rounded-lg p-6 text-center",
+            isTeamMode ? "border-gray-600 hover:border-gray-500" : "border-slate-200"
+          )}>
+            <Upload className={cn("mx-auto h-8 w-8 mb-2", isTeamMode ? "text-gray-600" : "text-slate-400")} />
+            <p className={cn("text-sm font-medium", isTeamMode ? "text-gray-300" : "text-slate-600")}>Upload Files</p>
+            <p className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Drag and Drop or click to upload</p>
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs text-slate-500">Add Link</Label>
+          <Label className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Add Link</Label>
           <Input
             placeholder="Enter an URL..."
             value={linkUrl}
             onChange={e => setLinkUrl(e.target.value)}
+            className={cn(isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}
           />
         </div>
 
@@ -406,31 +446,31 @@ function FeedbackCoachingCard() {
           {attachments.map((att, i) => (
             <div key={i} className="flex items-center gap-2 text-sm">
               {att.type === 'audio' ? (
-                <FileAudio className="h-4 w-4 text-blue-500" />
+                <FileAudio className={cn("h-4 w-4", isTeamMode ? "text-yellow-500" : "text-blue-500")} />
               ) : (
-                <ExternalLink className="h-4 w-4 text-blue-500" />
+                <ExternalLink className={cn("h-4 w-4", isTeamMode ? "text-yellow-500" : "text-blue-500")} />
               )}
-              <span className="text-blue-600">{att.name}</span>
+              <span className={isTeamMode ? "text-yellow-500" : "text-blue-600"}>{att.name}</span>
               <X className="h-3 w-3 text-red-500 cursor-pointer" />
             </div>
           ))}
         </div>
 
-        <div className="text-xs text-slate-500 space-y-1">
+        <div className={cn("text-xs space-y-1", isTeamMode ? "text-gray-500" : "text-slate-500")}>
           <p><span className="font-medium">Added by:</span> TL_Jorge</p>
           <p><span className="font-medium">Timestamp:</span> Sept 12, 2025 - 14:22</p>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-slate-200">
-          <Button variant="outline" size="sm">Clear</Button>
-          <Button variant="outline" size="sm">Share with Agent</Button>
-          <Button size="sm">Save Feedback</Button>
+        <div className={cn("flex justify-end gap-2 pt-2 border-t", isTeamMode ? "border-gray-700" : "border-slate-200")}>
+          <Button variant="outline" size="sm" className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800")}>Clear</Button>
+          <Button variant="outline" size="sm" className={cn(isTeamMode && "border-gray-600 text-gray-300 hover:bg-gray-800")}>Share with Agent</Button>
+          <Button size="sm" className={cn(isTeamMode && "bg-yellow-500 text-black hover:bg-yellow-600")}>Save Feedback</Button>
         </div>
 
         {/* Shared status indicator */}
-        <div className="flex items-center gap-2 pt-2 border-t border-slate-200 text-sm">
+        <div className={cn("flex items-center gap-2 pt-2 border-t text-sm", isTeamMode ? "border-gray-700" : "border-slate-200")}>
           <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
-          <span className="text-slate-600">Shared with Agent Portal on Sept 13, 2025.</span>
+          <span className={isTeamMode ? "text-gray-400" : "text-slate-600"}>Shared with Agent Portal on Sept 13, 2025.</span>
         </div>
       </CardContent>
     </Card>
@@ -441,6 +481,8 @@ function FeedbackCoachingCard() {
  * Reviewer History Card
  */
 function ReviewerHistoryCard() {
+  const { theme } = useThemeStore()
+  const isTeamMode = theme === 'team-dark'
   const [activeFilter, setActiveFilter] = useState('All')
   const filters = ['All', 'QC', 'TL', 'SA', 'System']
   const filterColors: Record<string, string> = {
@@ -477,10 +519,13 @@ function ReviewerHistoryCard() {
   ]
 
   return (
-    <Card>
+    <Card className={cn(isTeamMode && "bg-[#1a1a1a] border-gray-700")}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          <History className="h-5 w-5 text-slate-600" />
+        <CardTitle className={cn(
+          "flex items-center gap-2 text-base font-semibold",
+          isTeamMode && "text-white"
+        )}>
+          <History className={cn("h-5 w-5", isTeamMode ? "text-yellow-500" : "text-slate-600")} />
           Reviewer History
         </CardTitle>
       </CardHeader>
@@ -493,7 +538,8 @@ function ReviewerHistoryCard() {
                 variant={activeFilter === filter ? 'default' : 'outline'}
                 className={cn(
                   'cursor-pointer',
-                  activeFilter === filter && filterColors[filter]
+                  activeFilter === filter && filterColors[filter],
+                  activeFilter !== filter && isTeamMode && 'border-gray-600 text-gray-300'
                 )}
                 onClick={() => setActiveFilter(filter)}
               >
@@ -506,18 +552,18 @@ function ReviewerHistoryCard() {
             ))}
           </div>
           <Select defaultValue="all">
-            <SelectTrigger className="w-36 h-8 text-xs">
+            <SelectTrigger className={cn("w-36 h-8 text-xs", isTeamMode && "bg-gray-800 border-gray-700 text-gray-300")}>
               <SelectValue placeholder="Show all actions" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Show all actions</SelectItem>
-              <SelectItem value="overrides">Overrides only</SelectItem>
-              <SelectItem value="comments">Comments only</SelectItem>
+            <SelectContent className={cn(isTeamMode && "bg-gray-800 border-gray-700")}>
+              <SelectItem value="all" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Show all actions</SelectItem>
+              <SelectItem value="overrides" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Overrides only</SelectItem>
+              <SelectItem value="comments" className={cn(isTeamMode && "text-gray-300 focus:bg-gray-700")}>Comments only</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <p className="text-xs text-slate-500">Showing 123 records</p>
+        <p className={cn("text-xs", isTeamMode ? "text-gray-500" : "text-slate-500")}>Showing 123 records</p>
 
         <div className="space-y-3">
           {historyRecords.map((record, i) => (
@@ -525,9 +571,11 @@ function ReviewerHistoryCard() {
               key={i}
               className={cn(
                 'p-3 rounded-lg border text-sm',
-                record.userType === 'TL' ? 'bg-yellow-50 border-yellow-200' :
-                record.userType === 'System' ? 'bg-purple-50 border-purple-200' :
-                'bg-white border-slate-200'
+                record.userType === 'TL'
+                  ? isTeamMode ? 'bg-yellow-950 border-yellow-800' : 'bg-yellow-50 border-yellow-200'
+                  : record.userType === 'System'
+                    ? isTeamMode ? 'bg-purple-950 border-purple-800' : 'bg-purple-50 border-purple-200'
+                    : isTeamMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-slate-200'
               )}
             >
               <div className="flex items-center gap-2 mb-1">
@@ -535,29 +583,29 @@ function ReviewerHistoryCard() {
                   'h-2.5 w-2.5 rounded-sm',
                   filterColors[record.userType]
                 )} />
-                <span className="font-medium text-slate-900">{record.user}</span>
-                <span className="text-slate-400">•</span>
-                <span className="text-slate-500">{record.date}</span>
+                <span className={cn("font-medium", isTeamMode ? "text-white" : "text-slate-900")}>{record.user}</span>
+                <span className={isTeamMode ? "text-gray-600" : "text-slate-400"}>•</span>
+                <span className={isTeamMode ? "text-gray-500" : "text-slate-500"}>{record.date}</span>
               </div>
-              <p className="text-slate-700">
+              <p className={isTeamMode ? "text-gray-300" : "text-slate-700"}>
                 {record.action}{' '}
                 {record.target && <span className="font-medium">{record.target}</span>}
               </p>
               {record.details && (
-                <p className="text-slate-600 mt-1">
+                <p className={cn("mt-1", isTeamMode ? "text-gray-400" : "text-slate-600")}>
                   {record.details.split('(')[0]}
                   {record.details.includes('(') && (
-                    <span className="text-slate-500">({record.details.split('(')[1]}</span>
+                    <span className={isTeamMode ? "text-gray-500" : "text-slate-500"}>({record.details.split('(')[1]}</span>
                   )}
                 </p>
               )}
               {record.reason && (
-                <p className="text-slate-600 mt-1">
-                  <span className="text-red-600">Reason:</span> {record.reason}
+                <p className={cn("mt-1", isTeamMode ? "text-gray-400" : "text-slate-600")}>
+                  <span className="text-red-500">Reason:</span> {record.reason}
                 </p>
               )}
               {record.comment && (
-                <p className="text-slate-600 mt-1">
+                <p className={cn("mt-1", isTeamMode ? "text-gray-400" : "text-slate-600")}>
                   <span className="font-medium">Comment:</span> {record.comment}
                 </p>
               )}
