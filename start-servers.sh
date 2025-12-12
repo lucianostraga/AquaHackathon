@@ -18,8 +18,15 @@ cd "$(dirname "$0")/project-resources/JSON Server/json-server"
 npx json-server db.json --port 3000 &
 JSON_PID=$!
 
-# 4. Start Frontend
-echo "4. Starting Frontend..."
+# 4. Start BFF (Backend For Frontend)
+echo "4. Starting BFF..."
+cd "$(dirname "$0")/project-implementation/aqua-bff"
+npm run dev &
+BFF_PID=$!
+sleep 2
+
+# 5. Start Frontend
+echo "5. Starting Frontend..."
 cd "$(dirname "$0")/project-implementation/aqua-frontend"
 npm run dev &
 FRONTEND_PID=$!
@@ -27,11 +34,12 @@ FRONTEND_PID=$!
 echo ""
 echo "All servers started!"
 echo "- Frontend:   http://localhost:5173"
+echo "- BFF:        http://localhost:4000"
 echo "- JSON API:   http://localhost:3000"
 echo "- Audio API:  http://localhost:8080"
 echo ""
 echo "Press Ctrl+C to stop all servers"
 
 # Wait and cleanup on exit
-trap "kill $JSON_PID $FRONTEND_PID 2>/dev/null; echo 'Servers stopped.'" EXIT
+trap "kill $JSON_PID $BFF_PID $FRONTEND_PID 2>/dev/null; echo 'Servers stopped.'" EXIT
 wait
